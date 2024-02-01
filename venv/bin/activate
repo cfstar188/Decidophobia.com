@@ -38,7 +38,8 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/faisalmasalha/Documents/csc301/301proj/Decidophobia.com/venv"
+echo "$(pwd)"
+VIRTUAL_ENV="/mnt/c/Users/faisa/Documents/csc301/project/Decidophobia.com/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
