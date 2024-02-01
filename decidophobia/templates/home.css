@@ -1,0 +1,29 @@
+.hero-section {
+    /* background-color: rgb(244, 243, 242); */
+    height: 90vh;
+    size: 100%;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-main {
+    width: 80%;
+}
+
+.imgmain {
+    width: 40%;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the entire container */
+    mix-blend-mode: multiply;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
