@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Factors</title>
+    <link rel="stylesheet" href="../decidophobia/static/13_UX_UI.css">
+    <script src="../decidophobia/static/13_UX_UI.js"></script>
+
+</head>
+<body>
+
+<button onclick="openPopup()">Open Pop-up</button>
+
+<div id="myPopup" class="popup">
+    <h2>Tell us what is important to you</h2>
+    <form id="preferencesForm" action="{% url 'questionnaire' %}" method="post">
+        <label for="priceFactor">Price:</label>
+        <select id="priceFactor" name="priceFactor">
+            <option value="Bill Gates">Bill Gates</option>
+            <option value="Rich">Rich</option>
+            <option value="Average salary">Average salary</option>
+            <option value="Survivor">Survivor</option>
+            <option value="Bankrupt">Bankrupt</option>
+        </select>
+        <label for="customerReview">Customer reviews:</label>
+        <select id="customerReview" name="customerReview">
+            <option value="5">5 stars</option>
+            <option value="4">4 stars</option>
+            <option value="3">3 stars</option>
+            <option value="2">2 stars</option>
+            <option value="1">1 stars</option>
+        </select>
+        <label for="shipping">Shipping and Delivery</label>
+        <select id="shipping" name="shipping">
+            <option value="Doesn't matter">Doesn't matter</option>
+            <option value="A couple week">A couple week</option>
+            <option value="A week or so">A week or so</option>
+            <option value="Amazon speed">Amazon speed</option>
+            <option value="Right now">Right now!!!</option>
+        </select>
+        <label for="returnPolicy">Return Policy</label>
+        <select id="returnPolicy" name="returnPolicy">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <label for="brandReputation">Brand Reputation</label>
+        <select id="brandReputation" name="brandReputation">
+            <option value="Excellent">Excellent</option>
+            <option value="Good">Good</option>
+            <option value="Ok">Ok</option>
+        </select>
+    </form>
+    <button onclick="submitForm()">Submit</button>
+</div>
+
+</body>
+</html>
