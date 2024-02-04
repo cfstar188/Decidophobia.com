@@ -17,11 +17,11 @@
     <form id="preferencesForm" action="{% url 'questionnaire' %}" method="post">
         <label for="priceFactor">Price:</label>
         <select id="priceFactor" name="priceFactor">
-            <option value="Bill Gates">Bill Gates</option>
-            <option value="Rich">Rich</option>
-            <option value="Average salary">Average salary</option>
-            <option value="Survivor">Survivor</option>
-            <option value="Bankrupt">Bankrupt</option>
+            <option value=">10000">Bill Gates</option>
+            <option value="<=10000">Rich</option>
+            <option value="<=3000">Average salary</option>
+            <option value="<=1000">Survivor</option>
+            <option value="<=500">Bankrupt</option>
         </select>
         <label for="customerReview">Customer reviews:</label>
         <select id="customerReview" name="customerReview">
