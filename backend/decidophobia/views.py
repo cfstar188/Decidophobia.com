@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
+
 
 
 def hello_world(request):
@@ -29,6 +31,10 @@ def login(request):
             messages.error(request, 'Invalid username or password.')
 
     return render(request, 'login.html')
+
+def logout(request):
+    auth_logout(request)
+    return redirect('home')
 
 def signup(request):
     if request.method == 'POST':

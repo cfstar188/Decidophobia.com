@@ -20,9 +20,20 @@
                 <a href="#" style="text-decoration: none;">Pages</a>
                 <a href="#" style="text-decoration: none;">Discussion Board </a>
             </div>
-            <div style="margin-left: auto;">
-                <a href="/login" style="text-decoration: none;">Login/Signup</a>
-            </div>
+            {% if request.user.is_authenticated %}
+                
+                <div style="margin-left: auto; display: flex;">
+                    <p>Welcome, {{ request.user.username }}!</p>
+                    <a style="margin: 0px; margin-left: 5px; text-decoration: none;" href="{% url 'logout' %}">Logout</a>
+                    
+                </div>
+                
+            {% else %}
+                <div style="margin-left: auto;">
+                    <a href="/login" style="text-decoration: none;">Login/Signup</a>
+                </div>
+            {% endif %}
+
         </nav>
         <div class="divcent">
             <section class="hero-section">
