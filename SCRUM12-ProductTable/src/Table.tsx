@@ -1,7 +1,7 @@
 // Table.tsx
 import React, { useState } from "react";
-import { Button, Image } from "@mantine/core";
-import { CloseButtonCus } from "./setTable";
+import { CircularXButton } from "./setTable";
+import { PictureComp } from "./PictureComp";
 
 export type User = {
   price: string;
@@ -14,14 +14,8 @@ export type User = {
 
 const users: User[] = [
   {
-    picture: (
-      <>
-        <Image
-          h={20}
-          src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-compare-iphone-15-202309?wid=384&hei=512&fmt=jpeg&qlt=90&.v=1692827832423"
-        />
-      </>
-    ),
+    picture:
+      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-compare-iphone-15-202309?wid=384&hei=512&fmt=jpeg&qlt=90&.v=1692827832423",
     id: 0,
     product: "Iphone",
     company: "Apple",
@@ -31,14 +25,8 @@ const users: User[] = [
     ),
   },
   {
-    picture: (
-      <>
-        <Image
-          h={20}
-          src="https://img.us.news.samsung.com/us/wp-content/uploads/2023/03/14140259/samsung-galaxy-a54-5g-featured.png"
-        />
-      </>
-    ),
+    picture:
+      "https://img.us.news.samsung.com/us/wp-content/uploads/2023/03/14140259/samsung-galaxy-a54-5g-featured.png",
     id: 1,
     product: "Galaxy",
     company: "Samsung",
@@ -81,7 +69,11 @@ function TableComp() {
                   style={{ padding: "8px", borderBottom: "1px solid #ddd" }}
                 >
                   {typeof user[key] == typeof 1 ? (
-                    <CloseButtonCus id={user[key]} setData={deleteUser} />
+                    <PictureComp
+                      id={user[key]}
+                      setData={deleteUser}
+                      src={user.picture}
+                    />
                   ) : (
                     user[key]
                   )}
