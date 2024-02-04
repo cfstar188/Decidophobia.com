@@ -1,7 +1,15 @@
 {
-  "token": -1,
-  "token_expiry": -1,
-  "url": "https://api.ebay.com/identity/v1/oauth2/token",
-  "Content-Type":"application/x-www-form-urlencoded",
-  "token_auth": "Basic QWhtZWRNb2gtZGVjaWRvcGgtUFJELWMxZTJiYjU2My1mNDFlNDRkMzpQUkQtMWUyYmI1NjNlZmRmLTBmMTktNDU1Yy1iMDZlLTNlNmUgDQo="}
+  "ebay": {
+    "token": "v^1.1#i^1#f^0#p^1#I^3#r^0#t^H4sIAAAAAAAAAOVYbWwURRi+a68lDQWNaEEi8VyEH+DuzX7c19o7vX5AD9teyx0gFwRnd+d6Q/eL3T3awwRrTZpogjEmoAjGBqjlh5HoD0QTEEmjCTFGEQXhD34QxS/8ikTRxN27Uq6VANJLbOL9ucw777zzPM+878zsgL7qmkUDLQMXZrinVQz2gb4Kt5ueDmqqqxbPrKyYW+UCJQ7uwb67+zz9lV/Xm1CRdX45MnVNNZG3V5FVky8YI0TOUHkNmtjkVaggk7dEPhlra+UZCvC6oVmaqMmEN94UISSJlTjIScGM6A+FAoxtVS/FTGkRIsRBEAwGBAnCMEMHoN1vmjkUV00LqlaEYADDkYAhAZdiWJ7leD+g2GAgTXhXIsPEmmq7UICIFuDyhbFGCdarQ4WmiQzLDkJE47ElyUQs3tTcnqr3lcSKjuqQtKCVM8e3GjUJeVdCOYeuPo1Z8OaTOVFEpkn4osUZxgflY5fA3AD8otScFBb84VBQ5GgaSkJZpFyiGQq0ro7DsWCJzBRceaRa2MpfS1FbDWE9Eq3RVrsdIt7kdf46c1DGGYyMCNHcEFsd6+ggorGsgqQ2LUtKSMSSpmfJjuVNpEgjRhD8AZbMcDTiOIkdnagYbVTmCTM1aqqEHdFMb7tmNSAbNZqoDVOije2UUBNGLGM5iMb8/ClAj2nIpJ1FLa5izsqqzroixRbCW2heewXGRluWgYWchcYiTOwoSBQhoK5jiZjYWcjF0fTpNSNE1rJ03ufr6emhelhKM7p8DAC078G21qSYRYpdbL2KU+tFf3ztASQuUBGRPdLEvJXXbSy9dq7aANQuIsqFwiAQHtV9PKzoROs/DCWcfeMromwVEuaQFAxkJFGEGZqjy1Eh0dEk9Tk4kADzpAKNbmTpMhQRKdp5llOQgSWe9WcYNpRBpBQIZ0gunMmQgl8KkHQGIYCQIIjh0P+pUK431ZNINJBVllwvW56LHem25qVo9WJGD7F4fbsv2WN0tiaUTjmAdYwYpRdveqAhkdukhCLXWw1XJN8oY1uZlD1/OQRwar18IrRopoWkSdFLipqOOjQZi/mptcCsIXVAw8onkSzbhkmRjOl6vDx7ddno/ctt4sZ4l++M+o/OpyuyMp2UnVqsnPGmHQDqmHJOIErUFJ9T6xq0rx+OeV0B9aR4Y/vmOqVY2ySLbLFUvHJSBbqUuVGkDGRqOcO+bVMJ5waW0rqRap9nlqHJMjJW0pOuZ0XJWVCQ0VQr7DIkOIZT7LClgyAIQuFAGEyKl1g4StdNtS2pHFuxZ+kNXqt94z/yo67Cj+53HwH97kMVbjeoBwvo+eCu6soVnsrauSa2EIVhhjJxl2p/uxqI6kZ5HWKjYpbr511bWxrnNie2LXoklf9gx7uu2pI3hsGHwJyxV4aaSnp6yZMDuONyTxV90+wZDAcYwDEsy/lBGsy/3Ouh6zy3Pnrxy8ORb346cdbYGtrf9f75rjkDLjBjzMntrnJ5+t0uKtB6gT2zonXN4B/asaM+sKj93iTZsCILTn/74rb9lb7vRo6f2298WvlD/Z9njiEI8zuPw5YtWvdaeUPwQ2EkvUBqPvLGKfaj2+c01wW2zLrl6MO5N9cq2vqD5i+19KHBX7eptw0/8cLwxsfnv74nOfTFllhFiu2857OdZHXd2Xnpoe1P+VqkPfvcLx2q0zcIe2YuQEtffc5Tv+xj85OL9G8v4+Oprw54huOPrWHqY0/tDPiH97mepk4O3b/q5M3PThOW6bv/uvNwwyuz19xX+/mT6RHjQHpXKPVjRav39N7N4ir+rVNDYO/38xae2P77M9z5hSM7Dj5fQ3jfWbg5+9rugfeW5N4+ca64ln8DFOngUf0RAAA=",
+    "token_expiry": "2024/02/05 01:34:50 +0000",
+    "url": "https://api.ebay.com/identity/v1/oauth2/token",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": "Basic QWhtZWRNb2gtZGVjaWRvcGgtUFJELWMxZTJiYjU2My1mNDFlNDRkMzpQUkQtMWUyYmI1NjNlZmRmLTBmMTktNDU1Yy1iMDZlLTNlNmUgDQo="
+    },
+    "body": {
+      "grant_type": "client_credentials",
+      "scope": "https://api.ebay.com/oauth/api_scope"
+    }
+  }
 }
