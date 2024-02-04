@@ -1,13 +1,35 @@
 .hero-section {
     /* background-color: rgb(244, 243, 242); */
-    height: 90vh;
+    /* height: 90vh; */
     size: 100%;
+}
+
+body {
+    background-color: #212529;
+    color: #fff;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.divcent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Set the height of the body to the full viewport height */
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .search-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* height: 100vh; */
+    width: 100vw;
 }
 .search-main {
     width: 80%;
