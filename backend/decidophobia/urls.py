@@ -21,6 +21,7 @@ from .views import hello_world
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', hello_world),
-    path('user_accounts/', include('user_accounts.urls')),
-    path('shopping_list/', include('shopping_list.urls'))
+    path('user_accounts/', include('UserAccounts.urls')),
+    path('discussion_board/', include('discussionBoard.urls')),
+    #path('shopping_list/', include('shopping_list.urls'))
 ]
