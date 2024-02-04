@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'homepage.css' %}">
     <title>Decidophobia.com</title>
 </head>
 <body>
@@ -16,16 +16,19 @@
             <a href="#" style="text-decoration: none;">Temp</a>
         </div>
         <div style="margin-left: auto;">
-            <a href="#" style="text-decoration: none;">Login/Signup</a>
+            <a href="/login" style="text-decoration: none;">Login/Signup</a>
         </div>
     </nav>
-    <section class="hero-section">
-        <h1 style="text-align: center; padding-top: 30%;">Decidophobia.com</h1>
-        <div class="search-container">
-            <input class="search-main" type="text" placeholder="Find Your Next Purchase...">
-            <button>Search</button>
-        </div>
-        <img src="{% static 'pageimg2.jpeg' %}" class="imgmain">
-    </section>
+    <div class="divcent">
+        <section class="hero-section">
+            <h1 style="text-align: center;">Decidophobia.com</h1>
+            <div class="search-container">
+                <input class="search-main" type="text" placeholder="Find Your Next Purchase...">
+                <button>Search</button>
+            </div>
+            <!-- <img src="{% static 'pageimg2.jpeg' %}" class="imgmain"> -->
+        </section>
+    </div>
+    
 </body>
 </html>
