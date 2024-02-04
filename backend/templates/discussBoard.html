@@ -1,0 +1,9 @@
+<tbody>
+    {% for entry in messagesList %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{entry.user.username}}</td>
+        <td>{{entry.message}}</td>
+    </tr>
+    {% endfor %}
+</tbody>
