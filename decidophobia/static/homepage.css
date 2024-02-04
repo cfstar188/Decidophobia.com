@@ -4,14 +4,27 @@
     size: 100%;
 }
 
-body {
+.mainbody {
     background-color: #212529;
     color: #fff;
+    font-family: Roboto;
+    font-size: larger;
 }
 
 nav a {
     color: #fff;
     text-decoration: underline;
+    margin: 5px;
+}
+
+nav a:hover{
+    color: #fff;
+    text-decoration: underline;
+    opacity: 50%;
+}
+
+nav {
+    margin: 10px;
 }
 
 .divcent {
@@ -32,7 +45,7 @@ nav a {
     width: 100vw;
 }
 .search-main {
-    width: 80%;
+    width: 50%;
 }
 
 .imgmain {
