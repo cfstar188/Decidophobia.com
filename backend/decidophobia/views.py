@@ -16,6 +16,9 @@ def hello_world(request):
 def home(request):
     return render(request, 'home.html')
 
+def shopcart(request):
+    return render(request, 'shopcart.html')
+
 def login(request):
     # form = CreateLoginForm()
     if request.method == 'POST':
