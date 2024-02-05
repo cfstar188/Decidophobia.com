@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register for Decidophobia!</title>
+</head>
+<body>
+    <h1>Register for Decidophobia!</h1>
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+        {{registrationform.as_p}}
+        <input type="submit" value="Register">
+    </form>
+</body>
+</html>
