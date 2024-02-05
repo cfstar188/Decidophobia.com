@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login to Decidophobia!</title>
+</head>
+<body>
+    <h1>Login to Decidophobia!</h1>
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+        {{loginform.as_p}}
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
