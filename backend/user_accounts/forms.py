@@ -8,7 +8,7 @@ from django import forms
 from django.forms.widgets import PasswordInput, TextInput
 
 """
-User creation form
+User creation form.
 """
 class CreateUserForm(UserCreationForm):
     class Meta:
