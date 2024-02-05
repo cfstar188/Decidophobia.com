@@ -17,8 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from .views import hello_world
+from scrum_13_questionnaire.views import questionnaire
 
 urlpatterns = [
+    #For SCRUM-13 submit form
+    path('questionnaire/', questionnaire, name='questionnaire'),
+    
     path('admin/', admin.site.urls),
     path('hello/', hello_world),
     path('user_accounts/', include('user_accounts.urls')),
