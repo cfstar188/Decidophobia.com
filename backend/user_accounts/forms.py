@@ -16,7 +16,7 @@ class CreateUserForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 """
-User login form
+User login form.
 """
 class CreateLoginForm(AuthenticationForm):
     username = forms.CharField(widget=TextInput())
