@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import hello_world, home, login, signup, logout
+from .views import hello_world, home, login, signup, logout, shopcart
 from django.contrib.auth import views as auth_views
 
 
@@ -26,6 +26,7 @@ urlpatterns = [
     path('login/', login),
     path('login/register/', signup, name='signup'),
     path('logout/', logout, name='logout'),
+    path('logout/ShoppingCart', shopcart, name='shopcart'),
 
     # path('user_accounts/', include('user_accounts.urls')),
     # path('shopping_list/', include('shopping_list.urls'))
