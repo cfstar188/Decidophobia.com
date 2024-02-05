@@ -26,7 +26,7 @@ def mint_ebay_token(ebay_config):
 def get_ebay_token(force_new_token=False):
     with open("api_config.json", 'r') as config_file:
         all_config = json.load(config_file)
-        ebay_config = all_config.get("ebay")
+        ebay_config = all_config.get("ebay").get("token_info")
 
     expiry_time = datetime.strptime(ebay_config.get("token_expiry"), date_format)
     current_time = datetime.now(UTC)
@@ -35,7 +35,7 @@ def get_ebay_token(force_new_token=False):
             print("New access token minted")
 
             # rewrite config file with new token
-            all_config["ebay"] = ebay_config
+            all_config["ebay"]["token_info"] = ebay_config
             with open("api_config.json", "w") as config_file:
                 config_file.write(json.dumps(all_config))
         else:
@@ -44,12 +44,52 @@ def get_ebay_token(force_new_token=False):
 
     return ebay_config.get("token")
 
-
-def shop_search(shop_name = "ebay", item_name="Naruto", num_items="10", force_new_token = False):
+def ebay_search(item_name="Naruto", num_items=10, force_new_token = False):
     token = get_ebay_token(force_new_token)
-    if token == -1: return []
+    if token == -1:
+        return []
+    with open("api_config.json", 'r') as config_file:
+        all_config = json.load(config_file)
+    search_info = all_config.get("ebay").get("search_info")
+    search_reponse = requests.get(search_info.get("url"),
+                                  params={"q": item_name, "limit": num_items},
+                                  headers=search_info.get("headers")|{"Authorization": f'Bearer {token}'})
+    if search_reponse.status_code == 200:
+        search_dict = json.loads(search_reponse.content)
+        if not search_dict.get("itemSummaries"):
+            print("Oh, we couldn't get any search results for this particular item... weird.")
+            return []
 
+        all_items = []
+        for elem in search_dict.get("itemSummaries"):
+            item = []
+            item.append(elem.get("title"))
+            item.append(elem.get("itemWebUrl"))
+            item.append(elem.get("image").get("imageUrl"))
+            item.append([elem.get("price").get("value"), elem.get("price").get("currency")])
+            item.append(elem.get("seller").get("feedbackScore"))
+            item.append(elem.get("seller").get("feedbackPercentage"))
+            all_items.append(item)
+        return all_items
+    else:
+        print("Sorry! I couldn't search on Ebay!!")
+        return []
+
+def shop_search(shop_name = "ebay", item_name="Naruto", num_items=10, force_new_token = False):
+    if shop_name == "ebay":
+        return ebay_search(item_name, num_items, force_new_token)
+
+
+def elegant_print(item_list):
+    for item in item_list:
+        print("Item Name:", item[0])
+        print("Item Link:", item[1])
+        print("Item image link:", item[2])
+        print("Item price:", item[3][0], item[3][1])
+        print("Seller Feedback Score:", item[4])
+        print("Item Feedback Percentage:", item[5] + '%')
+        print("="*50)
 
 
 if __name__ == "__main__":
-    shop_search(force_new_token=True)
+    elegant_print(shop_search(item_name="sudan", num_items=20))
