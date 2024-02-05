@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth import get_user_model
-from models import Product
+from scrum_13_questionnaire.models import Product
 
 from shopping_list.models import ShoppingListItem
 
@@ -15,6 +15,7 @@ class ShoppingListSerializer(serializers.ModelSerializer):
         fields = ('quantity', 'product_name', 'product_id')
 
     def create(self, validated_data):
+        print("Adding item")
         request = self.context['request']
         user = get_object_or_404(get_user_model(), id=request.user.id)
         product_id = request.data.get('productID', '')

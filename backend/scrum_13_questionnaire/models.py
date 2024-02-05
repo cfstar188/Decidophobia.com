@@ -31,4 +31,4 @@ class Product(models.Model):
     def __str__(self):
         return self.productName
 
-Product.objects.using('test_database').all()
+# Product.objects.using('test_database').all()

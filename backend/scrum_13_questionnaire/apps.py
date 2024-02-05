@@ -1,6 +1,5 @@
 from django.apps import AppConfig
 
-
-class ShoppingListConfig(AppConfig):
+class Scrum13QuestionnaireConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'shopping_list'
+    name = 'scrum_13_questionnaire'

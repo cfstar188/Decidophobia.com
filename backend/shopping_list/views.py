@@ -4,9 +4,9 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 
-from backend.shopping_list.serializers import ShoppingListSerializer, ChangeQuantitySerializer
-from backend.shopping_list.models import ShoppingListItem
-from backend.core.utils import get_item
+from shopping_list.serializers import ShoppingListSerializer, ChangeQuantitySerializer
+from shopping_list.models import ShoppingListItem
+from core.utils import get_item
 
 # Create your views here.
 class ShoppingListView(ListAPIView):
@@ -20,7 +20,7 @@ class ShoppingListView(ListAPIView):
 
 class AddShoppingItemView(CreateAPIView):
     serializer_class = ShoppingListSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 
 class DeleteShoppingItem(DestroyAPIView):
