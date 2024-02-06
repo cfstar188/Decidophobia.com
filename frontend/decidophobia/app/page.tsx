@@ -1,5 +1,5 @@
-import TableComp from "./product_table/page";
+import TableComp from "./table/page";
 
-export default function Home() {
+export default function table() {
   return <TableComp />;
 }
