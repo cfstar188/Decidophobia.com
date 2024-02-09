@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'homepage.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'shoppingcart.css' %}">
     <title>Decidophobia.com</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" >
 
@@ -17,10 +16,10 @@
     <div>
         <nav style="display: flex;">
             <div>
-                <a href="/" style="text-decoration: none;">Home</a>
+                <a href="#" >Home</a>
                 <a href="#" style="text-decoration: none;">Discussion Board </a>
                 {% if request.user.is_authenticated %}
-                <a href="/cart">Shopping Cart</a>
+                <a href="/cart" style="text-decoration: none;">Shopping Cart</a>
                 
                 {% endif %}
             </div>
@@ -31,7 +30,6 @@
                     <a style="margin: 0px; margin-left: 5px; text-decoration: none;" href="{% url 'logout' %}">Logout</a>
                     
                 </div>
-                
             {% else %}
                 <div style="margin-left: auto;">
                     <a href="/login" style="text-decoration: none;">Login/Signup</a>
@@ -40,28 +38,18 @@
             {% endif %}
 
         </nav>
-        <div class="shoppingdiv">
-          <ul class="list">
-            {% for product in user_products %}
-            <li class="subli" style="display: flex;">
-                <img class="itemimg" src="{{ product.url }}" alt="{{ product.name }}">
-
-                <h2>{{ product.name }}</h2>
-                <p>Cost: ${{ product.cost }}</p>
-                
-                <form action="{% url 'remove_from_cart' product.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Remove</button>
+        <div class="divcent">
+            <section class="hero-section">
+                <h1 style="text-align: center;">Decidophobia.com</h1>
+                <form class="search-container" action="/search">
+                    <input class="form-control form-input" type="text" placeholder="Find Your Next Purchase..." style="width:50%;" name="searchQ">
+                    <button class="btn btn-light fw-bold border-white bg-white" type="submit">Search</button>
                 </form>
-            </li>
-            {% endfor %}
-          </ul>
-          <div style="margin-left: 100px;"> 
-            <h1 style="text-align: center;">Shopping Cart</h1>
-            <br>
-            <h3 style="text-align: center;">Total: ${{ total_cost }}</h3>
-          </div>
-      </div>
+                <!-- <img src="{% static 'pageimg2.jpeg' %}" class="imgmain"> -->
+            </section>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

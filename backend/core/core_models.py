@@ -10,17 +10,17 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class CartProduct(models.Model):
-    name = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    image_link = models.URLField()
+# class CartProduct(models.Model):
+#     name = models.CharField(max_length=255)
+#     price = models.DecimalField(max_digits=10, decimal_places=2)
+#     image_link = models.URLField()
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
-class ShoppingCart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField(CartProduct)
+# class ShoppingCart(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     products = models.ManyToManyField(CartProduct)
 
-    def __str__(self):
-        return f"Shopping Cart for {self.user.username}"
+#     def __str__(self):
+#         return f"Shopping Cart for {self.user.username}"
