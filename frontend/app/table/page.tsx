@@ -1,7 +1,7 @@
 // Table.tsx
 "use client";
 import React, { useState } from "react";
-import { PictureComp } from "../comptents/PictureComp";
+import { PictureComp } from "../components/PictureComp";
 
 export type User = {
   price: string;
