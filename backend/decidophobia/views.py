@@ -16,6 +16,11 @@ def hello_world(request):
 def home(request):
     return render(request, 'home.html')
 
+def cart(request):
+    # user_products = Product.objects.filter(user=request.user)
+    # context = {'user_products': user_products}
+    return render(request, 'shopping_cart.html')
+
 def login(request):
     # form = CreateLoginForm()
     if request.method == 'POST':

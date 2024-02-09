@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shopping_list',
     'scrum_13_questionnaire',
+    'decidophobia',
+    'shoppingCart',
 ]
 
 MIDDLEWARE = [
