@@ -37,13 +37,23 @@ const users: User[] = [
       </a>
     ),
   },
+  {
+    picture: "https://i.ebayimg.com/images/g/SxQAAOSwScVhGpoE/s-l1200.webp",
+    id: 2,
+    product: "Hauwai Nova",
+    company: "Hauwai",
+    price: "500.0",
+    url: <a href="https://consumer.huawei.com/gh/phones/nova-y61/">huawei</a>,
+  },
 ];
 
 export function TableComp() {
   const [user, setUser] = useState<User[]>(users);
+  const [deleted, setDeleteUser] = useState<number[]>([]);
 
   const deleteUser = (userId: number) => {
-    setUser(users.filter((user) => user.id !== userId));
+    setDeleteUser((deleted) => [...deleted, userId]);
+    setUser((user) => user.filter((newuser) => !deleted.includes(newuser.id)));
   };
 
   const keys = users.length > 0 ? Object.keys(users[0]) : [];
@@ -74,8 +84,10 @@ export function TableComp() {
                       setData={deleteUser}
                       src={user.picture}
                     />
+                  ) : key === "picture" ? (
+                    <></>
                   ) : (
-                    user[key]
+                    <div class="text-white">{user[key]}</div>
                   )}
                 </td>
               ))}
