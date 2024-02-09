@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'homepage.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'shoppingcart.css' %}">
     <title>Decidophobia.com</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" >
 
@@ -40,28 +39,16 @@
             {% endif %}
 
         </nav>
-        <div class="shoppingdiv">
-          <ul class="list">
-            {% for product in user_products %}
-            <li class="subli" style="display: flex;">
-                <img class="itemimg" src="{{ product.url }}" alt="{{ product.name }}">
-
+        <h1>Shopping Cart</h1>
+    <ul>
+        {% for product in user_products %}
+            <li>
                 <h2>{{ product.name }}</h2>
                 <p>Cost: ${{ product.cost }}</p>
-                
-                <form action="{% url 'remove_from_cart' product.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Remove</button>
-                </form>
+                <img src="{{ product.image_url }}" alt="{{ product.name }}">
             </li>
-            {% endfor %}
-          </ul>
-          <div style="margin-left: 100px;"> 
-            <h1 style="text-align: center;">Shopping Cart</h1>
-            <br>
-            <h3 style="text-align: center;">Total: ${{ total_cost }}</h3>
-          </div>
-      </div>
+        {% endfor %}
+    </ul>
     </div>
 </body>
 </html>

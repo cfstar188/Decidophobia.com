@@ -1,0 +1,40 @@
+
+.itemimg {
+    /* max-width: 3%;
+    max-height: 10%; */
+    max-width: 7%;
+}
+
+.shoppingdiv {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    padding: 5%;
+    margin: 5%;
+    border-radius: 10px;
+}
+
+.list {
+    list-style-type: none;
+    text-align: left;
+}
+
+.list li {
+    border-bottom: 1px solid white;
+    /* background-color: blue; */
+    display: flex;
+    justify-content: center;
+}
+
+.list li img {
+    margin-right: 10px;
+
+}
+
+.list li h2 {
+    margin-right: 10px;
+}
+
+.list li p {
+    margin-right: 10px;
+}
