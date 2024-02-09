@@ -12,6 +12,17 @@ def messageBoard(request):
 
     context = {'messagesList' : messages}
 
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            req = request.POST.get('your_message')
+
+            print(req)
+            print(request.user.username)
+            models.Message.objects.create(user=request.user, message=req)
+            return redirect('http://127.0.0.1:8000/discussion_board/messages/')
+        else:
+            return redirect('http://127.0.0.1:8000/login/')
+
     return render(request, 'discussBoard.html', context=context)
 
 
