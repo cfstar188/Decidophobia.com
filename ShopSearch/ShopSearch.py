@@ -44,7 +44,7 @@ The function returns a list of dictionaries. Each dictionary has the following k
     ** This is the price of the product in USD
     
     dict['score']: int
-    This is our unique score that we give to items (it defaults to 5 currently)
+    This is our unique score that we give to items (it defaults to 100 currently)
 """
 
 date_format = "%Y/%m/%d %H:%M:%S %z"
