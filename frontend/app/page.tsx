@@ -1,17 +1,8 @@
 // Table.tsx
 "use client";
 import React, { useState } from "react";
-import { PictureComp } from "./components/PictureComp";
 import SearchTable from "./components/SearchTable";
-
-export type User = {
-  price: string;
-  id: number;
-  product: string;
-  company: string;
-  picture: any;
-  url: any;
-};
+import { User } from "../Library/Type";
 
 const users: User[] = [
   {
@@ -41,14 +32,6 @@ const users: User[] = [
 ];
 
 export default function SearchPage() {
-  const [user, setUser] = useState<User[]>(users);
-
-  const deleteUser = (userId: number) => {
-    setUser(users.filter((user) => user.id !== userId));
-  };
-
-  const keys = users.length > 0 ? Object.keys(users[0]) : [];
-
   return (
     <>
       <SearchTable />

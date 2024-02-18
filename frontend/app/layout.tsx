@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { NavBar } from "./components/NavBar";
 import "./globals.css";
+import { JotaiProvider } from "./components/Providers/JotaiProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <JotaiProvider>
+          <NavBar />
+          {children}
+        </JotaiProvider>
+      </body>
     </html>
   );
 }

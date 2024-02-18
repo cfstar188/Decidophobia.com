@@ -19,7 +19,7 @@ export function PictureComp({ id, setData, src }: any) {
   return (
     <div>
       <CircularXButton id={id} setData={setData} />
-      <img class="h-80 w-50" src={src} />
+      <img className="h-80 w-50" src={src} />
     </div>
   );
 }
