@@ -1,114 +1,46 @@
 "use client";
 import React, { useState } from "react";
 import { PictureComp } from "../components/PictureComp";
-
-export type User = {
-  price: string;
-  id: number;
-  product: string;
-  company: string;
-  picture: any;
-  url: JSX.Element;
-};
-
-const users: User[] = [
-  {
-    picture:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-compare-iphone-15-202309?wid=384&hei=512&fmt=jpeg&qlt=90&.v=1692827832423",
-    id: 0,
-    product: "Iphone",
-    company: "Apple",
-    price: "$1200.0",
-    url: (
-      <a href="https://www.apple.com/ca/shop/buy-iphone/iphone-15-pro">apple</a>
-    ),
-  },
-  {
-    picture:
-      "https://img.us.news.samsung.com/us/wp-content/uploads/2023/03/14140259/samsung-galaxy-a54-5g-featured.png",
-    id: 1,
-    product: "Galaxy",
-    company: "Samsung",
-    price: "$1000.0",
-    url: (
-      <a href="https://www.samsung.com/ca/smartphones/galaxy-s24-ultra/buy/?modelCode=SM-S928WZTFXAC">
-        samsung
-      </a>
-    ),
-  },
-  {
-    picture:
-      "https://img.us.news.samsung.com/us/wp-content/uploads/2023/03/14140259/samsung-galaxy-a54-5g-featured.png",
-    id: 1,
-    product: "Galaxy",
-    company: "Samsung",
-    price: "$1000.0",
-    url: (
-      <a href="https://www.samsung.com/ca/smartphones/galaxy-s24-ultra/buy/?modelCode=SM-S928WZTFXAC">
-        samsung
-      </a>
-    ),
-  },
-  {
-    picture:
-      "https://img.us.news.samsung.com/us/wp-content/uploads/2023/03/14140259/samsung-galaxy-a54-5g-featured.png",
-    id: 1,
-    product: "Galaxy",
-    company: "Samsung",
-    price: "$1000.0",
-    url: (
-      <a href="https://www.samsung.com/ca/smartphones/galaxy-s24-ultra/buy/?modelCode=SM-S928WZTFXAC">
-        samsung
-      </a>
-    ),
-  },
-];
+import SquareCheckbox from "./SquareButton";
+import HorizontalSelectBar from "./HorizontalSelectBar";
+import { User } from "../../Library/Type";
+import { useAtom } from "jotai";
+import { allProductAtom } from "@/Library/SelectedAtom";
 
 export function SearchTable() {
+  const [users] = useAtom(allProductAtom);
+  console.log(users);
   const [user, setUser] = useState<User[]>(users);
 
-  const deleteUser = (userId: number) => {
-    setUser(users.filter((user) => user.id !== userId));
-  };
-
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-        gap: "16px",
-        padding: "16px",
-      }}
-    >
-      {user.map((user, index) => (
-        <div
-          key={index}
-          style={{
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            padding: "16px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <img
-            src={user.picture}
-            alt={user.product}
-            style={{
-              maxWidth: "100%",
-              maxHeight: "200px",
-              objectFit: "contain",
-            }}
-          />
-          <div class="text-sky-400/100">{user.product}</div>
-          <div class="text-sky-400/100">{user.company}</div>
-          <div class="text-sky-400/100">{user.price}</div>
-          {user.url}
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-4 min-w-[500px] gap-4 p-4">
+        {user.map((user, index) => (
+          <div
+            key={index}
+            className="border border-gray-300 rounded-lg py-4 px-10 flex flex-col items-center justify-between"
+          >
+            <div className="grid-cols-2 gird-rows-auto w-full">
+              <img
+                src={user.picture}
+                alt={user.product}
+                className="max-w-full max-h-[200px] object-contain col-span-2 m-auto"
+              />
+              <div />
+              <div className="text-white col-span-2">{user.product}</div>
+              <div className="text-white col-span-2">{user.company}</div>
+              <div className="text-white col-span-1">{user.price}</div>
+              <div className="flex">
+                <SquareCheckbox className="col-span-1 py-auto" />
+                <div className="text-white col-span-1 my-auto">Compare</div>
+              </div>
+            </div>
+            {user.url}
+          </div>
+        ))}
+      </div>
+      <HorizontalSelectBar />
+    </>
   );
 }
 

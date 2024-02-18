@@ -2,15 +2,7 @@
 "use client";
 import React, { useState } from "react";
 import { PictureComp } from "../components/PictureComp";
-
-export type User = {
-  price: string;
-  id: number;
-  product: string;
-  company: string;
-  picture: any;
-  url: any;
-};
+import { User } from "../../Library/Type";
 
 const users: User[] = [
   {
@@ -87,7 +79,7 @@ export function TableComp() {
                   ) : key === "picture" ? (
                     <></>
                   ) : (
-                    <div class="text-white">{user[key]}</div>
+                    <div className="text-white">{user[key]}</div>
                   )}
                 </td>
               ))}
