@@ -2,7 +2,50 @@ import requests
 import json
 from datetime import datetime, UTC, timedelta
 
-import pytz
+
+"""
+(Use function 'shop_search' to perform any searches)
+Makes an external request to an online shopping site to execute a search query.
+
+Input:
+The function 'shop_search' takes in the following parameters:
+
+    shop_name: string 
+    ** This is the name of the shopping site you want to search. Currently, only
+    "ebay" is supported (case insensitive)
+    
+    item_name: string 
+    ** This is the name of the item you want to search for
+    
+    num_items: int
+    ** This is the number of items you want returned back
+     
+    force_new_token = False
+    ** You shouldn't need to pass this in, ever. This is more so for testing; if 
+    you need an authorization token generated, you can set this to true.
+
+
+Output:
+The function returns a list of dictionaries. Each dictionary has the following keys:
+
+    dict['shop']: string
+    ** This is the name of the shop that was searched
+    
+    dict['name']: string
+    ** This is the name of the item you want to search for
+    
+    dict['link']: string
+    ** This is the link to the product on the shop's website
+    
+    dict['image']: string
+    ** This is a link to the product image
+    
+    dict['price']: float
+    ** This is the price of the product in USD
+    
+    dict['score']: int
+    This is our unique score that we give to items (it defaults to 100 currently)
+"""
 
 date_format = "%Y/%m/%d %H:%M:%S %z"
 
@@ -76,7 +119,7 @@ def ebay_search(item_name="Naruto", num_items=10, force_new_token = False):
         return []
 
 def shop_search(shop_name = "ebay", item_name="Naruto", num_items=10, force_new_token = False):
-    if shop_name == "ebay":
+    if shop_name.lower() == "ebay":
         return ebay_search(item_name, num_items, force_new_token)
 
 
@@ -92,4 +135,4 @@ def elegant_print(item_list):
 
 
 if __name__ == "__main__":
-    elegant_print(shop_search(item_name="sudan", num_items=20))
+    elegant_print(shop_search(item_name="laptop sleeve", num_items=20))
