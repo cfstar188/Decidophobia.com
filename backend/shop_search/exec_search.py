@@ -67,7 +67,7 @@ def mint_ebay_token(ebay_config):
 
 
 def get_ebay_token(force_new_token=False):
-    with open("api_config.json", 'r') as config_file:
+    with open("search_imp/api_config.json", 'r') as config_file:
         all_config = json.load(config_file)
         ebay_config = all_config.get("ebay").get("token_info")
 
@@ -79,7 +79,7 @@ def get_ebay_token(force_new_token=False):
 
             # rewrite config file with new token
             all_config["ebay"]["token_info"] = ebay_config
-            with open("api_config.json", "w") as config_file:
+            with open("search_imp/api_config.json", "w") as config_file:
                 config_file.write(json.dumps(all_config))
         else:
             print("Couldn't acquire access token. Sorry!")
@@ -91,7 +91,7 @@ def ebay_search(item_name="Naruto", num_items=10, force_new_token = False):
     token = get_ebay_token(force_new_token)
     if token == -1:
         return []
-    with open("api_config.json", 'r') as config_file:
+    with open("search_imp/api_config.json", 'r') as config_file:
         all_config = json.load(config_file)
     search_info = all_config.get("ebay").get("search_info")
     search_reponse = requests.get(search_info.get("url"),
