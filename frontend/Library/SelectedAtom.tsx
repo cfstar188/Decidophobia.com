@@ -29,33 +29,7 @@ const users: User[] = [
   {
     picture:
       "https://img.us.news.samsung.com/us/wp-content/uploads/2023/03/14140259/samsung-galaxy-a54-5g-featured.png",
-    id: 1,
-    product: "Galaxy",
-    company: "Samsung",
-    price: "$1000.0",
-    url: (
-      <a href="https://www.samsung.com/ca/smartphones/galaxy-s24-ultra/buy/?modelCode=SM-S928WZTFXAC">
-        samsung
-      </a>
-    ),
-  },
-  {
-    picture:
-      "https://img.us.news.samsung.com/us/wp-content/uploads/2023/03/14140259/samsung-galaxy-a54-5g-featured.png",
-    id: 1,
-    product: "Galaxy",
-    company: "Samsung",
-    price: "$1000.0",
-    url: (
-      <a href="https://www.samsung.com/ca/smartphones/galaxy-s24-ultra/buy/?modelCode=SM-S928WZTFXAC">
-        samsung
-      </a>
-    ),
-  },
-  {
-    picture:
-      "https://img.us.news.samsung.com/us/wp-content/uploads/2023/03/14140259/samsung-galaxy-a54-5g-featured.png",
-    id: 1,
+    id: 2,
     product: "Galaxy",
     company: "Samsung",
     price: "$1000.0",
@@ -68,4 +42,17 @@ const users: User[] = [
 ];
 
 export const allProductAtom = atom(users);
-export const selectedProductAtom = atom([]);
+export const selectedListAtom = atom<number[]>([]);
+export const selectedProductAtom = atom(
+  (get) => {
+    const allProducts = get(allProductAtom);
+    const selectList = get(selectedListAtom);
+
+    const returnList: User[] = allProducts.filter((product) =>
+      selectList.includes(product.id)
+    );
+
+    return returnList;
+  },
+  (get, set, newPrice) => {}
+);
