@@ -4,26 +4,33 @@ import React from "react";
 
 export function HorizontalSelectBar({ current, total }: any) {
   // Calculate the width percentage of the current progress
-  const progressWidth = total > 0 ? `${(current / total) * 100}%` : "0%";
   const [selectedProducts, selectProduct] = useAtom(selectedProductAtom);
+  const fixedLength = 4;
+
+  const displayArray = Array.from({ length: fixedLength }, (_, index) => {
+    return (
+      selectedProducts[index] || {
+        product: "",
+        company: "",
+        price: "",
+      }
+    );
+  });
 
   return (
-    <div className="w-full">
-      <div className="w-full bg-gray-200 h-4 rounded-full overflow-hidden">
-        <div className="bg-blue-500 h-full" style={{ width: progressWidth }} />
+    <div className="w-full bg-gray-200 h-25 overflow-hidden p-2">
+      <div className="grid grid-cols-4 justify-start items-center gap-2">
+        {displayArray.map((product, index) => (
+          <div
+            key={index}
+            className="bg-blue-500 min-w-[200px] min-h-20 text-white p-2 rounded flex-1"
+          >
+            <div className="">{product.product}</div>
+            <div className="">{product.company}</div>
+            <div className="">{`$${product.price}`}</div>
+          </div>
+        ))}
       </div>
-      <table className="w-full mt-2">
-        <tbody>
-          <tr>
-            {selectedProducts.map((product, index) => (
-              <td key={index} className="text-center px-3">
-                {/* Assuming 'product' is an object with a 'name' property */}
-                {product}
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
     </div>
   );
 }

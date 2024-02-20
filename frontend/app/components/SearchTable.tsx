@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { PictureComp } from "../components/PictureComp";
-import SquareCheckbox from "./SquareButton";
+import SquareCheckbox from "./Button/SquareButton";
 import HorizontalSelectBar from "./HorizontalSelectBar";
 import { User } from "../../Library/Type";
 import { useAtom } from "jotai";
@@ -9,8 +9,8 @@ import { allProductAtom } from "@/Library/SelectedAtom";
 
 export function SearchTable() {
   const [users] = useAtom(allProductAtom);
-  console.log(users);
   const [user, setUser] = useState<User[]>(users);
+  const [tester, setTester] = useState();
 
   return (
     <>
@@ -30,10 +30,7 @@ export function SearchTable() {
               <div className="text-white col-span-2">{user.product}</div>
               <div className="text-white col-span-2">{user.company}</div>
               <div className="text-white col-span-1">{user.price}</div>
-              <div className="flex">
-                <SquareCheckbox className="col-span-1 py-auto" />
-                <div className="text-white col-span-1 my-auto">Compare</div>
-              </div>
+              <SquareCheckbox id={index} label="Compare" onChange={setTester} />
             </div>
             {user.url}
           </div>
