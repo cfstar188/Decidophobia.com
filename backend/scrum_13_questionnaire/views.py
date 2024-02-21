@@ -15,6 +15,18 @@ class product(Enum):
 
 # Create your views here.
 def questionnaire(request):
+    
+    # So your questionnaire could call my function, and then I would search 
+    # all available e-commerce sites with the inputted item name. then I would
+    # return a list of items matching the item name, and then your file which 
+    # has a questionnaire would use my returned list of items along with the 
+    # inputted user preferences to rank each product and give it a the score 
+    # out of 100
+    # We can design the algorithm and implement it together, but each 
+    # e-commerce site will be integrated slightly differently since it has 
+    # different metrics
+    # Example: EBay isn’t popular with product reviews, but it has seller reviews and percentage
+
     # Retrieve all objects from the database
     # queryset = Model.objects.all()
 
@@ -24,6 +36,10 @@ def questionnaire(request):
     # Filter objects based on certain conditions
     # filtered_objects = Model.objects.filter(another_field=another_value)
     
+    #TO-DO: First, integrate with search bar to get product name a user input
+    
+    #TO-DO: Then, pass product name to Ahmed's function and get results from there
+    #TO-DO: Finally, filter result based on this algorithm
     if request.method == 'POST':
         priceFactor = request.POST.get("priceFactor", None)
         customerReview = request.POST.get("customerReview", None)
@@ -71,12 +87,4 @@ def questionnaire(request):
         #First render result_template and second sends http response to client(front end).
         return render(request, 'result_template.html', {'products': product})
         
-        # For sprint 2 which I will get result from ebay api and hopefully others
-        # item_name = result[0][product.itemName.value]
-        
-        # item_link = result[0][product.itemLink.value]
-        # item_img = result[0][product.itemImg.value]
-        # item_price = result[0][product.itemPrice.value] 
-        # seller_score = result[0][product.sellerScore.value]
-        # seller_percentage = result[0][product.sellerPercentage.value]
-        
+        #TO-DO: pass it to Vincent's product data
