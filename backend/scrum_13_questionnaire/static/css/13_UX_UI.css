@@ -33,7 +33,7 @@ button.popup-button {
 }
 
 h2 {
-    color: #333;
+    color: #000000;
     margin-bottom: 20px;
 }
 
@@ -57,3 +57,42 @@ button.popup-button {
     cursor: pointer;
     margin-top: 20px;
 }
+
+#submit_button {
+    background-color: rgb(130, 130, 244); /* Change the background color to blue */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: box-shadow 0.3s; /* Add a transition for smooth effect */
+}
+
+#submit_button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow effect on hover */
+}
+
+
+/* Label style */
+label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+    display: block; /* Ensures the label is displayed on a new line */
+}
+
+/* Select style */
+select {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+/* Optional: Change appearance when focused */
+select#customerReview:focus {
+    outline: none;
+    border-color: #70b1c1; /* Example color for focus state */
+} 
