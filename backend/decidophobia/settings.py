@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'decidophobia',
     'shoppingCart',
     "django_nextjs"
-    # 'shopping_list',
+    'shopping_list',
 ]
 
 MIDDLEWARE = [
