@@ -1,5 +1,5 @@
 import React from "react";
-import { CircularXButton } from "./CircularXButton";
+import { CircularXButton } from "./Button/CircularXButton";
 
 export function PictureComp({ id, setData, src }: any) {
   const buttonStyle = {
@@ -19,7 +19,7 @@ export function PictureComp({ id, setData, src }: any) {
   return (
     <div>
       <CircularXButton id={id} setData={setData} />
-      <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-compare-iphone-15-202309?wid=384&hei=512&fmt=jpeg&qlt=90&.v=1692827832423" />
+      <img className="h-80 w-50" src={src} />
     </div>
   );
 }
