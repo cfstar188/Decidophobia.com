@@ -13,6 +13,8 @@ import shop_search
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Product
+import json
+import requests
 
 
 
@@ -75,37 +77,41 @@ class product(Enum):
     sellerScore = 4
     sellerPercentage = 5
 
-# TO-DO: First, integrate with search bar to get product name 
+# TO-DO: First, integrate with search bar to get product name. When user hits filter button on the home page, 
+# it sends product name to submit_product
 
-# Switch to questionnaire page after user submit product
+# Switch to questionnaire page after user submit product/get product and pass it to product table
 def submit_product(request):
     if request.method == 'POST':
-        request.session['product_name'] = request.POST.get("searchQ")
-        # Get product name and send it to ahmed
-        # Redirect to the 13_UX&UI.html page or render it directly
-        return render(request, '13_UX&UI.html')
+        action = request.GET.get('submit')
+        if action == "search":
+            # User chooses not to filter product
+            request.session['product_name'] = request.POST.get("searchQ")
+            products_lst = search_engine.exec_search({"product_name" : product_name })
+            
+            #Need to make a post request to vincent's next.js server so he can display product
+            nextjs_url = 'https://vincent-nextjs-server.com/post_product_list'
+            headers = {'Content-Type': 'application/json'}
+            data = json.dumps({'products_lst': products_lst})
+            response = requests.post(nextjs_url, data=data, headers=headers)
+            
+        elif action == "filter":
+            # User chooses to filter product
+            
+            # Get product name and stores it in session
+            request.session['product_name'] = request.POST.get("searchQ")
+            # render questionnaire.html directly
+            return render(request, 'questionnaire.html')
 
-# Create your views here.
 def questionnaire(request):
     
-    # Retrieve all objects from the database
-    # queryset = Model.objects.all()
-
-    # Retrieve a specific object based on a condition
-    # single_object = Model.objects.get(some_field=some_value)
-
-    # Filter objects based on certain conditions
-    # filtered_objects = Model.objects.filter(another_field=another_value)
-    
-    #TO-DO: Then, pass product name to Ahmed's function and get results from there
-    product_name = request.session.get('product_name')    
-    
-    products_lst = search_engine.exec_search({product_name: "watch"})
+    products_lst = search_engine.exec_search({"product_name" : product_name })
     
     # Each dictionary has 6 attributes:
     # “name”, “link”, “image”, “price”, “currency”, “score”
     
-    #TO-DO: Finally, filter result based on the filtering algorithm
+    #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
+    product_name = request.session.get('product_name') 
     if request.method == 'POST':
         priceFactor = request.POST.get("priceFactor", None)
         customerReview = request.POST.get("customerReview", None)
@@ -141,8 +147,9 @@ def questionnaire(request):
         elif shipping == "Right now":
             selected_shipping = selected_shipping[4:]
 
+        #TO-DO: Finally, filter result based on the filtering algorithm
+        # filtering algorithm prototype
         product_lst2 = products_lst[:]
-        
         for i in range(0, len(products_lst)):
             product = products_lst[i]
             if(products_lst[i].price > max_price or products_lst[i].price < min_price):
@@ -154,19 +161,6 @@ def questionnaire(request):
         
         filter_result = sorted_products[0:num_of_products*customerReview]
         
-        #TO-DO: pass filter_result to Vincent's product data
-        
-        
-        
-        #contact with database/api to get selected information based on simple algorithm
-        # product = Product.objects.filter(
-        #             price__range=(min_price, max_price),
-        #             customerReview=customerReview if customerReview is not None else '',
-        #             shippingTime__in=shipping if shipping is not None else [],
-        #             returnPolicy=returnPolicy if returnPolicy is not None else '',
-        #             brandReputation=brandReputation if brandReputation is not None else '',
-        # )
-        
-        # #First render result_template and second sends http response to client(front end).
-        # return render(request, 'result_template.html', {'products': product})
+    
+        #TO-DO: pass filter_result to Vincent's next.js
         
