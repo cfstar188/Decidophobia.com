@@ -19,11 +19,16 @@ from django.urls import reverse
 
 
 
+
 def hello_world(request):
     return render(request, 'temp.html')
 
 def home(request):
     return render(request, 'home.html')
+
+# def shopcart(request):
+#     return render(request, 'shopcart.html')
+
 
 def login(request):
     # form = CreateLoginForm()

@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'shopping_list',
+    'decidophobia',
+    'shoppingCart',
+    "django_nextjs"
+    'shopping_list',
 ]
 
 MIDDLEWARE = [
