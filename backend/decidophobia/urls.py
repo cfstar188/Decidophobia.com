@@ -28,6 +28,7 @@ urlpatterns = [
     path('logout/', logout, name='logout'),
     path("table/", include("product_table.urls")),
     path("", include("django_nextjs.urls")),
+    path('products/', include('products.urls')),
     # path('user_accounts/', include('user_accounts.urls')),
-    path('shopping_list/', include('shopping_list.urls'))
+    path('shopping-list/', include('shopping_list.urls'))
 ]
