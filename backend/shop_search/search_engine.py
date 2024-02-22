@@ -1,7 +1,7 @@
 from .search_imp.searcher_comp import Searcher
 from .search_imp.concrete_decorators import *
 from .models import AuthInfo, SearchInfo
-
+import asyncio
 
 eligible_shops = ["ebay", "bestbuy"]
 def search_engine(search_query):
@@ -18,7 +18,7 @@ def search_engine(search_query):
             case _:
                 print("An unknown shop was passed in. How is this possible?")
 
-    list = searcher.shop_search(search_query)
+    list = asyncio.run(searcher.shop_search(search_query))
     return list
 
 def setup_database():
