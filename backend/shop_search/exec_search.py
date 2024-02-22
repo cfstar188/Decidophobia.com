@@ -123,16 +123,4 @@ def shop_search(shop_name = "ebay", item_name="Naruto", num_items=10, force_new_
         return ebay_search(item_name, num_items, force_new_token)
 
 
-def elegant_print(item_list):
-    for item in item_list:
-        print("Item Name:", item[0])
-        print("Item Link:", item[1])
-        print("Item image link:", item[2])
-        print("Item price:", item[3][0], item[3][1])
-        print("Seller Feedback Score:", item[4])
-        print("Item Feedback Percentage:", item[5] + '%')
-        print("="*50)
 
-
-if __name__ == "__main__":
-    elegant_print(shop_search(item_name="laptop sleeve", num_items=20))

@@ -1,8 +1,7 @@
-from ..searcher_decorator import SearcherDecorator
 from ..decorator_helper import *
 
 
-class EbaySearch(SearcherDecorator):
+class EbayDecorator(SearcherDecorator):
     def __init__(self, searcher):
         super().__init__(searcher)
 
@@ -16,26 +15,26 @@ class EbaySearch(SearcherDecorator):
             token_details = json.loads(token_response.content)
 
             # update the config file to reflect the request for a new token
-            token_duration = timedelta(seconds=int(token_details.get("expires_in")
-                                                   .strftime(config_file.get("date_format"))))
-            token_config["token_expiry"] = datetime.now(UTC) + token_duration
+            token_duration = timedelta(seconds=int(token_details.get("expires_in")))
+            token_config["token_expiry"] = (datetime.now(UTC) + token_duration).strftime(config_file.get("date_format"))
 
             # set in new token into the config file
             token_config["token"] = token_details.get("access_token")
             config_file["shops"]["ebay"]["token_info"] = token_config
-            with open("api_config.json", "w") as config_file:
-                config_file.write(json.dumps(config_file))
+            with open("shop_search/search_imp/api_config.json", "w") as file:
+                file.write(json.dumps(config_file))
+                print("file write?")
             return True
         else:
             return False
 
-    def shop_search(self, search_params):
-        item_name, num_items, force_new_token = super().fillin_params(search_params)
+    def perform_search(self, search_params):
+        item_name, num_items, force_new_token = super().get_params(search_params)
 
         token = self.get_auth_token(force_new_token)
         if token == -1:
             return []
-        with open("../api_config.json", 'r') as config_file:
+        with open("shop_search/search_imp/api_config.json", 'r') as config_file:
             config_file = json.load(config_file)
         search_info = config_file.get("shops").get("ebay").get("search_info")
         search_response = requests.get(search_info.get("url"),
@@ -51,7 +50,8 @@ class EbaySearch(SearcherDecorator):
             all_items = []
             seller_metrics = []
             for elem in search_dict.get("itemSummaries"):
-                all_items.append({"item_name": elem.get("title"),
+                all_items.append({"name": elem.get("title"),
+                                  "shop": "eBay",
                                   "link": elem.get("itemWebUrl"),
                                   "image": elem.get("image").get("imageUrl"),
                                   "price": elem.get("price").get("value"),
@@ -59,10 +59,10 @@ class EbaySearch(SearcherDecorator):
                                   "score": 100})
                 seller_metrics.extend([elem.get("seller").get("feedbackScore"),
                                        elem.get("seller").get("feedbackPercentage")])
-            return self.searcher.shop_search().extend(all_items)
+            return all_items
         else:
             print("eBay search failed.")
-            return self.searcher.shop_search()
+            return []
 
     def get_shop_name(self):
         return "ebay"
