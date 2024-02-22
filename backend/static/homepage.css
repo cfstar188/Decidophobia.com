@@ -1,0 +1,65 @@
+.hero-section {
+    /* background-color: rgb(244, 243, 242); */
+    /* height: 90vh; */
+    size: 100%;
+}
+
+.mainbody {
+    background-color: #212529;
+    color: #fff;
+    font-family: Roboto;
+    font-size: larger;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: underline;
+    margin: 5px;
+}
+
+nav a:hover{
+    color: #fff;
+    text-decoration: underline;
+    opacity: 50%;
+}
+
+nav {
+    margin: 10px;
+}
+
+.divcent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Set the height of the body to the full viewport height */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* height: 100vh; */
+    width: 100vw;
+}
+.search-main {
+    width: 50%;
+}
+
+.imgmain {
+    max-width: 100%;
+    max-height: 100%;
+    width: 40%;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    mix-blend-mode: multiply;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+}
