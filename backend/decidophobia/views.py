@@ -15,6 +15,7 @@ from django.http import HttpResponse
 from .models import Product
 import json
 import requests
+from django.urls import reverse
 
 
 
@@ -90,7 +91,7 @@ def submit_product(request):
             products_lst = search_engine.exec_search({"product_name" : product_name })
             
             #Need to make a post request to vincent's next.js server so he can display product
-            nextjs_url = 'https://vincent-nextjs-server.com/post_product_list'
+            nextjs_url = reverse('table_url')
             headers = {'Content-Type': 'application/json'}
             data = json.dumps({'products_lst': products_lst})
             response = requests.post(nextjs_url, data=data, headers=headers)
