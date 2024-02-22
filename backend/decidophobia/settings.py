@@ -38,11 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD:decidophobia/decidophobia/settings.py
-    'scrum_13_questionnaire',
-=======
     # 'shopping_list',
->>>>>>> main:backend/decidophobia/settings.py
 ]
 
 MIDDLEWARE = [
@@ -83,10 +79,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'test_database': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "scrum_13_questionnaire" / "test_database.db",
     }
 }
 

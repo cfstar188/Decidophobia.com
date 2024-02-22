@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Decision Factors</title>
     <link rel="stylesheet" href="../static/css/13_UX_UI.css">
-    <script src="../static/javascript/13_UX_UI.js"></script>
+    <script src="../static/13_UX_UI.js"></script>
 
 </head>
 <body>
@@ -51,7 +51,13 @@
             <option value="Ok">Ok</option>
         </select>
     <!-- </form> -->
-    <button id="submit_button" onclick="submitForm()">Submit</button>
+    
+    {% comment %} Note to Vincent: You might wanna add a link here to a view function which renders
+    your product table page. So user jump to your page when they hit submit. {% endcomment %}
+
+    {% comment %} After user submit preferences, send the form data to 
+    questionnaire function inside views.py to process {% endcomment %}
+    <button id="submit_button">Submit</button>
 </div>
 
 </body>
