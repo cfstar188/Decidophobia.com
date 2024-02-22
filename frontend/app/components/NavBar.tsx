@@ -13,13 +13,8 @@ export function NavBar() {
           Compare
         </a>
       </div>
-      {"{"}% if request.user.is_authenticated %{"}"}
       <div style={{ marginLeft: "auto", display: "flex" }}>
-        <p>
-          Welcome, {"{"}
-          {"{"} request.user.username {"}"}
-          {"}"}!
-        </p>
+        <p>Welcome,</p>
         <a
           style={{ margin: 0, marginLeft: 5, textDecoration: "none" }}
           href="{% url 'logout' %}"
@@ -27,13 +22,11 @@ export function NavBar() {
           Logout
         </a>
       </div>
-      {"{"}% else %{"}"}
       <div style={{ marginLeft: "auto" }}>
         <a href="/login" style={{ textDecoration: "none" }}>
           Login/Signup
         </a>
       </div>
-      {"{"}% endif %{"}"}
     </nav>
   );
 }
