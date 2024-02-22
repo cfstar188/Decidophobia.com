@@ -96,10 +96,10 @@ def submit_product(request):
             products_lst = search_engine.exec_search({"product_name" : product_name })
             
             #Need to make a post request to vincent's next.js server so he can display product
-            nextjs_url = reverse('table_url')
+            table_url = reverse('table_url')
             headers = {'Content-Type': 'application/json'}
             data = json.dumps({'products_lst': products_lst})
-            response = requests.post(nextjs_url, data=data, headers=headers)
+            response = requests.post(table_url, data=data, headers=headers)
             
         elif action == "filter":
             # User chooses to filter product
@@ -166,7 +166,11 @@ def questionnaire(request):
         num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
         
         filter_result = sorted_products[0:num_of_products*customerReview]
-        
     
         #TO-DO: pass filter_result to Vincent's next.js
+        #Need to make a post request to vincent's next.js server so he can display product
+        table_url = reverse('table_url')
+        headers = {'Content-Type': 'application/json'}
+        data = json.dumps({'products_lst': filter_result})
+        response = requests.post(table_url, data=data, headers=headers)
         
