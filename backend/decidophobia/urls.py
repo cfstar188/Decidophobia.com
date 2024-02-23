@@ -27,6 +27,7 @@ urlpatterns = [
     path('login/', login),
     path('login/register/', signup, name='signup'),
     path('logout/', logout, name='logout'),
+    
     #For SCRUM-13 submit form
     path('questionnaire/', questionnaire, name='questionnaire'),
     path('submit_product/', submit_product, name='submit_product'),
