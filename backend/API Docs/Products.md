@@ -1,6 +1,6 @@
 ## Create Product
-Method: POST
-Endpoint: BASE_URL/products/create-product/
+Method: POST \
+Endpoint: BASE_URL/products/create-product/ \
 This endpoint is used to create a new product. The request body should contain the following fields:
 - name: The name of the product
 - company: The company that produces the product

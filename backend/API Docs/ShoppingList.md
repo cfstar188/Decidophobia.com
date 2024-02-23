@@ -1,6 +1,6 @@
 ## Get Shopping List
-Method: GET
-Endpoint: BASE_URL/shopping-list/details
+Method: GET \
+Endpoint: BASE_URL/shopping-list/details \
 This endpoint is used to get the details of the shopping list. The response will contain the following fields:
 ```json
 {
@@ -25,8 +25,8 @@ Authentication required: Yes
 
 
 ## Add Item
-Method: POST
-Endpoint: BASE_URL/shopping-list/add-item/
+Method: POST \
+Endpoint: BASE_URL/shopping-list/add-item/ \
 This endpoint is used to add an item to the shopping list. The request body should contain the following fields:
 - product_id: The ID of the product to add to the shopping list
 - quantity: The quantity of the product to add to the shopping list
@@ -63,8 +63,8 @@ If product already exists in the shopping list, the quantity will be updated and
 ```
 
 ## Remove Item
-Method: DELETE
-Endpoint: BASE_URL/shopping-list/remove-item/
+Method: DELETE \
+Endpoint: BASE_URL/shopping-list/remove-item/ \
 This endpoint is used to remove an item from the shopping list. The request body should contain the following fields:
 - product_id: The ID of the product to remove from the shopping list
 
@@ -89,8 +89,8 @@ Example response:
 ```
 
 ## Update Item
-Method: PUT
-Endpoint: BASE_URL/shopping-list/change-quantity/
+Method: PUT \
+Endpoint: BASE_URL/shopping-list/change-quantity/ \
 This endpoint is used to update the quantity of an item in the shopping list. The request body should contain the following fields:
 - product_id: The ID of the product to update
 - quantity: The new quantity of the product
