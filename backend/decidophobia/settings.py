@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'decidophobia',
-    'shoppingCart',
+    # 'shoppingCart',
     "django_nextjs"
     # 'shopping_list',
 ]
