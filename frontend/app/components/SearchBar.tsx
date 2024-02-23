@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import type { NextRequest } from "next/server";
 
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e: any) => {
+  const handleSearch = (e: any) => {
     e.preventDefault();
-    router.push(`/search/${encodeURIComponent(searchQuery)}`);
+    router.push(`/search/searchQ=${searchQuery}`);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSearch}>
       <input
         type="text"
         placeholder="Search..."
