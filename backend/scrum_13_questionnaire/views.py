@@ -1,7 +1,77 @@
+from django.shortcuts import render, redirect
+# from . forms import CreateUserForm, CreateLoginForm
+from django.contrib.auth.models import auth
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
+import shop_search
+
+#Below three lines are integration change -- attemping to merge 13 and 24, change made by Marvin
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Product
+import json
+import requests
+from django.urls import reverse
 
+
+
+
+def hello_world(request):
+    return render(request, 'temp.html')
+
+def home(request):
+    return render(request, 'home.html')
+
+# def shopcart(request):
+#     return render(request, 'shopcart.html')
+
+
+def login(request):
+    # form = CreateLoginForm()
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            auth_login(request, user)
+            messages.success(request, 'Login successful.')
+            return redirect('home') 
+        else:
+            messages.error(request, 'Invalid username or password.')
+
+    return render(request, 'login.html')
+
+def logout(request):
+    auth_logout(request)
+    return redirect('home')
+
+def signup(request):
+    if request.method == 'POST':
+        print("Form submitted!")
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            print("Form submitted!")
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            auth_login(request, user)
+            messages.success(request, f'Signup successful. Welcome, {username}!')
+            return redirect('home')  
+        else:
+            print(form.errors)
+            messages.error(request, 'Signup failed. Please correct the errors in the form.')
+
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'signup.html', {'form': form})
+
+
+#Below code are integration change -- attemping to merge 13 and 24, change made by Marvin
 
 from enum import Enum
 
@@ -13,33 +83,41 @@ class product(Enum):
     sellerScore = 4
     sellerPercentage = 5
 
-# Create your views here.
+# TO-DO: First, integrate with search bar to get product name. When user hits filter button on the home page, 
+# it sends product name to submit_product
+
+# Switch to questionnaire page after user submit product/get product and pass it to product table
+def submit_product(request):
+    if request.method == 'POST':
+        action = request.GET.get('submit')
+        if action == "search":
+            # User chooses not to filter product
+            request.session['product_name'] = request.POST.get("searchQ")
+            products_lst = search_engine.exec_search({"product_name" : product_name })
+            
+            #Need to make a post request to vincent's next.js server so he can display product
+            table_url = reverse('table_url')
+            headers = {'Content-Type': 'application/json'}
+            data = json.dumps({'products_lst': products_lst})
+            response = requests.post(table_url, data=data, headers=headers)
+            
+        elif action == "filter":
+            # User chooses to filter product
+            
+            # Get product name and stores it in session
+            request.session['product_name'] = request.POST.get("searchQ")
+            # render questionnaire.html directly
+            return render(request, 'questionnaire.html')
+
 def questionnaire(request):
     
-    # So your questionnaire could call my function, and then I would search 
-    # all available e-commerce sites with the inputted item name. then I would
-    # return a list of items matching the item name, and then your file which 
-    # has a questionnaire would use my returned list of items along with the 
-    # inputted user preferences to rank each product and give it a the score 
-    # out of 100
-    # We can design the algorithm and implement it together, but each 
-    # e-commerce site will be integrated slightly differently since it has 
-    # different metrics
-    # Example: EBay isn’t popular with product reviews, but it has seller reviews and percentage
-
-    # Retrieve all objects from the database
-    # queryset = Model.objects.all()
-
-    # Retrieve a specific object based on a condition
-    # single_object = Model.objects.get(some_field=some_value)
-
-    # Filter objects based on certain conditions
-    # filtered_objects = Model.objects.filter(another_field=another_value)
+    products_lst = search_engine.exec_search({"product_name" : product_name })
     
-    #TO-DO: First, integrate with search bar to get product name a user input
+    # Each dictionary has 6 attributes:
+    # “name”, “link”, “image”, “price”, “currency”, “score”
     
-    #TO-DO: Then, pass product name to Ahmed's function and get results from there
-    #TO-DO: Finally, filter result based on this algorithm
+    #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
+    product_name = request.session.get('product_name') 
     if request.method == 'POST':
         priceFactor = request.POST.get("priceFactor", None)
         customerReview = request.POST.get("customerReview", None)
@@ -74,17 +152,25 @@ def questionnaire(request):
             selected_shipping = selected_shipping[3:]
         elif shipping == "Right now":
             selected_shipping = selected_shipping[4:]
+
+        #TO-DO: Finally, filter result based on the filtering algorithm
+        # filtering algorithm prototype
+        product_lst2 = products_lst[:]
+        for i in range(0, len(products_lst)):
+            product = products_lst[i]
+            if(products_lst[i].price > max_price or products_lst[i].price < min_price):
+                product_lst2.remove(product)
         
-        #contact with database/api to get selected information based on simple algorithm
-        product = Product.objects.filter(
-                    price__range=(min_price, max_price),
-                    customerReview=customerReview if customerReview is not None else '',
-                    shippingTime__in=shipping if shipping is not None else [],
-                    returnPolicy=returnPolicy if returnPolicy is not None else '',
-                    brandReputation=brandReputation if brandReputation is not None else '',
-        )
+        sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
+
+        num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
         
-        #First render result_template and second sends http response to client(front end).
-        return render(request, 'result_template.html', {'products': product})
+        filter_result = sorted_products[0:num_of_products*customerReview]
+    
+        #TO-DO: pass filter_result to Vincent's next.js
+        #Need to make a post request to vincent's next.js server so he can display product
+        table_url = reverse('table_url')
+        headers = {'Content-Type': 'application/json'}
+        data = json.dumps({'products_lst': filter_result})
+        response = requests.post(table_url, data=data, headers=headers)
         
-        #TO-DO: pass it to Vincent's product data

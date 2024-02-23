@@ -18,10 +18,22 @@ from django.contrib import admin
 from django.urls import path
 from .views import questionnaire
 
+
+
 urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', home, name='home'),
+    path('login/', login),
+    path('login/register/', signup, name='signup'),
+    path('logout/', logout, name='logout'),
     #For SCRUM-13 submit form
     path('questionnaire/', questionnaire, name='questionnaire'),
-    
-    path('admin/', admin.site.urls),
+    path('submit_product/', submit_product, name='submit_product'),
 
+    path('cart/', cart, name='cart'),
+    path('remove-from-cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
+    path("table/", include("product_table.urls"), name="table_url"),
+    path("", include("django_nextjs.urls")),
+    # path('user_accounts/', include('user_accounts.urls')),
+    path('shopping_list/', include('shopping_list.urls'))
 ]
