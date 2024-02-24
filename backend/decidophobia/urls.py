@@ -16,8 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from .views import hello_world, home, login, signup, logout
-from shoppingCart.views import cart, remove_from_cart
+from .views import home, login, signup, logout, cart, remove_from_cart
 from django.contrib.auth import views as auth_views
 
 
@@ -32,5 +31,7 @@ urlpatterns = [
     path("table/", include("product_table.urls")),
     path("search/", include("search_page.urls")),
     path("", include("django_nextjs.urls")),
+    path('products/', include('products.urls')),
     # path('user_accounts/', include('user_accounts.urls')),
+    path('shopping-list/', include('shopping_list.urls'))
 ]
