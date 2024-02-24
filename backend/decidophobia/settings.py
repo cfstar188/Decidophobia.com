@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "products",
     "shopping_list",
     'shoppingCart',
-    'django_nextjs'
 ]
 
 MIDDLEWARE = [
