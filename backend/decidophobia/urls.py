@@ -37,5 +37,5 @@ urlpatterns = [
     path("table/", include("product_table.urls"), name="table_url"),
     path("", include("django_nextjs.urls")),
     # path('user_accounts/', include('user_accounts.urls')),
-    path('shopping_list/', include('shopping_list.urls'))
+    # path('shopping_list/', include('shopping_list.urls'))
 ]
