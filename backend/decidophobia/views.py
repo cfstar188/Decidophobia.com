@@ -12,11 +12,12 @@ import requests
 
 #Below 6 lines are integration change -- attemping to merge 13 and 24, change made by Marvin
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import *
 from .models import Product
 import json
 import requests
 from django.urls import reverse
+
 
 
 
@@ -226,30 +227,26 @@ def questionnaire(request):
 
         #TO-DO: Finally, filter result based on the filtering algorithm
         # filtering algorithm prototype
-        # product_lst2 = products_lst[:]
-        # for i in range(0, len(products_lst)):
-        #     product = products_lst[i]
-        #     if(products_lst[i].price > max_price or products_lst[i].price < min_price):
-        #         product_lst2.remove(product)
+        product_lst2 = products_lst[:]
+        for i in range(0, len(products_lst)):
+            product = products_lst[i]
+            if(products_lst[i].price > max_price or products_lst[i].price < min_price):
+                product_lst2.remove(product)
         
-        # sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
+        sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
 
-        # num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
+        num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
 
-        # filter_result = sorted_products[0:num_of_products*customerReview]
+        filter_result = sorted_products[0:num_of_products*customerReview]
 
-        #TO-DO: pass filter_result to Vincent's next.js
-        #Need to make a post request to vincent's next.js server so he can display product
-        table_url = reverse('table')
-        headers = {'Content-Type': 'application/json'}
-        data = json.dumps({'products_lst': products_lst})
-        response = requests.post(table_url, data=data, headers=headers)
-        return response
+        #return jsonresponse to table
+        return JsonResponse(filter_result, safe=False)
         
 from django_nextjs.render import render_nextjs_page_sync
 from django.shortcuts import render, redirect
 
 def table(request):
+    print("in table function")
     return render_nextjs_page_sync(request)
 
 def hello_world(request):
