@@ -6,8 +6,8 @@ import asyncio
 class SearcherDecorator(SearcherInterface):
     def __init__(self, searcher):
         self.searcher = searcher
-        self.thread_pool = searcher.thread_pool
-        self.futures = searcher.futures
+        self.tasks = self.searcher.tasks
+
 
     def mint_auth_token(self, config_file):
         raise NotImplementedError
@@ -28,10 +28,20 @@ class SearcherDecorator(SearcherInterface):
 
         return auth_info.token
 
-    def shop_search(self, search_params):
-        self.futures.append(self.thread_pool.submit(self.perform_search,
-                                                    search_params=search_params))
-        return self.searcher.shop_search(search_params)
+    async def org_tasks(self, search_params):
+        async with asyncio.TaskGroup() as tg:
+            self.searcher.shop_search(search_params, tg)
+            self.tasks.append(tg.create_task(self.perform_search(search_params)))
+
+        results = []
+        for task in self.tasks:
+            results.extend(task.result())
+
+        return results
+
+    def shop_search(self, search_params, tg=None):
+        self.searcher.shop_search(search_params, tg)
+        self.tasks.append(tg.create_task(self.perform_search(search_params)))
 
     def perform_search(self, search_params):
         raise NotImplementedError

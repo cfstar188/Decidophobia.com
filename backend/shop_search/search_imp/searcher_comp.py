@@ -1,14 +1,13 @@
-from .searcher_interface import SearcherInterface
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import asyncio
 
+from .searcher_interface import SearcherInterface
 
 class Searcher(SearcherInterface):
-    def __init__(self):
-        self.thread_pool = ThreadPoolExecutor(max_workers=10)
-        self.futures = []
 
-    def shop_search(self, search_params):
-        results = []
-        for future in as_completed(self.futures):
-            results = future.result()
-        return results
+    def __init__(self):
+        self.tasks = []
+    def shop_search(self, search_params, tg):
+        return
+
+    def get_shop_name(self):
+        return "base"
