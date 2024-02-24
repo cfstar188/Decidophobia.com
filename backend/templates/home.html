@@ -43,38 +43,36 @@
 
         </nav>
         <div class="divcent">
-            <section class="hero-section">
-              <h1 style="text-align: center;">Decidophobia.com</h1>
-              <!-- leaving a note here, action was /search, marvin change it to action="{% url 'submit_product' %}"-->
-              <form class="search-container" action="/search">
-                  <input class="form-control form-input" type="text" placeholder="Find Your Next Purchase..." style="width:50%;" name="searchQ">
-                  <button class="btn btn-light fw-bold border-white bg-white" type="submit" name="search" value="search">Search</button>
-                  <button class="btn btn-light fw-bold border-white bg-white" type="submit" name="filter" value="filter">Filter</button>
-              </form>
-              <!-- <img src="{% static 'pageimg2.jpeg' %}" class="imgmain"> -->
-            </section>
+          <section class="hero-section">
+            <h1 style="text-align: center">Decidophobia.com</h1>
+            <form class="search-container" action="/search">
+              <input
+                class="form-control form-input"
+                type="text"
+                placeholder="Find Your Next Purchase..."
+                style="width: 50%"
+                name="searchQ"
+              />
+              <button
+                class="btn btn-light fw-bold border-white bg-white"
+                type="submit"
+                name="action"
+                value="search"
+              >
+                Search
+              </button>
+              <button 
+                class="btn btn-light fw-bold border-white bg-white" 
+                type="submit" 
+                name="action" 
+                value="filter"
+              >
+                Filter
+              </button>
+            </form>
+            <!-- <img src="{% static 'pageimg2.jpeg' %}" class="imgmain"> -->
+          </section>
         </div>
-      <div class="divcent">
-        <section class="hero-section">
-          <h1 style="text-align: center">Decidophobia.com</h1>
-          <form class="search-container" action="/search">
-            <input
-              class="form-control form-input"
-              type="text"
-              placeholder="Find Your Next Purchase..."
-              style="width: 50%"
-              name="searchQ"
-            />
-            <button
-              class="btn btn-light fw-bold border-white bg-white"
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
-          <!-- <img src="{% static 'pageimg2.jpeg' %}" class="imgmain"> -->
-        </section>
-      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
