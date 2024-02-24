@@ -33,7 +33,7 @@ urlpatterns = [
 
     path('cart/', cart, name='cart'),
     path('remove-from-cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
-    path("table/", table, name="table"),
+    path('table/', table, name='table'),
     path("", include("django_nextjs.urls")),
     path('products/', include('products.urls')),
     # path('user_accounts/', include('user_accounts.urls')),
