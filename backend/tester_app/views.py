@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from shop_search.search_engine import search_engine, elegant_print
-
+from shop_search.search_engine import search_engine
 
 # Create your views here.
 def tombo_view(request, item):
