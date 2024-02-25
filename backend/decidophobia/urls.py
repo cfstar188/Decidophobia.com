@@ -34,5 +34,4 @@ urlpatterns = [
     # path('user_accounts/', include('user_accounts.urls')),
     path('shopping-list/', include('shopping_list.urls')),
     path('discussion_board/', include('discussionBoard.urls')),
-    path('hello/', hello_world),
 ]
