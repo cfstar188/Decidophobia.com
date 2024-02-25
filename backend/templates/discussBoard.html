@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<style>
+    .divmain {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+        background-color: #212529;
+        color: #fff;
+        font-family: Roboto;
+        font-size: larger;
+    }
+</style>
+
+<body style="background-color:#212529">
+
+
+
+<body class="mainbody">
+    <a href="http://127.0.0.1:8000/" style="text-decoration: none;color:#fff;font-size:1vw" >Home</a>
+    <br>
+    <br>
+    <br>
+    <form action = "" method = "POST">
+        {% csrf_token %} 
+        <label style="color:#fff;font-size:1.5vw" for="your_message">Your message: </label>
+        <input style="font-size:1.5vw" id="your_message" type="text" name="your_message">
+        <input style="font-size:1.5vw" type="submit" value="OK">
+    </form>
+
+    <table style="width:100%">
+        <thead>
+          <tr>
+            <th style="color:#fff;font-size:2vw">Message Number</th>
+            <th style="color:#fff;font-size:2vw">Author</th>
+            <th style="color:#fff;font-size:2vw">Message</th>
+          </tr>
+        </thead>
+        <tbody style="text-align:center">
+            <br>
+            {% for entry in messagesList %}
+                <tr>
+                    <td style="color:#fff;font-size:1.5vw">{{forloop.counter}}</td>
+                    <td style="color:#fff;font-size:1.5vw">{{entry.user.username}}</td>
+                    <td style="color:#fff;font-size:1.5vw">{{entry.message}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+</body>
+</html>
