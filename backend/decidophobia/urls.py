@@ -32,5 +32,7 @@ urlpatterns = [
     path("", include("django_nextjs.urls")),
     path('products/', include('products.urls')),
     # path('user_accounts/', include('user_accounts.urls')),
-    path('shopping-list/', include('shopping_list.urls'))
+    path('shopping-list/', include('shopping_list.urls')),
+    path('discussion_board/', include('discussionBoard.urls')),
+    path('hello/', hello_world),
 ]
