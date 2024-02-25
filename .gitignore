@@ -1,5 +1,7 @@
 venv/
-
-__pycache__
+.idea
+__pycache__/
 *.pyc
 db.sqlite3
+/ShopSearch/api_config.json
+.DS_Store
