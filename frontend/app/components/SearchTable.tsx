@@ -8,6 +8,9 @@ import { allProductAtom } from "@/Library/SelectedAtom";
 export function SearchTable() {
   const [users] = useAtom(allProductAtom);
   const [tester, setTester] = useState();
+  // I have set the buy button to this state, but I think you might need a state that updates inside a useeffect that calls your api.
+  // This is just I thought since I have been doing a lot of react learning for this project. So you might know a better way.
+  const [buy, setBuyState] = useState();
 
   useEffect(() => {}, [users]);
 
@@ -36,8 +39,16 @@ export function SearchTable() {
               <div />
               <div className="text-white col-span-2">{user.product}</div>
               <div className="text-white col-span-2">{user.company}</div>
-              <div className="text-white col-span-1">{user.price}</div>
+              <div className="text-white col-span-1">${user.price}</div>
               <SquareCheckbox id={index} label="Compare" onChange={setTester} />
+              <button
+                className="bg-blue-700"
+                onClick={(e: any) => {
+                  setBuyState(e);
+                }}
+              >
+                BUY NOW
+              </button>
             </div>
           </div>
         ))}
