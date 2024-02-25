@@ -7,14 +7,11 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-import requests
-
-
-
 
 def hello_world(request):
     return render(request, 'temp.html')
 
+  
 def home(request):
     return render(request, 'home.html')
 

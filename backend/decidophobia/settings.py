@@ -38,13 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "tester_app",
-    "shop_search",
     'decidophobia',
     # 'shoppingCart',
     "django_nextjs",
     "products",
     "shopping_list",
+    'discussionBoard',
+    "tester_app",
+    "shop_search"
 ]
 
 MIDDLEWARE = [
