@@ -11,7 +11,7 @@ import shop_search
 
 #Below three lines are integration change -- attemping to merge 13 and 24, change made by Marvin
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Product
 import json
 import requests
@@ -161,11 +161,10 @@ def search(request):
 
 def questionnaire(request):
     
+    #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })
     products_lst = [product1, product2, product3, product4, product5]
     
-    #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
-    product_name = request.session.get('product_name') 
     if request.method == 'POST':
         priceFactor = request.POST.get("priceFactor", None)
         customerReview = request.POST.get("customerReview", None)
@@ -212,13 +211,10 @@ def questionnaire(request):
         sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
 
         num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
-        
+
         filter_result = sorted_products[0:num_of_products*customerReview]
+
+        #return jsonresponse to table
+        return JsonResponse(filter_result, safe=False)
+    return JsonResponse(products_lst, safe=False)
     
-        #TO-DO: pass filter_result to Vincent's next.js
-        #Need to make a post request to vincent's next.js server so he can display product
-        table_url = reverse('table_url')
-        headers = {'Content-Type': 'application/json'}
-        data = json.dumps({'products_lst': filter_result})
-        response = requests.post(table_url, data=data, headers=headers)
-        
