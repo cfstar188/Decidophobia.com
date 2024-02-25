@@ -34,4 +34,5 @@ urlpatterns = [
     # path('user_accounts/', include('user_accounts.urls')),
     path('shopping-list/', include('shopping_list.urls')),
     path('discussion_board/', include('discussionBoard.urls')),
+    path('search_item/', include("tester_app.urls"))
 ]
