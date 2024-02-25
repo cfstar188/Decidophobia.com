@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django_nextjs",
     "products",
     "shopping_list",
+    'discussionBoard',
 ]
 
 MIDDLEWARE = [
