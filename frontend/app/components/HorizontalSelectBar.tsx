@@ -3,7 +3,6 @@ import { useAtom } from "jotai";
 import React from "react";
 
 export function HorizontalSelectBar({ current, total }: any) {
-  // Calculate the width percentage of the current progress
   const [selectedProducts, selectProduct] = useAtom(selectedProductAtom);
   const fixedLength = 4;
 
@@ -27,7 +26,7 @@ export function HorizontalSelectBar({ current, total }: any) {
           >
             <div className="">{product.product}</div>
             <div className="">{product.company}</div>
-            <div className="">{`$${product.price}`}</div>
+            <div className="">{`${product.price}`}</div>
           </div>
         ))}
       </div>

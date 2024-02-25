@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type { NextRequest } from "next/server";
 
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
