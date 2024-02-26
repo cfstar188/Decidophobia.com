@@ -10,7 +10,7 @@
 
   </head>
 
-<style>
+  <style>
     .divmain {
         display: flex;
         justify-content: center;
@@ -20,7 +20,19 @@
         color: #fff;
         font-family: Roboto;
         font-size: larger;
+
     }
+
+    .form-floating label {
+        font-size: 15px; 
+        transition: font-size 0.2s ease; 
+      }
+      
+      .form-floating input:focus + label,
+      .form-floating input:not(:placeholder-shown) + label {
+        font-size: 15px; 
+        opacity: 1;
+      }
 </style>
 
   <body class="text-center mainbody">
@@ -53,11 +65,11 @@
                 {% csrf_token %}
                 <h1>Decidophobia.com</h1>
                 <h1 class="h3 mb-3 fw-normal">Please Sign In</h1>
-                <div class="form-floating" style="color: #000;">
+                <div class="form-floating" style="color: #000; margin-top: 10px;">
                     <input type="username" class="form-control" id="floatingInput" placeholder="name@example.com" name="username">
                     <label for="floatingInput">Username</label>
                 </div>
-                <div class="form-floating" style="color: #000;">
+                <div class="form-floating" style="color: #000; margin-top: 10px;">
                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
                     <label for="floatingPassword">Password</label>
                 </div>
