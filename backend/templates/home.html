@@ -50,32 +50,45 @@
       <div class="divcent">
         <section class="hero-section">
           <h1 style="text-align: center">Decidophobia.com</h1>
-          <form class="search-container" action="/search">
-            <input
-              class="form-control form-input"
-              type="text"
-              placeholder="Find Your Next Purchase..."
-              style="width: 50%"
-              name="searchQ"
-            />
-            <button
-              class="btn btn-light fw-bold border-white bg-white"
-              type="submit"
-              name="action"
-              value="search"
+          <div
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            <form
+              class="search-container"
+              action="/search"
+              style="
+                display: flex;
+                align-items: center;
+                margin-right: 0;
+                max-width: 80%;
+              "
             >
-              Search
-            </button>
+              <input
+                class="form-control form-input"
+                type="text"
+                placeholder="Find Your Next Purchase..."
+                name="searchQ"
+                style="width: 100%"
+              />
+              <button
+                class="btn btn-light fw-bold border-white bg-white"
+                type="submit"
+                name="action"
+                value="search"
+              >
+                Search
+              </button>
+            </form>
             <button
               class="btn btn-light fw-bold border-white bg-white"
-              type="submit"
+              type="button"
               name="action"
               value="filter"
+              style="margin-left: 0"
             >
-              Filter
+              <a href="/filter" style="text-decoration: none">Filter</a>
             </button>
-          </form>
-          <!-- <img src="{% static 'pageimg2.jpeg' %}" class="imgmain"> -->
+          </div>
         </section>
       </div>
     </div>
