@@ -197,41 +197,41 @@ def filter(request):
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })
-    print("in questionnaire")
+    # print("in questionnaire")
     
-    priceFactor = request.POST.get("priceFactor", None)
-    customerReview = request.POST.get("customerReview", None)
-    shipping = request.POST.get("shipping", None)
-    returnPolicy = request.POST.get("returnPolicy", None)
-    brandReputation = request.POST.get("brandReputation", None)
-    min_price = 0
-    max_price = float("infinity")
-    if priceFactor == ">10000":
-        min_price = 10000
-        max_price = float("infinity")
-    elif priceFactor == "<=10000":
-        min_price = 3000
-        max_price = 10000
-    elif priceFactor == "<=3000":
-        min_price = 1000
-        max_price = 3000
-    elif priceFactor == "<=1000":
-        min_price = 500
-        max_price = 1000
-    elif priceFactor == "<=500":
-        min_price = 0
-        max_price = 500
+    # priceFactor = request.POST.get("priceFactor", None)
+    # customerReview = request.POST.get("customerReview", None)
+    # shipping = request.POST.get("shipping", None)
+    # returnPolicy = request.POST.get("returnPolicy", None)
+    # brandReputation = request.POST.get("brandReputation", None)
+    # min_price = 0
+    # max_price = float("infinity")
+    # if priceFactor == ">10000":
+    #     min_price = 10000
+    #     max_price = float("infinity")
+    # elif priceFactor == "<=10000":
+    #     min_price = 3000
+    #     max_price = 10000
+    # elif priceFactor == "<=3000":
+    #     min_price = 1000
+    #     max_price = 3000
+    # elif priceFactor == "<=1000":
+    #     min_price = 500
+    #     max_price = 1000
+    # elif priceFactor == "<=500":
+    #     min_price = 0
+    #     max_price = 500
     
-    selected_shipping = ["Doesn't matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
+    # selected_shipping = ["Doesn't matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
     
-    if shipping == "A couple week":
-        selected_shipping = selected_shipping[1:]
-    elif shipping == "A week or so":
-        selected_shipping = selected_shipping[2:]
-    elif shipping == "Amazon speeds":
-        selected_shipping = selected_shipping[3:]
-    elif shipping == "Right now":
-        selected_shipping = selected_shipping[4:]
+    # if shipping == "A couple week":
+    #     selected_shipping = selected_shipping[1:]
+    # elif shipping == "A week or so":
+    #     selected_shipping = selected_shipping[2:]
+    # elif shipping == "Amazon speeds":
+    #     selected_shipping = selected_shipping[3:]
+    # elif shipping == "Right now":
+    #     selected_shipping = selected_shipping[4:]
     
     # Input:
     # The function 'shop_search' takes in the following parameters:
@@ -271,13 +271,89 @@ def questionnaire(request):
     #     dict['score']: int
     #     This is our unique score that we give to items (it defaults to 100 currently)
 
-    shop_name = "ebay"
-    item_name = request.GET.get('searchQ')
-    print("itemname: " + item_name)
-    num_items = 10
-    products_lst = shop_search(shop_name, item_name, num_items)
+    # shop_name = "ebay"
+    # item_name = request.GET.get('searchQ')
+    # print("itemname: " + item_name)
+    # num_items = 10
+    # products_lst = shop_search(shop_name, item_name, num_items)
 
-    print("products_lst: ", products_lst)
+    # print("products_lst: ", products_lst)
+    # #TO-DO: Finally, filter result based on the filtering algorithm
+    # # filtering algorithm prototype
+    # product_lst2 = products_lst[:]
+    # for i in range(0, len(products_lst)):
+    #     product = products_lst[i]
+    #     if(products_lst[i].price > max_price or products_lst[i].price < min_price):
+    #         product_lst2.remove(product)
+    
+    # sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
+
+    # num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
+
+    # filter_result = sorted_products[0:num_of_products*customerReview]
+    
+    # print("filter result: ", filter_result)
+    # #return jsonresponse to table
+    # response = JsonResponse({"products": filter_result})
+
+    # # Add CORS headers directly to the response
+    # response["Access-Control-Allow-Origin"] = "*"
+    # response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    # response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
+    # response["Access-Control-Allow-Credentials"] = "true"
+    # return response
+
+# The external API is now (almost) live!!!!!! I just made the pull request into main! You can read up on
+# the documentation on 'shop_search/search_engine', and you can find an example for what to import,
+# and how to use the external api in 'tester_app/views'
+#TO-DO: Pass user preferences to ahmed's function and he can do the filtering
+    # products_lst = search_engine.exec_search({"product_name" : product_name })
+    print("in questionnaire")
+    products_lst = [product1, product2, product3, product4, product5]
+    
+    #return jsonresponse to table
+    response = JsonResponse({"products": products_lst})
+    # Add CORS headers directly to the response
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
+    response["Access-Control-Allow-Credentials"] = "true"
+    print("leaving questionnaire")
+    return response
+    #Add filtering into json
+    priceFactor = request.POST.get("priceFactor", None)
+    customerReview = request.POST.get("customerReview", None)
+    shipping = request.POST.get("shipping", None)
+    returnPolicy = request.POST.get("returnPolicy", None)
+    brandReputation = request.POST.get("brandReputation", None)
+    min_price = 0
+    max_price = float("infinity")
+    if priceFactor == ">10000":
+        min_price = 10000
+        max_price = float("infinity")
+    elif priceFactor == "<=10000":
+        min_price = 3000
+        max_price = 10000
+    elif priceFactor == "<=3000":
+        min_price = 1000
+        max_price = 3000
+    elif priceFactor == "<=1000":
+        min_price = 500
+        max_price = 1000
+    elif priceFactor == "<=500":
+        min_price = 0
+        max_price = 500
+    
+    selected_shipping = ["Doesn't matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
+    
+    if shipping == "A couple week":
+        selected_shipping = selected_shipping[1:]
+    elif shipping == "A week or so":
+        selected_shipping = selected_shipping[2:]
+    elif shipping == "Amazon speeds":
+        selected_shipping = selected_shipping[3:]
+    elif shipping == "Right now":
+        selected_shipping = selected_shipping[4:]
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
     product_lst2 = products_lst[:]
@@ -287,22 +363,5 @@ def questionnaire(request):
             product_lst2.remove(product)
     
     sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
-
     num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
-
     filter_result = sorted_products[0:num_of_products*customerReview]
-    
-    print("filter result: ", filter_result)
-    #return jsonresponse to table
-    response = JsonResponse({"products": filter_result})
-
-    # Add CORS headers directly to the response
-    response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
-    response["Access-Control-Allow-Credentials"] = "true"
-    return response
-
-# The external API is now (almost) live!!!!!! I just made the pull request into main! You can read up on
-# the documentation on 'shop_search/search_engine', and you can find an example for what to import,
-# and how to use the external api in 'tester_app/views'
