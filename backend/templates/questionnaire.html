@@ -9,7 +9,11 @@
   <body>
     <div class="popup">
       <h2>Tell us what is important to you</h2>
-      <form id="preferencesForm" action="{% url 'search' %}" method="post">
+      <form
+        id="preferencesForm"
+        action="{% url 'search/?SearchQ=' %}"
+        method="post"
+      >
         <input type="hidden" name="product_name" value="{{ product_name }}" />
         <label for="priceFactor">Price:</label>
         <select id="priceFactor" name="priceFactor">
