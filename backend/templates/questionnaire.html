@@ -1,55 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Decision Factors</title>
-    <link rel="stylesheet" href="../static/questionnaire.css">
-</head>
-<body>
-
-<div class="popup">
-    <h2>Tell us what is important to you</h2>
-    <form id="preferencesForm" action="{% url 'table' %}" method="post">
-        <input type="hidden" name="product_name" value="{{ product_name }}">
+    <link rel="stylesheet" href="../static/questionnaire.css" />
+  </head>
+  <body>
+    <div class="popup">
+      <h2>Tell us what is important to you</h2>
+      <form id="preferencesForm" action="{% url 'search' %}" method="post">
+        <input type="hidden" name="product_name" value="{{ product_name }}" />
         <label for="priceFactor">Price:</label>
         <select id="priceFactor" name="priceFactor">
-            <option value=">10000">Bill Gates</option>
-            <option value="<=10000">Rich</option>
-            <option value="<=3000">Average salary</option>
-            <option value="<=1000">Survivor</option>
-            <option value="<=500">Bankrupt</option>
+          <option value=">10000">Bill Gates</option>
+          <option value="<=10000">Rich</option>
+          <option value="<=3000">Average salary</option>
+          <option value="<=1000">Survivor</option>
+          <option value="<=500">Bankrupt</option>
         </select>
         <label for="customerReview">Customer reviews:</label>
         <select id="customerReview" name="customerReview">
-            <option value="5">5 stars</option>
-            <option value="4">4 stars</option>
-            <option value="3">3 stars</option>
-            <option value="2">2 stars</option>
-            <option value="1">1 stars</option>
+          <option value="5">5 stars</option>
+          <option value="4">4 stars</option>
+          <option value="3">3 stars</option>
+          <option value="2">2 stars</option>
+          <option value="1">1 stars</option>
         </select>
         <label for="shipping">Shipping and Delivery</label>
         <select id="shipping" name="shipping">
-            <option value="Doesn't matter">Doesn't matter</option>
-            <option value="A couple week">A couple week</option>
-            <option value="A week or so">A week or so</option>
-            <option value="Amazon speed">Amazon speed</option>
-            <option value="Right now">Right now!!!</option>
+          <option value="Doesn't matter">Doesn't matter</option>
+          <option value="A couple week">A couple week</option>
+          <option value="A week or so">A week or so</option>
+          <option value="Amazon speed">Amazon speed</option>
+          <option value="Right now">Right now!!!</option>
         </select>
         <label for="returnPolicy">Return Policy</label>
         <select id="returnPolicy" name="returnPolicy">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
         </select>
         <label for="brandReputation">Brand Reputation</label>
         <select id="brandReputation" name="brandReputation">
-            <option value="Excellent">Excellent</option>
-            <option value="Good">Good</option>
-            <option value="Ok">Ok</option>
+          <option value="Excellent">Excellent</option>
+          <option value="Good">Good</option>
+          <option value="Ok">Ok</option>
         </select>
         <button id="submit_button" type="submit">Submit</button>
-    </form>
-</div>
-
-</body>
+      </form>
+    </div>
+  </body>
 </html>
