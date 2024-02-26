@@ -1,75 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 # from . forms import CreateUserForm, CreateLoginForm
-from django.contrib.auth.models import auth
-from django.contrib.auth import authenticate
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as auth_logout
-import shop_search
+from django.http import JsonResponse, HttpResponseBadRequest
 
 #Below three lines are integration change -- attemping to merge 13 and 24, change made by Marvin
 from django.shortcuts import render
+<<<<<<< Updated upstream
 from django.http import HttpResponse, JsonResponse
 from .models import Product
+=======
+>>>>>>> Stashed changes
 import json
 import requests
 from django.urls import reverse
-
-
-
-
-def hello_world(request):
-    return render(request, 'temp.html')
-
-def home(request):
-    return render(request, 'home.html')
-
-# def shopcart(request):
-#     return render(request, 'shopcart.html')
-
-
-def login(request):
-    # form = CreateLoginForm()
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            auth_login(request, user)
-            messages.success(request, 'Login successful.')
-            return redirect('home') 
-        else:
-            messages.error(request, 'Invalid username or password.')
-
-    return render(request, 'login.html')
-
-def logout(request):
-    auth_logout(request)
-    return redirect('home')
-
-def signup(request):
-    if request.method == 'POST':
-        print("Form submitted!")
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            print("Form submitted!")
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            auth_login(request, user)
-            messages.success(request, f'Signup successful. Welcome, {username}!')
-            return redirect('home')  
-        else:
-            print(form.errors)
-            messages.error(request, 'Signup failed. Please correct the errors in the form.')
-
-    else:
-        form = UserCreationForm()
-
-    return render(request, 'signup.html', {'form': form})
-
 
 #Below code are integration change -- attemping to merge 13 and 24, change made by Marvin
 
@@ -165,6 +107,12 @@ def questionnaire(request):
     # products_lst = search_engine.exec_search({"product_name" : product_name })
     products_lst = [product1, product2, product3, product4, product5]
     
+<<<<<<< Updated upstream
+=======
+    #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
+    product_name = request.session.get('product_name') 
+    
+>>>>>>> Stashed changes
     if request.method == 'POST':
         priceFactor = request.POST.get("priceFactor", None)
         customerReview = request.POST.get("customerReview", None)
@@ -214,7 +162,17 @@ def questionnaire(request):
 
         filter_result = sorted_products[0:num_of_products*customerReview]
 
+<<<<<<< Updated upstream
         #return jsonresponse to table
         return JsonResponse(filter_result, safe=False)
     return JsonResponse(products_lst, safe=False)
     
+=======
+        filter_result["Access-Control-Allow-Origin"] = "*"  # Allow any domain
+        filter_result["Access-Control-Allow-Methods"] = "GET, OPTIONS"  # Allowed methods
+        filter_result["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"  # Allowed headers
+
+        return JsonResponse(products_lst)
+    
+        
+>>>>>>> Stashed changes

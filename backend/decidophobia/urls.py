@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+<<<<<<< Updated upstream
 from .views import home, login, signup, logout, questionnaire, cart, remove_from_cart, filter
+=======
+from .views import hello_world, home, login, signup, logout, cart, remove_from_cart, questionnaire
+>>>>>>> Stashed changes
 from django.contrib.auth import views as auth_views
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,14 +32,20 @@ urlpatterns = [
     
     #For SCRUM-13 submit form
     path('questionnaire/', questionnaire, name='questionnaire'),
+<<<<<<< Updated upstream
     path('filter/', filter, name='filter' ),
+=======
+>>>>>>> Stashed changes
 
     path('cart/', cart, name='cart'),
     path('remove-from-cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
     path("table/", include("product_table.urls")),
+<<<<<<< Updated upstream
     path("search/", include("search_page.urls")),
+=======
+>>>>>>> Stashed changes
     path("", include("django_nextjs.urls")),
     path('products/', include('products.urls')),
     # path('user_accounts/', include('user_accounts.urls')),
-    path('shopping-list/', include('shopping_list.urls'))
+    path('shopping-list/', include('shopping_list.urls')),
 ]
