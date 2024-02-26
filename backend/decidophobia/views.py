@@ -12,12 +12,11 @@ import requests
 
 #Below 6 lines are integration change -- attemping to merge 13 and 24, change made by Marvin
 from django.shortcuts import render
-from django.http import *
+from django.http import HttpResponse, JsonResponse
 from .models import Product
 import json
 import requests
 from django.urls import reverse
-
 
 
 
@@ -156,7 +155,8 @@ product5 = {
 }
 
 # Switch to questionnaire page after user submit product/get product and pass it to product table
-def search(request):
+def filter(request):
+    """
     print("in search block")
     if request.method == 'GET':
         action = request.GET.get('action')
@@ -169,20 +169,27 @@ def search(request):
             products_lst = [product1, product2, product3, product4, product5]
             
             # Need to make a post request to vincent's next.js server so he can display product
-            table_url = reverse('table_url')
-            headers = {'Content-Type': 'application/json'}
-            data = json.dumps({'products_lst': products_lst})
-            response = requests.post(table_url, data=data, headers=headers)
+            response = JsonResponse({"products": products_lst})
+            # Add CORS headers directly to the response
+            response["Access-Control-Allow-Origin"] = "*"
+            response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+            response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
+            response["Access-Control-Allow-Credentials"] = "true"
             return response
         
         # User chooses to filter product
         elif action == "filter":
-            print("in filter block")
-            # Get product name and stores it in session
-            product_name = request.GET.get("searchQ")
-            # render questionnaire.html directly
-            print("product name is :" + request.GET.get("searchQ"))
-            return render(request, 'questionnaire.html', {'product_name': product_name})
+             """
+    
+    print("in filter block")
+    
+    if request.method == 'GET':
+        action = request.GET.get('action')
+        # Get product name and stores it in session
+        product_name = request.GET.get("searchQ")
+        # render questionnaire.html directly
+        #print("product name is :" + request.GET.get("searchQ"))
+        return render(request, 'questionnaire.html')
 
 def questionnaire(request):
     
@@ -240,14 +247,21 @@ def questionnaire(request):
         filter_result = sorted_products[0:num_of_products*customerReview]
 
         #return jsonresponse to table
-        return JsonResponse(filter_result, safe=False)
-        
-from django_nextjs.render import render_nextjs_page_sync
-from django.shortcuts import render, redirect
+        response = JsonResponse({"products": products_lst})
 
-def table(request):
-    print("in table function")
-    return render_nextjs_page_sync(request)
+        # Add CORS headers directly to the response
+        response["Access-Control-Allow-Origin"] = "*"
+        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
+        response["Access-Control-Allow-Credentials"] = "true"
+        return response
 
-def hello_world(request):
-    return render(request, 'temp.html')
+    response = JsonResponse({"products": products_lst})
+
+    # Add CORS headers directly to the response
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
+    response["Access-Control-Allow-Credentials"] = "true"
+    return response
+    

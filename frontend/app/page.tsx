@@ -1,20 +1,11 @@
-// Table.tsx
+// localhost:3000
 "use client";
-import React, { useState } from "react";
-import SearchTable from "./components/SearchTable";
-import { User } from "../Library/Type";
-import SearchBar from "./components/SearchBar";
+import React from "react";
+import SearchTable from "@/app/components/SearchTable";
+import SearchBar from "@/app/components/SearchBar";
 
+// Unused pages in nextjs, purely testing page
 export default function HomePage() {
-  const [query, setQuery] = useState("");
-
-  const handleSubmit = async (e: Event) => {
-    e.preventDefault();
-
-    const reponse = await fetch(`/api/search?searchQ=${query}`);
-    const search = await reponse.json();
-  };
-
   return (
     <>
       <SearchBar />

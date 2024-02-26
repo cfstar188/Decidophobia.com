@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from .views import hello_world, home, login, signup, logout, questionnaire, search, cart, remove_from_cart, table
+from .views import home, login, signup, logout, questionnaire, cart, remove_from_cart, filter
 from django.contrib.auth import views as auth_views
 
 
@@ -29,11 +29,12 @@ urlpatterns = [
     
     #For SCRUM-13 submit form
     path('questionnaire/', questionnaire, name='questionnaire'),
-    path('search/', search, name='search'),
+    path('filter/', filter, name='filter' ),
 
     path('cart/', cart, name='cart'),
     path('remove-from-cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
-    path('table/', table, name='table'),
+    path("table/", include("product_table.urls")),
+    path("search/", include("search_page.urls")),
     path("", include("django_nextjs.urls")),
     path('products/', include('products.urls')),
     # path('user_accounts/', include('user_accounts.urls')),
