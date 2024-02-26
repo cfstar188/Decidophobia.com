@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.http import JsonResponse
 # import shop_search
 import requests
 
@@ -16,7 +17,6 @@ from django.http import HttpResponse, JsonResponse
 from .models import Product
 import json
 import requests
-from django.urls import reverse
 
 #Below lines are integration change -- attempting to merge 58 and 68(merge quesitonnaire with api), change made by Marvin
 import sys
@@ -93,67 +93,49 @@ def remove_from_cart(request, product_id):
     #     product.delete()
     return redirect('cart')
 
-
-#Below code are integration change -- attemping to merge 24 and 59 and 58, change made by Marvin
-
-# TO-DO: First, integrate with search bar to get product name. When user hits filter button on the home page, 
-
-from enum import Enum
-
-class product(Enum):
-    itemName = 0
-    itemLink = 1
-    itemImg = 2
-    itemPrice = 3
-    sellerScore = 4
-    sellerPercentage = 5
-
-# TO-DO: First, integrate with search bar to get product name. When user hits filter button on the home page, 
-
-# Example product, for debugging purposes
 product1 = {
-    "name": "ASUS TUF F15 Gaming Laptop",
-    "link": "https://www.amazon.ca/Display-i5-11400H-Processor-GeForce-FX506HF-AS51-CA/dp/B0BW115M5V/ref=asc_df_B0BW115M5V&mcid=f2f29127bb3d3faebd2d0aa8ab0e13c6?tag=bingshopdesk-20&linkCode=df0&hvadid=80058281925539&hvnetw=o&hvqmt=e&hvbmt=be&hvdev=c&hvlocint=&hvlocphy=&hvtargid=pla-4583657845897036&psc=1",
-    "image": "https://m.media-amazon.com/images/I/81dOiXqsD7L._AC_SL1500_.jpg",
-    "price": 849.99,
-    "currency": "CAD",
+    "name": "Laptop 1",
+    "link": "https://example.com/laptop1",
+    "image": "https://example.com/images/laptop1.jpg",
+    "price": 999.99,
+    "currency": "USD",
     "score": 4.5
 }
 
 product2 = {
-    "name": "Samsung Galaxy Z Flip4 5G 128GB Graphite",
-    "link": "https://www.amazon.ca/Samsung-Graphite-Snapdragon-charging-powershare/dp/B0B6N64R94/ref=sr_1_1?crid=1M07JI9B48CU3&dib=eyJ2IjoiMSJ9.UdUrImAw-jiGLkztt0kL2d1OcGZxPmdFuUZ4S9IAdJTB6L8MdxDEXyOA3srSgckSfUf7-WNQf_DmazYZ3dFRkG9cN_ItWZDRroRDSXv2WiWBCYwTTtFhd7EnmXr8EInIiZ-p2ff8R3lVHH6A9CCW6vATXxEjn6Rq36IFDexuHy1o6cSC7DWYElFDvBRX6okieMXRA3jE_mC8uPbXME5jjvr-C1N4hFlXSR-hwrj2SC5VcX4p9aJfk0mRt6zJqeyaZZM-gijA-b_0317MCaHFQv1GiX4dd5chTDGFIWSvv7M.j2vZwJbK8Jlt48nsDYCjxzjM5lDJS_GR_5lQDlaZubM&dib_tag=se&keywords=smartphone&qid=1708790162&s=electronics&sprefix=smartphone%2Celectronics%2C137&sr=1-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1",
-    "image": "https://m.media-amazon.com/images/I/61ZXq2WgbsL._AC_SL1500_.jpg",
-    "price": 644.99,
-    "currency": "CAD",
-    "score": 3.9
-}
-
-product3 = {
-    "name": "BERIBES Bluetooth Headphones",
-    "link": "https://www.amazon.ca/BERIBES-Bluetooth-Headphones-Microphone-Lightweight/dp/B09LYF2ST7/ref=sr_1_1?crid=1HBNU10097V5&dib=eyJ2IjoiMSJ9.wTD6IlbR_973L6HQPZjios7PuoX0GvpURWGw6wvS7W7R9BqySH_TYf0Qw1y-E7vNW9mAdvGnbd5Q_SlewGf2j6U3ETyeL2ASYJRBZbes74QJcUfb-oGLJXwQ0ooNrA0dpa3EFQdl-7WLbOZCCy6ENdqWwR-7ZIFB4mH5hiFCasw8uIRF_gHiRETNS8OPAAHjMBuZfY0HRcMwGY2UG__Zl2r8GLf9MkAfh1N1i-mcFE8FPty6j_GTuQD2AFKdHKYPx6CjUPbIdvoMGaUUOzWPQ3qoDD3OynGX5L8ODkXGiNA.WxN269SeJayjix4Lk9PemLFIREYwVkRLRXLlyV87yjM&dib_tag=se&keywords=headphones&qid=1708790277&s=electronics&sprefix=headphones%2Celectronics%2C129&sr=1-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1",
-    "image": "https://m.media-amazon.com/images/I/71F2ccIPPLL._AC_SL1500_.jpg",
-    "price": 36.99,
-    "currency": "CAD",
-    "score": 4.4
-}
-
-product4 = {
-    "name": "Amazon Fire HD 8 tablet",
-    "link": "https://www.amazon.ca/All-new-Fire-HD-8-tablet/dp/B09BG5LXWJ/ref=sr_1_1?crid=13C67BZU0YRW&dib=eyJ2IjoiMSJ9.F7syKUU8K42fzYv0_9ZaK1ErmP6EcExqMg2tr0O6rNN26jwVxFDvRn2CTjN_R949LQmQRP5qkvS7-OU0hpd4mrPVLATgLzYx9i4GdozBrKAioliwbdvQDJmRVWsShmEU2JiibJTM1Ac59GlAVBcWf5qDGmp6fR7kw5yhBICVlFBLt9KFx1XSmy2-Zf3hlUJAwUHmsT7mqLn8aoN72cZgzN3-ppvHUCvWqKCmDVWbIGWNVSxvGWZxEOyeEiuK3eb-nxv4k-fp0HyTV9m2UjWST7jkpwgHqrro8oYGEa6WpmE.MtrtUbnNwCqPcxSn6yjxb2n4rIngPwbFuGnUqnMxaao&dib_tag=se&keywords=tablet&qid=1708790516&s=electronics&sprefix=tablet%2Celectronics%2C132&sr=1-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1",
-    "image": "https://m.media-amazon.com/images/I/61ExVdn4flL._AC_SL1000_.jpg",
-    "price": 119.99,
-    "currency": "CAD",
+    "name": "Smartphone X",
+    "link": "https://example.com/smartphoneX",
+    "image": "https://example.com/images/smartphoneX.jpg",
+    "price": 799.99,
+    "currency": "USD",
     "score": 4.2
 }
 
-product5 = {
-    "name": "Wireless Retro Game Console",
-    "link": "https://www.amazon.ca/Wireless-Retro-Game-Console-Nostalgia/dp/B0CT61RP95/ref=sr_1_1?crid=3OF5TOPKYFLJO&dib=eyJ2IjoiMSJ9.lqKiIRWezja4S4aC5l4-3ruS8qcwHi2q6ptwc_iv7nBDZZheYNFxjBwBOYUylp9Z3ACwmdJrgP9nNipmmjRKlo91yXra_Yd5GFcvOh_5RQcby4hyM9u2MIvxo6PqN-kQaXAY6LBOEj7s1GdmFEWsgr7VYdQyj4Tn7cX40p5Xi54S0k7hDHPSEQxNAsK40kHlC-xdLku9X2AZEDYBTqQZxm9Tx0m_8-fQzSLjgFiE1e4OmjkIVEAE8iy_37JjQd-whk-AxHyvBRtEg7AKtUuHGVhN48Qx0eAagSChm4VmyU0.c-0IJFm9x2n-939s2D0QjEhDxMEY0UqNb3eqlQ2jPyg&dib_tag=se&keywords=gaming%2Bconsole&qid=1708790662&s=electronics&sprefix=gaming%2Bconsole%2Celectronics%2C103&sr=1-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1",
-    "image": "https://m.media-amazon.com/images/I/61CWpPLw6AL._AC_SL1319_.jpg",
-    "price": 49.99,
-    "currency": "CAD",
+product3 = {
+    "name": "Headphones Pro",
+    "link": "https://example.com/headphonespro",
+    "image": "https://example.com/images/headphonespro.jpg",
+    "price": 199.99,
+    "currency": "USD",
     "score": 4.7
+}
+
+product4 = {
+    "name": "Tablet Plus",
+    "link": "https://example.com/tabletplus",
+    "image": "https://example.com/images/tabletplus.jpg",
+    "price": 499.99,
+    "currency": "USD",
+    "score": 4.3
+}
+
+product5 = {
+    "name": "Gaming Console Deluxe",
+    "link": "https://example.com/gamingdeluxe",
+    "image": "https://example.com/images/gamingdeluxe.jpg",
+    "price": 599.99,
+    "currency": "USD",
+    "score": 4.8
 }
 
 # Switch to questionnaire page after user submit product/get product and pass it to product table
@@ -199,109 +181,109 @@ def questionnaire(request):
     # products_lst = search_engine.exec_search({"product_name" : product_name })
     print("in questionnaire")
     
-#     priceFactor = request.POST.get("priceFactor", None)
-#     customerReview = request.POST.get("customerReview", None)
-#     shipping = request.POST.get("shipping", None)
-#     returnPolicy = request.POST.get("returnPolicy", None)
-#     brandReputation = request.POST.get("brandReputation", None)
-#     min_price = 0
-#     max_price = float("infinity")
-#     if priceFactor == ">10000":
-#         min_price = 10000
-#         max_price = float("infinity")
-#     elif priceFactor == "<=10000":
-#         min_price = 3000
-#         max_price = 10000
-#     elif priceFactor == "<=3000":
-#         min_price = 1000
-#         max_price = 3000
-#     elif priceFactor == "<=1000":
-#         min_price = 500
-#         max_price = 1000
-#     elif priceFactor == "<=500":
-#         min_price = 0
-#         max_price = 500
+    priceFactor = request.POST.get("priceFactor", None)
+    customerReview = request.POST.get("customerReview", None)
+    shipping = request.POST.get("shipping", None)
+    returnPolicy = request.POST.get("returnPolicy", None)
+    brandReputation = request.POST.get("brandReputation", None)
+    min_price = 0
+    max_price = float("infinity")
+    if priceFactor == ">10000":
+        min_price = 10000
+        max_price = float("infinity")
+    elif priceFactor == "<=10000":
+        min_price = 3000
+        max_price = 10000
+    elif priceFactor == "<=3000":
+        min_price = 1000
+        max_price = 3000
+    elif priceFactor == "<=1000":
+        min_price = 500
+        max_price = 1000
+    elif priceFactor == "<=500":
+        min_price = 0
+        max_price = 500
     
-#     selected_shipping = ["Doesn't matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
+    selected_shipping = ["Doesn't matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
     
-#     if shipping == "A couple week":
-#         selected_shipping = selected_shipping[1:]
-#     elif shipping == "A week or so":
-#         selected_shipping = selected_shipping[2:]
-#     elif shipping == "Amazon speeds":
-#         selected_shipping = selected_shipping[3:]
-#     elif shipping == "Right now":
-#         selected_shipping = selected_shipping[4:]
+    if shipping == "A couple week":
+        selected_shipping = selected_shipping[1:]
+    elif shipping == "A week or so":
+        selected_shipping = selected_shipping[2:]
+    elif shipping == "Amazon speeds":
+        selected_shipping = selected_shipping[3:]
+    elif shipping == "Right now":
+        selected_shipping = selected_shipping[4:]
     
-#     Input:
-#     The function 'shop_search' takes in the following parameters:
+    # Input:
+    # The function 'shop_search' takes in the following parameters:
 
-#         shop_name: string 
-#         ** This is the name of the shopping site you want to search. Currently, only
-#         "ebay" is supported (case insensitive)
+    #     shop_name: string 
+    #     ** This is the name of the shopping site you want to search. Currently, only
+    #     "ebay" is supported (case insensitive)
         
-#         item_name: string 
-#         ** This is the name of the item you want to search for
+    #     item_name: string 
+    #     ** This is the name of the item you want to search for
         
-#         num_items: int
-#         ** This is the number of items you want returned back
+    #     num_items: int
+    #     ** This is the number of items you want returned back
         
-#         force_new_token = False
-#         ** You shouldn't need to pass this in, ever. This is more so for testing; if 
-#         you need an authorization token generated, you can set this to true.
+    #     force_new_token = False
+    #     ** You shouldn't need to pass this in, ever. This is more so for testing; if 
+    #     you need an authorization token generated, you can set this to true.
 
-#     Output:
-#     The function returns a list of dictionaries. Each dictionary has the following keys:
+    # Output:
+    # The function returns a list of dictionaries. Each dictionary has the following keys:
 
-#         dict['shop']: string
-#         ** This is the name of the shop that was searched
+    #     dict['shop']: string
+    #     ** This is the name of the shop that was searched
         
-#         dict['name']: string
-#         ** This is the name of the item you want to search for
+    #     dict['name']: string
+    #     ** This is the name of the item you want to search for
         
-#         dict['link']: string
-#         ** This is the link to the product on the shop's website
+    #     dict['link']: string
+    #     ** This is the link to the product on the shop's website
         
-#         dict['image']: string
-#         ** This is a link to the product image
+    #     dict['image']: string
+    #     ** This is a link to the product image
         
-#         dict['price']: float
-#         ** This is the price of the product in USD
+    #     dict['price']: float
+    #     ** This is the price of the product in USD
         
-#         dict['score']: int
-#         This is our unique score that we give to items (it defaults to 100 currently)
+    #     dict['score']: int
+    #     This is our unique score that we give to items (it defaults to 100 currently)
 
-#     shop_name = "ebay"
-#     item_name = request.GET.get('searchQ')
-#     print("itemname: " + item_name)
-#     num_items = 10
-#     products_lst = shop_search(shop_name, item_name, num_items)
+    shop_name = "ebay"
+    item_name = request.GET.get('searchQ')
+    print("itemname: " + item_name)
+    num_items = 10
+    products_lst = shop_search(shop_name, item_name, num_items)
 
-#     print("products_lst: ", products_lst)
-#     #TO-DO: Finally, filter result based on the filtering algorithm
-#     # filtering algorithm prototype
-#     product_lst2 = products_lst[:]
-#     for i in range(0, len(products_lst)):
-#         product = products_lst[i]
-#         if(products_lst[i].price > max_price or products_lst[i].price < min_price):
-#             product_lst2.remove(product)
+    print("products_lst: ", products_lst)
+    #TO-DO: Finally, filter result based on the filtering algorithm
+    # filtering algorithm prototype
+    product_lst2 = products_lst[:]
+    for i in range(0, len(products_lst)):
+        product = products_lst[i]
+        if(products_lst[i].price > max_price or products_lst[i].price < min_price):
+            product_lst2.remove(product)
     
-#     sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
+    sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
 
-#     num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
+    num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
 
-#     filter_result = sorted_products[0:num_of_products*customerReview]
+    filter_result = sorted_products[0:num_of_products*customerReview]
     
-#     print("filter result: ", filter_result)
-#     #return jsonresponse to table
-#     response = JsonResponse({"products": filter_result})
+    print("filter result: ", filter_result)
+    #return jsonresponse to table
+    response = JsonResponse({"products": filter_result})
 
-#     # Add CORS headers directly to the response
-#     response["Access-Control-Allow-Origin"] = "*"
-#     response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-#     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
-#     response["Access-Control-Allow-Credentials"] = "true"
-#     return response
+    # Add CORS headers directly to the response
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
+    response["Access-Control-Allow-Credentials"] = "true"
+    return response
 
 # The external API is now (almost) live!!!!!! I just made the pull request into main! You can read up on
 # the documentation on 'shop_search/search_engine', and you can find an example for what to import,

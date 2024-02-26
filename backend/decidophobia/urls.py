@@ -19,7 +19,6 @@ from django.urls import include, path
 from .views import home, login, signup, logout, questionnaire, cart, remove_from_cart, filter
 from django.contrib.auth import views as auth_views
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
@@ -38,5 +37,5 @@ urlpatterns = [
     path("", include("django_nextjs.urls")),
     path('products/', include('products.urls')),
     # path('user_accounts/', include('user_accounts.urls')),
-    path('shopping-list/', include('shopping_list.urls'))
+    path('shopping-list/', include('shopping_list.urls')),
 ]
