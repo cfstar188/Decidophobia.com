@@ -15,6 +15,7 @@ export default function SearchPage() {
     fetch("http://localhost:8000/questionnaire/")
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         const transformedData = JsonToAtom(data);
         setAllProduct(transformedData);
       })
