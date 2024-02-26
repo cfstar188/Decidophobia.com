@@ -12,10 +12,7 @@ import requests
 #Below 6 lines are integration change -- attemping to merge 13 and 24, change made by Marvin
 from django.shortcuts import render
 from django.http import JsonResponse
-from ShopSearch.ShopSearch import shop_search
-import shop
-import requests
-
+from shop_search.search_engine import shop_search
 
 
 
@@ -258,16 +255,18 @@ def questionnaire(request):
     #     dict['score']: int
     #     This is our unique score that we give to items (it defaults to 100 currently)
 
-    shop_name = "ebay"
+    #shop_name = "ebay"
     item_name = request.GET.get('searchQ')
-    num_items = 10
-    products_lst = shop_search(shop_name, item_name, num_items)
+    #num_items = 10
+    products_lst = shop_search(item_name)
 
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
     product_lst2 = products_lst[:]
     for i in range(0, len(products_lst)):
         product = products_lst[i]
+        print(product)
+        
         if(products_lst[i].price > max_price or products_lst[i].price < min_price):
             product_lst2.remove(product)
     
