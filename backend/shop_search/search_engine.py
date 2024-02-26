@@ -67,13 +67,7 @@ def ebay_search(item_name="Naruto", num_items=10, force_new_token = False):
 
         all_items = []
         for elem in search_dict.get("itemSummaries"):
-            item = []
-            item.append(elem.get("title"))
-            item.append(elem.get("itemWebUrl"))
-            item.append(elem.get("image").get("imageUrl"))
-            item.append([elem.get("price").get("value"), elem.get("price").get("currency")])
-            item.append(elem.get("seller").get("feedbackScore"))
-            item.append(elem.get("seller").get("feedbackPercentage"))
+            item = {"image": elem.get("image").get("imageUrl"), "price": elem.get("price").get("value"), "currency": elem.get("price").get("currency"), "score": elem.get("seller").get("feedbackScore") }
             all_items.append(item)
         return all_items
     else:

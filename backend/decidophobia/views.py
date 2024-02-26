@@ -13,6 +13,7 @@ import requests
 from django.shortcuts import render
 from django.http import JsonResponse
 from shop_search.search_engine import shop_search
+import json
 
 
 
@@ -184,7 +185,7 @@ def questionnaire(request):
     # products_lst = search_engine.exec_search({"product_name" : product_name })
        
     priceFactor = request.POST.get("priceFactor", None)
-    customerReview = request.POST.get("customerReview", None)
+    #customerReview = request.POST.get("customerReview", None)
     shipping = request.POST.get("shipping", None)
     returnPolicy = request.POST.get("returnPolicy", None)
     brandReputation = request.POST.get("brandReputation", None)
@@ -267,14 +268,14 @@ def questionnaire(request):
         product = products_lst[i]
         print(product)
         
-        if(products_lst[i].price > max_price or products_lst[i].price < min_price):
+        if(float(product['price']) > max_price or float(product['price']) < min_price):
             product_lst2.remove(product)
     
     sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
 
     num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
 
-    filter_result = sorted_products[0:num_of_products*customerReview]
+    filter_result = sorted_products[0:num_of_products] #*customerReview]
     
     #return jsonresponse to table
     response = JsonResponse({"products": filter_result})
