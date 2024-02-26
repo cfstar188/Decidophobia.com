@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>the tombo</title>
+</head>
+<body>
+{% for item in search_result%}
+    <h2>{{item.name}}</h2>
+    <img style="max-width: 300px" src={{item.image}} alt="No image to be displayed" loading="lazy"/>
+    <p><b>Price:</b> {{item.price}} {{item.currency}}</p>
+    <p><b>Shop:</b> {{item.shop}}</p>
+    <p><b>Score:</b> {{item.score}}</p>
+    <p><a href={{item.link}} target="_blank">Click here to purchase product</a></p>
+    <br>
+{%endfor%}
+</body>
+</html>

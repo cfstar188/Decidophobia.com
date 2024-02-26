@@ -46,10 +46,11 @@
             <li class="subli" style="display: flex;">
                 <img class="itemimg" src="{{ product.url }}" alt="{{ product.name }}">
 
-                <h2>{{ product.name }}</h2>
-                <p>Cost: ${{ product.cost }}</p>
-                
-                <form action="{% url 'remove_from_cart' product.id %}" method="post">
+                <h2>{{ product.product_name }}</h2>
+                <p>Cost: ${{ product.product_price }}</p>
+                <p>Quantity: {{ product.quantity }}</p>
+                <form action="{% url 'shopping-list-delete' %}" method="post">
+                    <input type="hidden" name="product_id" value="{{ product.product_id }}">
                     {% csrf_token %}
                     <button type="submit">Remove</button>
                 </form>
