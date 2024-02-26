@@ -67,14 +67,14 @@ def ebay_search(item_name="Naruto", num_items=10, force_new_token = False):
 
         all_items = []
         for elem in search_dict.get("itemSummaries"):
-            item = {"image": elem.get("image").get("imageUrl"), "price": elem.get("price").get("value"), "currency": elem.get("price").get("currency"), "score": elem.get("seller").get("feedbackScore") }
+            item = {"product": (elem.get("title")), "image": elem.get("image").get("imageUrl"), "price": elem.get("price").get("value"), "currency": elem.get("price").get("currency"), "score": elem.get("seller").get("feedbackScore") }
             all_items.append(item)
         return all_items
     else:
         print("Sorry! I couldn't search on Ebay!!")
         return []
 
-def shop_search(shop_name = "ebay", item_name="Naruto", num_items=10, force_new_token = False):
+def shop_search(item_name="Naruto", num_items=10, force_new_token = False):
     return ebay_search(item_name, num_items, force_new_token)
 
 def elegant_print(item_list):

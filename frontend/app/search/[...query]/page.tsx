@@ -1,18 +1,26 @@
-// localhost:3000/search/[anything]
 "use client";
 import JsonToAtom from "@/Library/JsonToSearch";
 import { allProductAtom } from "@/Library/SelectedAtom";
 import HorizontalSelectBar from "@/app/components/HorizontalSelectBar";
 import SearchTable from "@/app/components/SearchTable";
 import { useAtom } from "jotai";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function SearchPageQuery() {
-  const [questions, setQuestions] = useState([]);
   const [products, setAllProduct] = useAtom(allProductAtom);
+  const searchParams = useSearchParams();
+
+  const newParmas = searchParams.get("searchQ");
+  const newParmas2 = searchParams.get("new");
+  console.log(newParmas);
+  console.log(newParmas2);
 
   useEffect(() => {
-    fetch("http://localhost:8000/questionnaire/")
+    const url = `http://localhost:8000/questionnaire/?searchQ=${newParmas}`;
+    console.log(url);
+
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -20,7 +28,7 @@ export default function SearchPageQuery() {
         setAllProduct(transformedData);
       })
       .catch((error) => {
-        console.error("Error fetching questions:", error);
+        console.error("Error fetching data:", error);
       });
   }, []);
 
