@@ -85,8 +85,18 @@
                 value="filter"
                 style="margin-left: 0"
               >
-                <a href="/filter" style="text-decoration: none">Filter</a>
+                <a id="filterLink" href="#" style="text-decoration: none">Filter</a>
               </button>
+              <script>
+                document.getElementById('filterLink').addEventListener('click', function(event) {
+                  event.preventDefault(); // Prevent default link behavior
+                  
+                  var searchQValue = document.querySelector('.form-input').value; // Get the value of searchQ
+                  var filterUrl = '/filter?searchQ=' + encodeURIComponent(searchQValue); // Construct the filter URL
+                  
+                  window.location.href = filterUrl; // Redirect to the filter URL
+                });
+              </script>
             </form>
           </div>
         </section>

@@ -2,7 +2,6 @@ import requests
 import json
 from datetime import datetime, UTC, timedelta
 
-
 """
 (Use function 'shop_search' to perform any searches)
 Makes an external request to an online shopping site to execute a search query.
@@ -19,7 +18,7 @@ The function 'shop_search' takes in the following parameters:
     
     num_items: int
     ** This is the number of items you want returned back
-     
+    
     force_new_token = False
     ** You shouldn't need to pass this in, ever. This is more so for testing; if 
     you need an authorization token generated, you can set this to true.
