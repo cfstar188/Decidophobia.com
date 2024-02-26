@@ -39,7 +39,7 @@ export function SearchTable() {
               <div />
               <div className="text-white col-span-2">{user.product}</div>
               <div className="text-white col-span-2">{user.company}</div>
-              <div className="text-white col-span-1">${user.price}</div>
+              <div className="text-white col-span-1">Price: {user.price}</div>
               <SquareCheckbox id={index} label="Compare" onChange={setTester} />
               <button
                 className="bg-blue-700"
