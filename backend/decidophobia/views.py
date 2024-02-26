@@ -246,7 +246,7 @@ def questionnaire(request):
     filter_result = sorted_products[0:num_of_products*customerReview]
 
     #return jsonresponse to table
-    response = JsonResponse({"products": filter_result})
+    response = JsonResponse({"products": products_lst})
 
     # Add CORS headers directly to the response
     response["Access-Control-Allow-Origin"] = "*"
