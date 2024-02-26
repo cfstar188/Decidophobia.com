@@ -155,6 +155,7 @@ product5 = {
 }
 
 # Switch to questionnaire page after user submit product/get product and pass it to product table
+# Changed to filter, url is at filter.
 def filter(request):
     """
     print("in search block")
