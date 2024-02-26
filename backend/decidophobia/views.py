@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 # from . forms import CreateUserForm, CreateLoginForm
-from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
@@ -13,9 +11,9 @@ import requests
 
 #Below 6 lines are integration change -- attemping to merge 13 and 24, change made by Marvin
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from .models import Product
-import json
+from django.http import JsonResponse
+from ShopSearch.ShopSearch import shop_search
+import shop
 import requests
 
 
@@ -136,6 +134,15 @@ product5 = {
     "score": 4.8
 }
 
+product6 = {
+    "name": "iphone",
+    "link": "https://example.com/gamingdeluxe",
+    "image": "https://example.com/images/gamingdeluxe.jpg",
+    "price": 1000000.99,
+    "currency": "CAD",
+    "score": 4.2
+}
+
 # Switch to questionnaire page after user submit product/get product and pass it to product table
 # Changed to filter, url is at filter.
 def filter(request):
@@ -177,19 +184,7 @@ def filter(request):
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })
-    products_lst = [product1, product2, product3, product4, product5]
-    
-    #return jsonresponse to table
-    response = JsonResponse({"products": products_lst})
-
-    # Add CORS headers directly to the response
-    response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
-    response["Access-Control-Allow-Credentials"] = "true"
-    return response
-
-    #Add filtering into json
+       
     priceFactor = request.POST.get("priceFactor", None)
     customerReview = request.POST.get("customerReview", None)
     shipping = request.POST.get("shipping", None)
@@ -223,6 +218,49 @@ def questionnaire(request):
         selected_shipping = selected_shipping[3:]
     elif shipping == "Right now":
         selected_shipping = selected_shipping[4:]
+    
+    # Input:
+    # The function 'shop_search' takes in the following parameters:
+
+    #     shop_name: string 
+    #     ** This is the name of the shopping site you want to search. Currently, only
+    #     "ebay" is supported (case insensitive)
+        
+    #     item_name: string 
+    #     ** This is the name of the item you want to search for
+        
+    #     num_items: int
+    #     ** This is the number of items you want returned back
+        
+    #     force_new_token = False
+    #     ** You shouldn't need to pass this in, ever. This is more so for testing; if 
+    #     you need an authorization token generated, you can set this to true.
+
+    # Output:
+    # The function returns a list of dictionaries. Each dictionary has the following keys:
+
+    #     dict['shop']: string
+    #     ** This is the name of the shop that was searched
+        
+    #     dict['name']: string
+    #     ** This is the name of the item you want to search for
+        
+    #     dict['link']: string
+    #     ** This is the link to the product on the shop's website
+        
+    #     dict['image']: string
+    #     ** This is a link to the product image
+        
+    #     dict['price']: float
+    #     ** This is the price of the product in USD
+        
+    #     dict['score']: int
+    #     This is our unique score that we give to items (it defaults to 100 currently)
+
+    shop_name = "ebay"
+    item_name = request.GET.get('searchQ')
+    num_items = 10
+    products_lst = shop_search(shop_name, item_name, num_items)
 
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
@@ -237,4 +275,13 @@ def questionnaire(request):
     num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
 
     filter_result = sorted_products[0:num_of_products*customerReview]
+    
+    #return jsonresponse to table
+    response = JsonResponse({"products": filter_result})
 
+    # Add CORS headers directly to the response
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
+    response["Access-Control-Allow-Credentials"] = "true"
+    return response
