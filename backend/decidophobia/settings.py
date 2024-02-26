@@ -39,12 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'decidophobia',
+<<<<<<< Updated upstream
     # 'shoppingCart',
     "django_nextjs",
     "products",
     'shopping_list',
     'corsheaders',
     'shoppingCart',
+=======
+    'django_nextjs',
+    'corsheaders',
+    'products',
+    'shopping_list',
+>>>>>>> Stashed changes
 ]
 
 MIDDLEWARE = [
@@ -136,6 +143,10 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+<<<<<<< Updated upstream
 # Allows CORS TESTING PURPOSES
 
+=======
+#ALLOW FOR TESTING PURPOSES
+>>>>>>> Stashed changes
 CORS_ALLOW_ALL_ORIGINS = True
