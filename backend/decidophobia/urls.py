@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 from .views import home, login, signup, logout, questionnaire, cart, remove_from_cart, filter
 from django.contrib.auth import views as auth_views
+from shopping_list.views import DeleteShoppingItem
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -22,6 +22,7 @@ import requests
 def hello_world(request):
     return render(request, 'temp.html')
 
+  
 def home(request):
     return render(request, 'home.html')
 

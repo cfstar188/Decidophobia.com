@@ -1,0 +1,7 @@
+This file describes important info in case the app was to go into production:
+
+1) To save products in our database, we have to sign up for eBay's notification system.
+
+2) BestBuy's API doesn't permit persistent storage of its data, it can only be stored temporarily
+
+3) (Future) Etsy's API will likely be non-commercial until we have a valid url.
