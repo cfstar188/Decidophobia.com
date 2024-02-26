@@ -51,7 +51,9 @@ def signup(request):
             auth_login(request, user)
             messages.success(request, f'Signup successful. Welcome, {username}!')
             uri = "http://127.0.0.1:8000/products/create-product/"
-            requests.post(uri, headers={"Key": 'decidophobiaAdmin'} ,json={"name": "Product 1", "company": "Company 1", "price": 100.32, "preview_picture": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRLemIGXJw2Tn2UcEc43fsOt2Xie23XD180BUCrQAw6AkQZ97Iy_BiQ4g2RK36mTdZqG4rRIg"})
+            uri2 = "http://127.0.0.1:8000/shopping-list/add-item/"
+            response = requests.post(uri, headers={"Key": 'decidophobiaAdmin'} ,json={"name": "Product 1", "company": "Company 1", "price": 100.32, "preview_picture": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRLemIGXJw2Tn2UcEc43fsOt2Xie23XD180BUCrQAw6AkQZ97Iy_BiQ4g2RK36mTdZqG4rRIg"})
+            # requests.post(uri2, json={"product_id": response.json["id"], "quantity": 1})
             return redirect('home')  
         else:
             print(form.errors)
