@@ -197,6 +197,17 @@ def questionnaire(request):
     # products_lst = search_engine.exec_search({"product_name" : product_name })
     products_lst = [product1, product2, product3, product4, product5]
     
+    #return jsonresponse to table
+    response = JsonResponse({"products": products_lst})
+
+    # Add CORS headers directly to the response
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
+    response["Access-Control-Allow-Credentials"] = "true"
+    return response
+
+    #Add filtering into json
     priceFactor = request.POST.get("priceFactor", None)
     customerReview = request.POST.get("customerReview", None)
     shipping = request.POST.get("shipping", None)
@@ -245,12 +256,3 @@ def questionnaire(request):
 
     filter_result = sorted_products[0:num_of_products*customerReview]
 
-    #return jsonresponse to table
-    response = JsonResponse({"products": products_lst})
-
-    # Add CORS headers directly to the response
-    response["Access-Control-Allow-Origin"] = "*"
-    response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
-    response["Access-Control-Allow-Credentials"] = "true"
-    return response
