@@ -20,10 +20,5 @@ from .views import questionnaire
 
 
 urlpatterns = [
-<<<<<<< Updated upstream
     path('questionnaire/', questionnaire, name='questionnaire'),
-=======
-
-    path('questionnaire', questionnaire, name='questionnaire'),
->>>>>>> Stashed changes
 ]

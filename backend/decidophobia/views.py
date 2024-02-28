@@ -183,7 +183,7 @@ def filter(request):
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })
-       
+    print("in questionnaire")
     priceFactor = request.POST.get("priceFactor", None)
     #customerReview = request.POST.get("customerReview", None)
     shipping = request.POST.get("shipping", None)
@@ -256,10 +256,11 @@ def questionnaire(request):
     #     dict['score']: int
     #     This is our unique score that we give to items (it defaults to 100 currently)
 
-    #shop_name = "ebay"
-    item_name = request.GET.get('searchQ')
-    #num_items = 10
-    products_lst = shop_search(item_name)
+    shop_name = "ebay"
+    item_name = request.POST.get('product_name')
+    print("item_name:" + item_name)
+    num_items = 10
+    products_lst = shop_search(item_name, num_items, shop_name)
 
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype

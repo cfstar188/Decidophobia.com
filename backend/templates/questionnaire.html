@@ -9,8 +9,8 @@
   <body>
     <div class="popup">
       <h2>Tell us what is important to you</h2>
-      <form id="preferencesForm" action="{% url 'search' %}" method="post">
-        <input type="hidden" name="product_name" value="{{ product_name }}" />
+      <form id="preferencesForm" action="{% url 'questionnaire' %}" method="post">
+        <input type="hidden" name="product_name" value="pen" />
         <label for="priceFactor">Price:</label>
         <select id="priceFactor" name="priceFactor">
           <option value=">10000">Bill Gates</option>
