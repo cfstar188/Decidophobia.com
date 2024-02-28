@@ -177,8 +177,8 @@ def filter(request):
         product_name = request.GET.get("searchQ")
         # render questionnaire.html directly
         #print("product name is :" + request.GET.get("searchQ"))
-        print(product_name)
-        return render(request, 'questionnaire.html')
+        print("product_name is " + product_name)
+        return render(request, 'questionnaire.html', {'product_name': product_name})
 
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
