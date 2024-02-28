@@ -189,22 +189,20 @@ def questionnaire(request):
     shipping = request.POST.get("shipping", None)
     returnPolicy = request.POST.get("returnPolicy", None)
     brandReputation = request.POST.get("brandReputation", None)
+    print("this is priceFactor\n")
+    print(priceFactor)
     min_price = 0
     max_price = float("infinity")
     if priceFactor == ">10000":
-        min_price = 10000
+
         max_price = float("infinity")
     elif priceFactor == "<=10000":
-        min_price = 3000
         max_price = 10000
     elif priceFactor == "<=3000":
-        min_price = 1000
         max_price = 3000
     elif priceFactor == "<=1000":
-        min_price = 500
         max_price = 1000
     elif priceFactor == "<=500":
-        min_price = 0
         max_price = 500
     
     selected_shipping = ["Doesn't matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
@@ -262,15 +260,22 @@ def questionnaire(request):
     num_items = 10
     products_lst = shop_search(item_name, num_items, shop_name)
 
+    print("Before filtering")
+    for i in range(len(products_lst)):
+        print(products_lst[i])
+        
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
     product_lst2 = products_lst[:]
     for i in range(0, len(products_lst)):
         product = products_lst[i]
-        print(product)
-        
-        if(float(product['price']) > max_price or float(product['price']) < min_price):
+        if(float(product['price']) > max_price):
             product_lst2.remove(product)
+    
+    print("filtering 1")
+    for i in range(len(product_lst2)):
+        print(product_lst2[i])
+        
     
     sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
 
@@ -278,6 +283,10 @@ def questionnaire(request):
 
     filter_result = sorted_products[0:num_of_products] #*customerReview]
     
+    print("After filtering")
+    for i in range(len(filter_result)):
+        print(filter_result[i])
+        
     #return jsonresponse to table
     response = JsonResponse({"products": filter_result})
 
