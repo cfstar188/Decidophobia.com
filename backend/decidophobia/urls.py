@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from .views import home, login, signup, logout
+from .views import home, login, signup, logout, search_view
 from django.contrib.auth import views as auth_views
 from shopping_list.views import DeleteShoppingItem
 
@@ -33,5 +33,6 @@ urlpatterns = [
     # path('user_accounts/', include('user_accounts.urls')),
     path('shopping-list/', include('shopping_list.urls')),
     path('discussion_board/', include('discussionBoard.urls')),
-    path('search_item/', include("tester_app.urls"))
+    path('search_item/', include("tester_app.urls")),
+    path('search', search_view, name='search_view'),
 ]

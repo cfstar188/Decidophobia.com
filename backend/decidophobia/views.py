@@ -19,6 +19,11 @@ def home(request):
 # def shopcart(request):
 #     return render(request, 'shopcart.html')
 
+def search_view(request):
+    search_query = request.GET.get('searchQ', '')  
+    redirect_url = f'/search_item/{search_query.replace(" ", "-")}'
+    return redirect(redirect_url)
+
 
 def login(request):
     # form = CreateLoginForm()
