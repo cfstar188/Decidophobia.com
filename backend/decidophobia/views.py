@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 # from . forms import CreateUserForm, CreateLoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
@@ -7,7 +7,11 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import get_user_model
 import requests
+from shopping_list.models import ShoppingListItem
+from products.models import Product
+
 
 def hello_world(request):
     return render(request, 'temp.html')
@@ -53,7 +57,24 @@ def signup(request):
             uri = "http://127.0.0.1:8000/products/create-product/"
             uri2 = "http://127.0.0.1:8000/shopping-list/add-item/"
             response = requests.post(uri, headers={"Key": 'decidophobiaAdmin'} ,json={"name": "Product 1", "company": "Company 1", "price": 100.32, "preview_picture": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRLemIGXJw2Tn2UcEc43fsOt2Xie23XD180BUCrQAw6AkQZ97Iy_BiQ4g2RK36mTdZqG4rRIg"})
-            # requests.post(uri2, json={"product_id": response.json["id"], "quantity": 1})
+            response2 = requests.post(uri, headers={"Key": 'decidophobiaAdmin'} ,json={"name": "Product 2", "company": "Company 1", "price": 99, "preview_picture": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRLemIGXJw2Tn2UcEc43fsOt2Xie23XD180BUCrQAw6AkQZ97Iy_BiQ4g2RK36mTdZqG4rRIg"})
+            response3 = requests.post(uri, headers={"Key": 'decidophobiaAdmin'} ,json={"name": "Product 3", "company": "Company 1", "price": 8093, "preview_picture": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRLemIGXJw2Tn2UcEc43fsOt2Xie23XD180BUCrQAw6AkQZ97Iy_BiQ4g2RK36mTdZqG4rRIg"})
+            product_data = response.json()
+            product_data2 = response2.json()
+            product_data3 = response3.json()
+            # print(product_data["id"])
+            # response2 = requests.post(uri2, json={
+            #     'product_id': product_data["id"],
+            #     'quantity': 1
+            # })
+            # print(response)
+            # print(response2)
+            product = get_object_or_404(Product, pk=product_data["id"])
+            ShoppingListItem.objects.create(user=request.user, product_id=product, quantity=1)
+            product = get_object_or_404(Product, pk=product_data2["id"])
+            ShoppingListItem.objects.create(user=request.user, product_id=product, quantity=1)
+            product = get_object_or_404(Product, pk=product_data3["id"])
+            ShoppingListItem.objects.create(user=request.user, product_id=product, quantity=1)
             return redirect('home')  
         else:
             print(form.errors)
@@ -65,7 +86,7 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
-def cart(request):
+def cartview(request):
     if not (request.user.is_authenticated):
         return render(request, 'shopcart.html')
     uri = "http://127.0.0.1:8000/shopping-list/details/"
@@ -74,6 +95,7 @@ def cart(request):
     if response.status_code == 200:
         for product in response.json():
             total_cost += product['product_price'] * product["quantity"]
+        print(response.json())
         return render(request, 'shopcart.html', {'user_products': response.json, 'total_cost': total_cost})
     return render(request, 'shopcart.html', {'total_cost': total_cost})
 
@@ -81,19 +103,29 @@ def cart(request):
 def remove_from_cart(request, product_id):
     uri = "http://127.0.0.1:8000/shopping-list/remove-item/"
     response = requests.delete(uri, json={"product_id": product_id})
-    return redirect('cart')
+    return redirect('cartview')
 
 
 def update_cart(request):
     if request.method == 'POST':
-        for key, value in request.POST.items():
-            if key.startswith('quantity_'):
-                product_id = key.split('_')[1]
-                try:
-                    uri = "http://127.0.0.1:8000/shopping-list/change-quantity/"
-                    response = requests.put(uri, json={"product_id": product_id, "quantity": int(value)})
-                except Exception as e:
-                    continue 
-        return redirect('cart')
+        item_id = request.POST.get('item_id')
+        new_quantity = request.POST.get('quantity')
+        
+        # Retrieve the shopping list item
+        print(f"Item ID: {item_id}, New Quantity: {new_quantity}")
+        # product = get_object_or_404(Product, pk=item_id)
+        # shopping_list_item = get_object_or_404(ShoppingListItem, id=item_id)
+        User = get_user_model()
+    
+        # Get the user instance or return None if user doesn't exist
+        user_instance = get_object_or_404(User, username=request.user.username)
+        
+        # Retrieve the shopping list item for the user and product
+        shopping_list_item = ShoppingListItem.objects.filter(user=user_instance, product_id=item_id).first()
+        
+        # Update the quantity
+        shopping_list_item.quantity = new_quantity
+        shopping_list_item.save()
+        return redirect("http://127.0.0.1:8000/shopping-list/details/")
     else:
-        return redirect('cart')
+        return redirect('home')
