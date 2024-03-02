@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from .views import home, login, signup, logout
+from .views import home, login, signup, logout, questionnaire
 from django.contrib.auth import views as auth_views
 from shopping_list.views import DeleteShoppingItem
 
@@ -30,6 +30,9 @@ urlpatterns = [
     path("table/", include("product_table.urls")),
     path("", include("django_nextjs.urls")),
     path('products/', include('products.urls')),
+    path("search/", include("search_page.urls")),
+    path('questionnaire/', questionnaire, name='questionnaire'),
+    path('filter/', filter, name='filter' ),
     # path('user_accounts/', include('user_accounts.urls')),
     path('shopping-list/', include('shopping_list.urls')),
     path('discussion_board/', include('discussionBoard.urls')),

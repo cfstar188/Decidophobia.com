@@ -1,46 +1,12 @@
-// Table.tsx
+// localhost:3000/table/
 "use client";
 import React, { useState } from "react";
-import { PictureComp } from "../components/PictureComp";
-import { User } from "../../Library/Type";
-
-const users: User[] = [
-  {
-    picture:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-compare-iphone-15-202309?wid=384&hei=512&fmt=jpeg&qlt=90&.v=1692827832423",
-    id: 0,
-    product: "Iphone",
-    company: "Apple",
-    price: "1200.0",
-    url: (
-      <a href="https://www.apple.com/ca/shop/buy-iphone/iphone-15-pro">apple</a>
-    ),
-  },
-  {
-    picture:
-      "https://img.us.news.samsung.com/us/wp-content/uploads/2023/03/14140259/samsung-galaxy-a54-5g-featured.png",
-    id: 1,
-    product: "Galaxy",
-    company: "Samsung",
-    price: "1000.0",
-    url: (
-      <a href="https://www.samsung.com/ca/smartphones/galaxy-s24-ultra/buy/?modelCode=SM-S928WZTFXAC">
-        samsung
-      </a>
-    ),
-  },
-  {
-    picture: "https://i.ebayimg.com/images/g/SxQAAOSwScVhGpoE/s-l1200.webp",
-    id: 2,
-    product: "Hauwai Nova",
-    company: "Hauwai",
-    price: "500.0",
-    url: <a href="https://consumer.huawei.com/gh/phones/nova-y61/">huawei</a>,
-  },
-];
+import { PictureComp } from "@/app/components/PictureComp";
+import { allProductAtom } from "@/Library/SelectedAtom";
+import { useAtom } from "jotai";
 
 export function TableComp() {
-  const [user, setUser] = useState<User[]>(users);
+  const [user, setUser] = useAtom(allProductAtom);
   const [deleted, setDeleteUser] = useState<number[]>([]);
 
   const deleteUser = (userId: number) => {
@@ -48,7 +14,7 @@ export function TableComp() {
     setUser((user) => user.filter((newuser) => !deleted.includes(newuser.id)));
   };
 
-  const keys = users.length > 0 ? Object.keys(users[0]) : [];
+  const keys = user.length > 0 ? Object.keys(user[0]) : [];
 
   return (
     <>
