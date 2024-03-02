@@ -1,5 +1,5 @@
 import React from "react";
-import { CircularXButton } from "./Button/CircularXButton";
+import { CircularXButton } from "@/app/components/Button/CircularXButton";
 
 export function PictureComp({ id, setData, src }: any) {
   const buttonStyle = {
