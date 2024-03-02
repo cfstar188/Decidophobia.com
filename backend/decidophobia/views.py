@@ -12,7 +12,7 @@ import requests
 #Below 6 lines are integration change -- attemping to merge 13 and 24, change made by Marvin
 from django.shortcuts import render
 from django.http import JsonResponse
-from shop_search.search_engine import shop_search
+from shop_search.search_engine import search_engine
 import json
 
 
@@ -259,7 +259,7 @@ def questionnaire(request):
     #shop_name = "ebay"
     item_name = request.GET.get('searchQ')
     #num_items = 10
-    products_lst = shop_search(item_name)
+    products_lst = search_engine({"shops": "ebay", "item": item_name, "num_item": 100})
 
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
