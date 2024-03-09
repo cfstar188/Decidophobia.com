@@ -2,15 +2,14 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-## Note: do not use firefox for testing. CORS is disabled on firefox
+## Note: do not use FIREFOX for testing. CORS issues may be a problem
 
 First, run the development server:
 
+HOW TO RUN:
 Have nodejs installed
 
-First run
-
-npm i
+Next run this command: npm i
 
 Then run the first command npm run dev as the package manager
 
