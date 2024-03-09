@@ -178,7 +178,11 @@ def filter(request):
         # render questionnaire.html directly
         #print("product name is :" + request.GET.get("searchQ"))
         print("product_name is " + product_name)
-        return render(request, 'questionnaire.html', {'product_name': product_name})
+        
+        return Response({
+            'message': 'return product name to questionnaire page',
+            'product_name': product_name
+        }, status=status.HTTP_201_CREATED)
 
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
@@ -205,7 +209,7 @@ def questionnaire(request):
     elif priceFactor == "<=500":
         max_price = 500
     
-    selected_shipping = ["Doesn't matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
+    selected_shipping = ["Does not matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
     
     if shipping == "A couple week":
         selected_shipping = selected_shipping[1:]
@@ -260,9 +264,9 @@ def questionnaire(request):
     num_items = 10
     products_lst = shop_search(item_name, num_items, shop_name)
 
-    print("Before filtering")
-    for i in range(len(products_lst)):
-        print(products_lst[i])
+    # print("Before filtering")
+    # for i in range(len(products_lst)):
+    #     print(products_lst[i])
         
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
@@ -272,10 +276,9 @@ def questionnaire(request):
         if(float(product['price']) > max_price):
             product_lst2.remove(product)
     
-    print("filtering 1")
-    for i in range(len(product_lst2)):
-        print(product_lst2[i])
-        
+    # print("filtering 1")
+    # for i in range(len(product_lst2)):
+    #     print(product_lst2[i])
     
     sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
 
