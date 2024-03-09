@@ -16,8 +16,8 @@ export default function SearchPage() {
 
   const newParmas = searchParams.get("searchQ");
   const newParmas2 = searchParams.get("new");
-  console.log(newParmas);
-  console.log(newParmas2);
+  console.log("params", newParmas);
+  console.log("params2:", newParmas2);
 
   useEffect(() => {
     fetch(`http://localhost:8000/questionnaire/?searchQ=${newParmas}`)

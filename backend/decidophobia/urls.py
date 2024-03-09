@@ -37,6 +37,9 @@ urlpatterns = [
     path("search/", include("search_page.urls")),
     path("", include("django_nextjs.urls")),
     path('products/', include('products.urls')),
+    path("search/", include("search_page.urls")),
+    path('questionnaire/', questionnaire, name='questionnaire'),
+    path('filter/', filter, name='filter' ),
     # path('user_accounts/', include('user_accounts.urls')),
     path('shopping-list/', include('shopping_list.urls')),
 ]
