@@ -1,11 +1,16 @@
 "use client"; // Add this line at the top of the file
 import "./questionnaire.css";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState, useRef} from 'react';
 
-const DecisionFactors = (params) => {
+export default function DecisionFactors( {
+  params,
+}: {
+  params: { productName: string }
+}) {
   const router = useRouter();
   const form = useRef(null);
+  const searchParams = useSearchParams();
 
   // const [productName, setProductName] = useState("");
 
@@ -16,27 +21,36 @@ const DecisionFactors = (params) => {
   //   }
   // }, [router.query]);
   const handleSubmit = () => {
-    form.current.submit();
+    const formElement = form.current;
+    const submitEvent = new Event("submit", { cancelable: true, bubbles: true });
+    formElement.dispatchEvent(submitEvent);
   };
 
   const handleForm = (e: any) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const queryParams = new URLSearchParams();
+    // const searchQ = router.query.searchQ;
+    // const productName = params.productName;
 
     formData.forEach((value, key) => {
       queryParams.append(key, value);
     });
 
-    const url = `/search?${queryParams.toString()}`;
+    // console.log("params productName", searchParams.get("productName"));
+    // console.log("params productName 2", params.productName);
+
+    const url = (`/search?searchQ=${params.productName}&${queryParams.toString()}`);
     router.push(url);
   };
 
   return (
+    <>
+    {/* <NavBar /> */}
     <div className="popup">
       <h2>Tell us what is important to you</h2>
       <form ref={form} id="preferencesForm" onSubmit={handleForm}>
-      <input type="hidden" name="product_name" value={params.productName} />
+      {/* <input type="hidden" name="product_name" value={params.productName} /> */}
         <label htmlFor="priceFactor">Price:</label>
         <select id="priceFactor" name="priceFactor">
           <option value=">10000">Bill Gates</option>
@@ -75,7 +89,6 @@ const DecisionFactors = (params) => {
         <button id="submit_button" type="submit" onClick={handleSubmit}>Submit</button>
       </form>
     </div>
+    </>
   );
 };
-
-export default DecisionFactors;

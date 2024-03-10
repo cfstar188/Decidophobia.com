@@ -19,7 +19,6 @@ function SearchBar() {
 
   const filterHandler = (e: any) => {
     e.preventDefault(); // Prevent default link behavior
-    
     router.push(`/filter/${searchQuery}`); // Construct the filter URL
   }
 

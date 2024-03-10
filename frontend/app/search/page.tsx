@@ -14,14 +14,26 @@ export default function SearchPage() {
   const [products, setAllProduct] = useAtom(allProductAtom);
   const searchParams = useSearchParams();
 
-  const newParmas = searchParams.get("searchQ");
-  const newParmas2 = searchParams.get("new");
-  console.log("params", newParmas);
-  console.log("params2:", newParmas2);
+  const productName = searchParams.get("searchQ");
+  const priceFactor = searchParams.get("priceFactor");
+  const customerReview = searchParams.get("customerReview");
+  const shipping = searchParams.get("shipping");
+  const returnPolicy = searchParams.get("returnPolicy");
+  const brandReputation = searchParams.get("brandReputation");
+  
+  console.log("productName", productName);
+  console.log("priceFactor", priceFactor);
+  console.log("customerReview", customerReview);
+  console.log("shipping", shipping);
+  console.log("returnPolicy", returnPolicy);
+  console.log("brandReputation", brandReputation);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/questionnaire/?searchQ=${newParmas}`)
-      .then((response) => response.json())
+    fetch(`http://localhost:8000/questionnaire/?searchQ=${productName}&priceFactor=${priceFactor}&customerReview=${customerReview}&shipping=${shipping}&returnPolicy=${returnPolicy}&brandReputation=${brandReputation}`)
+      .then((response) => {
+        console.log("received response");
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
         const transformedData = JsonToAtom(data);

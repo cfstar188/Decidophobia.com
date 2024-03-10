@@ -142,6 +142,7 @@ product6 = {
     "score": 4.2
 }
 
+
 # Switch to questionnaire page after user submit product/get product and pass it to product table
 # Changed to filter, url is at filter.
 def filter(request):
@@ -188,17 +189,37 @@ def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })
     print("in questionnaire")
-    priceFactor = request.POST.get("priceFactor", None)
-    #customerReview = request.POST.get("customerReview", None)
-    shipping = request.POST.get("shipping", None)
-    returnPolicy = request.POST.get("returnPolicy", None)
-    brandReputation = request.POST.get("brandReputation", None)
-    print("this is priceFactor\n")
+    
+    if request.method == "GET":
+        print("This is a GET request")
+    elif request.method == "POST":
+        print("This is a POST request")
+    else:
+        print("This is a different type of request")
+        
+    productName = request.GET.get("searchQ", None)
+    customerReview = request.GET.get("customerReview", None)
+    priceFactor = request.GET.get("priceFactor", None)
+    shipping = request.GET.get("shipping", None)
+    returnPolicy = request.GET.get("returnPolicy", None)
+    brandReputation = request.GET.get("brandReputation", None)
+    
+    print("this is productName")
+    print(productName)
+    print("this is priceFactor")
     print(priceFactor)
+    print("this is customerReview")
+    print(customerReview)
+    print("this is shipping")
+    print(shipping)
+    print("this is returnPolicy")
+    print(returnPolicy)
+    print("this is brandReputation")
+    print(brandReputation)
+    
     min_price = 0
     max_price = float("infinity")
     if priceFactor == ">10000":
-
         max_price = float("infinity")
     elif priceFactor == "<=10000":
         max_price = 10000
@@ -220,49 +241,10 @@ def questionnaire(request):
     elif shipping == "Right now":
         selected_shipping = selected_shipping[4:]
     
-    # Input:
-    # The function 'shop_search' takes in the following parameters:
-
-    #     shop_name: string 
-    #     ** This is the name of the shopping site you want to search. Currently, only
-    #     "ebay" is supported (case insensitive)
-        
-    #     item_name: string 
-    #     ** This is the name of the item you want to search for
-        
-    #     num_items: int
-    #     ** This is the number of items you want returned back
-        
-    #     force_new_token = False
-    #     ** You shouldn't need to pass this in, ever. This is more so for testing; if 
-    #     you need an authorization token generated, you can set this to true.
-
-    # Output:
-    # The function returns a list of dictionaries. Each dictionary has the following keys:
-
-    #     dict['shop']: string
-    #     ** This is the name of the shop that was searched
-        
-    #     dict['name']: string
-    #     ** This is the name of the item you want to search for
-        
-    #     dict['link']: string
-    #     ** This is the link to the product on the shop's website
-        
-    #     dict['image']: string
-    #     ** This is a link to the product image
-        
-    #     dict['price']: float
-    #     ** This is the price of the product in USD
-        
-    #     dict['score']: int
-    #     This is our unique score that we give to items (it defaults to 100 currently)
-
+    
     shop_name = "ebay"
-    item_name = request.POST.get('product_name')
-    print("item_name:" + item_name)
     num_items = 10
-    products_lst = shop_search(item_name, num_items, shop_name)
+    products_lst = shop_search(productName, num_items, shop_name)
 
     # print("Before filtering")
     # for i in range(len(products_lst)):
@@ -286,9 +268,9 @@ def questionnaire(request):
 
     filter_result = sorted_products[0:num_of_products] #*customerReview]
     
-    print("After filtering")
-    for i in range(len(filter_result)):
-        print(filter_result[i])
+    # print("After filtering")
+    # for i in range(len(filter_result)):
+    #     print(filter_result[i])
         
     #return jsonresponse to table
     response = JsonResponse({"products": filter_result})
