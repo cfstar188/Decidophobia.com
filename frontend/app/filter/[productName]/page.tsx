@@ -1,7 +1,25 @@
-import React from 'react';
+"use client"; // Add this line at the top of the file
+import "./questionnaire.css";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState, useRef} from 'react';
 
-const DecisionFactors = () => {
-  const handleSubmit = (e) => {
+const DecisionFactors = (params) => {
+  const router = useRouter();
+  const form = useRef(null);
+
+  // const [productName, setProductName] = useState("");
+
+  // useEffect(() => {
+  // const { product_name } = router.query;
+  //   if (params.productName) {
+  //     setProductName(product_name);
+  //   }
+  // }, [router.query]);
+  const handleSubmit = () => {
+    form.current.submit();
+  };
+
+  const handleForm = (e: any) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const queryParams = new URLSearchParams();
@@ -11,14 +29,14 @@ const DecisionFactors = () => {
     });
 
     const url = `/search?${queryParams.toString()}`;
-    window.location.href = url;
+    router.push(url);
   };
 
   return (
     <div className="popup">
       <h2>Tell us what is important to you</h2>
-      <form id="preferencesForm" onSubmit={handleSubmit}>
-        <input type="hidden" name="product_name" value="{product_name}" />
+      <form ref={form} id="preferencesForm" onSubmit={handleForm}>
+      <input type="hidden" name="product_name" value={params.productName} />
         <label htmlFor="priceFactor">Price:</label>
         <select id="priceFactor" name="priceFactor">
           <option value=">10000">Bill Gates</option>
@@ -54,7 +72,7 @@ const DecisionFactors = () => {
           <option value="Good">Good</option>
           <option value="Ok">Ok</option>
         </select>
-        <button id="submit_button" type="submit">Submit</button>
+        <button id="submit_button" type="submit" onClick={handleSubmit}>Submit</button>
       </form>
     </div>
   );
