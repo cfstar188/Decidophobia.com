@@ -9,12 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "jotai": "^2.6.4",
+    "axios": "^1.6.7",
+    "jotai": "^2.7.0",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/node": "20.11.16",
     "@types/react": "18.2.54",
     "@types/react-dom": "^18",

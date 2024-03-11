@@ -6,5 +6,6 @@ import SearchBar from "@/app/components/SearchBar";
 
 // Unused pages in nextjs, purely testing page
 export default function HomePage() {
+  
   return <SearchTable />;
 }
