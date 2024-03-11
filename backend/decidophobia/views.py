@@ -178,7 +178,7 @@ def questionnaire(request):
     #shop_name = "ebay"
     item_name = request.GET.get('searchQ')
     #num_items = 10
-    products_lst = search_engine({"shops": "bestbuy", "item": item_name, "num_item": 100})
+    products_lst = search_engine({"shops": ["all"], "item": item_name, "num_items": 16})
 
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
