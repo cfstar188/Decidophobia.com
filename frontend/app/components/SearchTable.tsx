@@ -5,6 +5,7 @@ import HorizontalSelectBar from "@/app/components/HorizontalSelectBar";
 import SquareCheckbox from "@/app/components/Button/SquareButton";
 import { allProductAtom } from "@/Library/SelectedAtom";
 
+
 export function SearchTable() {
   const [users] = useAtom(allProductAtom);
   const [tester, setTester] = useState();
