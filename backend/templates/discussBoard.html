@@ -12,6 +12,23 @@
         font-family: Roboto;
         font-size: larger;
     }
+
+    body {
+        color: #fff;
+        font-size: 2vw;
+    }
+
+    div{
+        height: 400px;
+        width: 80%;
+        border: 10px solid #0088dd;
+        margin: 20px;
+    }
+
+    h1 {
+        font-size: 1.3vw;
+        color: #c5c5c5
+    }
 </style>
 
 <body style="background-color:#212529">
@@ -25,11 +42,12 @@
     <br>
     <form action = "" method = "POST">
         {% csrf_token %} 
-        <label style="color:#fff;font-size:1.5vw" for="your_message">Your message: </label>
-        <input style="font-size:1.5vw" id="your_message" type="text" name="your_message">
+        <label style="color:#fff;font-size:1.5vw" for="your_message">New post: </label>
+        <input style="font-size:1.5vw" id="your_message" type="text" name="your_message", required="required">
         <input style="font-size:1.5vw" type="submit" value="OK">
     </form>
 
+    <!--
     <table style="width:100%">
         <thead>
           <tr>
@@ -48,5 +66,33 @@
                 </tr>
             {% endfor %}
         </tbody>
+        -->
+
+        {% for entry in messagesList %}
+        <tr>
+            
+            <div>
+                <!--{{forloop.counter}}-->
+                <h1> Previously said: {{entry.replyTo}}</h1> 
+                <br>
+                <br>
+                {{entry.user}}: {{entry.message}}
+                <br>
+                <br>
+                <br>
+                <br>
+                <form action = "" method = "POST">
+                    {% csrf_token %} 
+                    <label style="color:#fff;font-size:1.5vw" for="reply_message">Reply: </label>
+                    <input style="font-size:1.5vw" id="reply_message" type="text" name="reply_message", required="required">
+                    <label style="color:#fff;font-size:1.5vw" for="reply_message"> Previous person said: </label>
+                    <input style="font-size:1.5vw" id="replyingTo" type="text" name="replyingTo", required="required">
+                    <input style="font-size:1.5vw" type="submit" value="OK">
+                </form>
+            </div>
+            
+        </tr>
+    {% endfor %}
+
 </body>
 </html>

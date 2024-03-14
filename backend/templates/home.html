@@ -20,6 +20,7 @@
   </head>
   <body class="mainbody">
     <div>
+<<<<<<< HEAD
       <nav style="display: flex">
         <div>
           <a href="#">Home</a>
@@ -46,6 +47,28 @@
           <a href="/login" style="text-decoration: none">Login/Signup</a>
         </div>
         {% endif %}
+=======
+        <nav style="display: flex;">
+            <div>
+                <a href="#" >Home</a>
+                <a href="discussion_board/messages" style="text-decoration: none;">Discussion Board</a>
+                {% if request.user.is_authenticated %}
+                <a href="/shopping-list/details" style="text-decoration: none;">Shopping Cart</a>
+                {% endif %}
+            </div>
+            {% if request.user.is_authenticated %}
+                
+                <div style="margin-left: auto; display: flex;">
+                    <p>Welcome, {{ request.user.username }}!</p>
+                    <a style="margin: 0px; margin-left: 5px; text-decoration: none;" href="{% url 'logout' %}">Logout</a>  
+                </div>
+                
+            {% else %}
+                <div style="margin-left: auto;">
+                    <a href="/login" style="text-decoration: none;">Login/Signup</a>
+                </div>
+            {% endif %}
+>>>>>>> main
       </nav>
       <div class="divcent">
         <section class="hero-section">

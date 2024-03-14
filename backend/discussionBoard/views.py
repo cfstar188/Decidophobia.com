@@ -14,10 +14,13 @@ def messageBoard(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             req = request.POST.get('your_message')
+            replyreq = request.POST.get('reply_message')
+            replyingTo = request.POST.get('replyingTo')
 
-            print(req)
-            print(request.user.username)
-            models.Message.objects.create(user=request.user, message=req)
+            if req is not None:
+                models.Message.objects.create(user=request.user, message=req)
+            elif replyreq is not None:
+                models.Message.objects.create(user=request.user, message=replyreq, replyTo=replyingTo)
             return redirect('http://127.0.0.1:8000/discussion_board/messages/')
         else:
             return redirect('http://127.0.0.1:8000/login/')
@@ -34,3 +37,6 @@ def messageBoard(request):
 
 def requestTest(request):
     return HttpResponse(request.body)
+
+def htmlAndCssTest(request):
+    return render(request, 'testo.html')
