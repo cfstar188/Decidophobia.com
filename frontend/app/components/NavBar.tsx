@@ -80,7 +80,7 @@ export function NavBar() {
     { link: "/login", label: <>Welcome, {auth.username}!</> },
     { link: "/logout", label: "logout" },
     { link: "/#", label: "Discussion" },
-    { link: "/cart", label: "Cart" },
+    { link: "/shopping-cart", label: "Cart" },
   ];
 
   const mainItems: JSX.Element[] = mainLinks.map((item: LinkProps, index) => (

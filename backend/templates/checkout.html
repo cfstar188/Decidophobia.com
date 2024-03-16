@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout Page</title>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <form action="http://127.0.0.1:8000/shopping-list/form-submit/" method="post">
+        {% csrf_token %}
+        <h2>Items:</h2>
+        {% for product in user_products %}
+            <label for="product{{ product.product_id }}">{{ product.product_name }}</label>
+            <input type="checkbox" id="product{{ product.product_id }}" name="products" value="{{ product.product_id }}"><br>
+        {% endfor %}
+        <p>Please check the items you have actually purchased. This helps us give you better recommendations!</p>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
