@@ -1,7 +1,7 @@
 export type User = {
-  price: string;
+  price: number;
   id: number;
-  product: string;
+  name: string;
   company: string;
   picture: any;
   url: any;

@@ -69,18 +69,21 @@ export function NavBar() {
 
   const logout = () => {
     setAuth({ isAuthenticated: false, username: "" });
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
   };
 
   const currentRoute: string = usePathname();
   const newRoute: string = currentTab(currentRoute);
 
   const mainLinks: LinkProps[] = [
-    { link: "/", label: "Home" },
-    { link: "/login", label: <>Welcome, {auth.username}!</> },
-    { link: "/logout", label: "logout" },
     { link: "/#", label: "Discussion" },
     { link: "/shopping-cart", label: "Cart" },
+    { link: "/", label: "Home" },
+  ];
+
+  const authLinks: LinkProps[] = [
+    { link: "/login", label: <>Welcome, {auth.username}!</> },
+    { link: "/logout", label: "logout" },
   ];
 
   const mainItems: JSX.Element[] = mainLinks.map((item: LinkProps, index) => (

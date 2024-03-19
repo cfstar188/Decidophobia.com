@@ -1,9 +1,10 @@
 // localhost:3000/search/
 
 'use client'
-import React, { useState }from 'react';
+import React, { useState, useEffect }from 'react';
 import Cart from './components/cart';
 import Totals from './components/totals';
+import api from '../core/baseAPI';
 
 interface CartItemProps {
     product_id: number;
@@ -90,13 +91,13 @@ export default function ShoppingCartPage() {
         }
     ]);
 
-    // useEffect(() => {
-    //     api.get('shopping-list/details/')
-    //         .then(response => {
-    //             console.log(response.data);
-    //             setCart(response.data);
-    //         });
-    // }, []);
+    useEffect(() => {
+        api.get('shopping-list/details/')
+            .then(response => {
+                console.log(response.data);
+                setCart(response.data);
+            });
+    }, []);
 
     return (
         <div>

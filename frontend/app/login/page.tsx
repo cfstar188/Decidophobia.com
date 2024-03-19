@@ -25,10 +25,10 @@ export default function LoginPage() {
     console.log('Password:', password);
 
     api.post('/login/', {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
       username: username,
       password: password
+    }, {
+      headers: {"Content-Type": "application/json"},
     })
     .catch((error: any) => {
       setError("Invalid login!")
