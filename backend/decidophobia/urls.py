@@ -18,13 +18,13 @@ from django.contrib import admin
 from django.urls import include, path
 from .views import home, login, signup, logout, questionnaire
 from django.contrib.auth import views as auth_views
-from shopping_list.views import DeleteShoppingItem
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
-    path('login/', login),
+    path('login/', TokenObtainPairView.as_view(), name='login'),
     path('login/register/', signup, name='signup'),
     path('logout/', logout, name='logout'),
     path("table/", include("product_table.urls")),

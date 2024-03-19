@@ -30,6 +30,11 @@ export default function LoginPage() {
     }, {
       headers: {"Content-Type": "application/json"},
     })
+    .then((response: any) => {
+      console.log(response.data);
+      localStorage.setItem('token', JSON.stringify(response.data));
+      window.location.href = '/';
+    })
     .catch((error: any) => {
       setError("Invalid login!")
     });
