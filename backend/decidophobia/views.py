@@ -1,4 +1,6 @@
 # from . forms import CreateUserForm, CreateLoginForm
+from rest_framework.response import Response
+from rest_framework import status
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
@@ -36,7 +38,8 @@ def login(request):
         else:
             messages.error(request, 'Invalid username or password.')
 
-    return render(request, 'login.html')
+    return Response({"message": "Login failed."}, status=status.HTTP_200_OK)
+
 
 
 def logout(request):

@@ -3,6 +3,8 @@ USER ACCOUNT DJANGO TEMPLATE FROM THIS VIDEO: https://www.youtube.com/watch?v=Z3
 """
 
 from django.shortcuts import render, redirect
+from rest_framework.response import Response
+from rest_framework import status
 from . forms import CreateUserForm, CreateLoginForm
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
@@ -33,7 +35,7 @@ def login(request):
                 auth.login(request, user)
                 return redirect("dashboard/")
     context = {"loginform": form}
-    return render(request, 'useraccounts/login.html', context=context)
+    return Response({"message": "Login failed."}, status=status.HTTP_200_OK)
 
 @login_required(login_url="login/")
 def dashboard(request):
