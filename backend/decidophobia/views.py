@@ -1,4 +1,3 @@
-from django.shortcuts import render, redirect
 # from . forms import CreateUserForm, CreateLoginForm
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,13 +8,15 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.shortcuts import render
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.http import JsonResponse
 from shop_search.search_engine import search_engine
 def hello_world(request):
     return render(request, 'temp.html')
 
-  
 def home(request):
     return render(request, 'home.html')
 
@@ -33,16 +34,18 @@ def login(request):
         if user is not None:
             auth_login(request, user)
             messages.success(request, 'Login successful.')
-            return redirect('home') 
+            return redirect('home')
         else:
             messages.error(request, 'Invalid username or password.')
 
     return Response({"message": "Login failed."}, status=status.HTTP_200_OK)
 
 
+
 def logout(request):
     auth_logout(request)
     return redirect('home')
+
 
 def signup(request):
     if request.method == 'POST':
@@ -54,7 +57,7 @@ def signup(request):
             username = form.cleaned_data.get('username')
             auth_login(request, user)
             messages.success(request, f'Signup successful. Welcome, {username}!')
-            return redirect('home')  
+            return redirect('home')
         else:
             print(form.errors)
             messages.error(request, 'Signup failed. Please correct the errors in the form.')
@@ -63,6 +66,21 @@ def signup(request):
         form = UserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
+
+def settings(request):
+    return render(request, 'settings.html')
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important to keep the user logged in
+            return redirect('home')  # Redirect to home page
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {'form': form})
 
 # Switch to questionnaire page after user submit product/get product and pass it to product table
 # Changed to filter, url is at filter.
