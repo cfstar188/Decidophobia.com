@@ -28,7 +28,7 @@ class Purchase(models.Model):
     def __str__(self) -> str:
         product = self.product
         quantity = self.quantity
-        date = self.date
+        date = self.purchase_date
 
         return f'Product: {product}, Quantity: {quantity}, Date: {date}'
     

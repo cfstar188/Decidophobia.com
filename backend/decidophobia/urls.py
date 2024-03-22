@@ -18,13 +18,10 @@ from django.contrib import admin
 from django.urls import include, path
 from .views import home, login, signup, logout, questionnaire
 from django.contrib.auth import views as auth_views
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),
-    path('login/', TokenObtainPairView.as_view(), name='login'),
     path('login/register/', signup, name='signup'),
     path('logout/', logout, name='logout'),
     path("table/", include("product_table.urls")),
@@ -33,7 +30,7 @@ urlpatterns = [
     path("search/", include("search_page.urls")),
     path('questionnaire/', questionnaire, name='questionnaire'),
     path('filter/', filter, name='filter' ),
-    # path('user_accounts/', include('user_accounts.urls')),
+    path('accounts/', include('users.urls')),
     path('shopping-list/', include('shopping_list.urls')),
     path('discussion_board/', include('discussionBoard.urls')),
     path('search_item/', include("tester_app.urls"))
