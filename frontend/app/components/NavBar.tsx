@@ -46,9 +46,11 @@ export function NavBar() {
       refresh_token: refreshToken,
     }, {
       headers: { "Content-Type": "application/json" }
-    });
+    })
+    .then((response: any) => {
     setAuth({ isAuthenticated: false, username: "" });
     localStorage.removeItem("token");
+    })
   };
 
   const currentRoute: string = usePathname();

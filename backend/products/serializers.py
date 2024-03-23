@@ -7,7 +7,7 @@ from products.models import Product
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'price', 'company', 'preview_picture']
+        fields = ['id', 'name', 'price', 'company', 'preview_picture', 'url']
 
     def to_representation(self, instance):
             representation = super().to_representation(instance)
@@ -21,6 +21,12 @@ class ProductSerializer(serializers.ModelSerializer):
         price = request.data.get('price', '')
         company = request.data.get('company', '')
         preview_picture = request.data.get('preview_picture', '')
+        url = request.data.get('url', '')
 
-        valid_data = validated_data | {'name': name, 'price': price, 'company': company, 'preview_picture': preview_picture}
+        valid_data = validated_data | {'name': name,
+                                       'price': price,
+                                       'company': company,
+                                       'preview_picture': preview_picture,
+                                       'url': url}
+
         return super().create(valid_data)

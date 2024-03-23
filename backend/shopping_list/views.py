@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from shopping_list.serializers import ShoppingListSerializer, ChangeQuantitySerializer
 from shopping_list.models import ShoppingListItem
 from products.models import Product, Purchase
-from core.utils import get_item
+from core.utils import get_item, unique_order_id_generator
 
 # Create your views here.
 class ShoppingListView(ListAPIView):
@@ -77,7 +77,11 @@ class UpdatePurchases(CreateAPIView):
             product = get_object_or_404(Product, id=item_id)
             list_item = get_object_or_404(ShoppingListItem, user=user, product_id=product)
             successfully_removed.append(list_item)
-            Purchase.objects.create(user=user, product=product, quantity=list_item.quantity)
+            order_id = unique_order_id_generator().upper()
+            Purchase.objects.create(user=user,
+                                    product=product,
+                                    quantity=list_item.quantity,
+                                    order_id=order_id)
 
         for item in successfully_removed:
             item.delete()

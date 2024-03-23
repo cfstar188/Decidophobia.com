@@ -16,7 +16,6 @@ const Totals: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
         <>
             <div
             style={{
-                // display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 marginTop: '1rem',

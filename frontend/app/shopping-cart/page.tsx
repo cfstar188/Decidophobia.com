@@ -1,4 +1,4 @@
-// localhost:3000/search/
+// localhost:3000/shopping-cart/
 
 'use client'
 import React, { useState, useEffect }from 'react';
@@ -13,6 +13,7 @@ interface CartItemProps {
     product_price: string;
     quantity: number;
     preview_picture: string;
+    url: string;
 }
 
 export default function ShoppingCartPage() {
@@ -34,6 +35,8 @@ export default function ShoppingCartPage() {
                     flexWrap: 'wrap',
                     justifyContent: 'space-evenly',
                     gap: '1rem',
+                    paddingLeft: '10%',
+                    paddingRight: '10%'
                 }}>
                 <div style={{flex: 2}}>
                     <Cart cart={cart}/>

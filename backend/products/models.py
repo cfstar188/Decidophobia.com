@@ -11,6 +11,7 @@ class Product(BaseModel):
                                 validators=[MinValueValidator(0)])
     company = models.CharField(max_length=255, null=False, blank=True)
     preview_picture = models.URLField(max_length = 350, null=True, blank=True)
+    url = models.URLField(max_length = 350, null=True, blank=True)
 
     def __str__(self) -> str:
         name = self.name
@@ -23,6 +24,7 @@ class Purchase(models.Model):
     user = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    order_id = models.CharField(max_length=150, null=False, blank=False, default='')
     purchase_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

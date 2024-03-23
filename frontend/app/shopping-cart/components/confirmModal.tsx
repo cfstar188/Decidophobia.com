@@ -10,7 +10,7 @@ import { CartItemProps } from './cartItem';
 
 const PurchasedModal: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
     const [open, setOpen] = useState(false);
-    const [checkedItems, setCheckedItems] = useState([]);
+    const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
     const modalStyle = {
         position: 'absolute' as 'absolute',
@@ -26,9 +26,15 @@ const PurchasedModal: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
 
     const toggle = () => setOpen(!open);
 
-    const handleSubmit = () => {
-        api.post('shopping-list/checkout/', cart);
-        toggle();
+    const handleSubmit = (): void => {
+        console.log('checkedItems', checkedItems)
+        api.post('shopping-list/update-purchases/', {
+            products: checkedItems}, {
+                headers: {'Content-Type': 'application/json'}
+            })
+            .then((response) => {
+                console.log('response', response);
+            })
     }
 
     return (
@@ -51,7 +57,6 @@ const PurchasedModal: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
                         onClick={toggle}
                         style={{ position: 'absolute', right: 0, top: 0 }}
                     >
-                        <CloseButton style={{color: 'black'}}/>
                     </IconButton>
                         <Typography id="modal-modal-title" variant="h5" component="h2" style={{color: 'black'}}>
                             Please Select All Items That You Purchased
@@ -62,7 +67,7 @@ const PurchasedModal: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
                         <Divider />
                         <List>
                         {cart.map((item, index) => (
-                            <ListItem disablePadding>
+                            <ListItem disablePadding key={index}>
                                 <Checkbox
                                     onChange={(event) => {
                                         if (event.target.checked) {
@@ -77,7 +82,7 @@ const PurchasedModal: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
                             </ListItem>
                         ))}
                         </List>
-                        <Button variant="contained" color="primary" onClick={toggle}>
+                        <Button variant="contained" color="primary" onClick={handleSubmit}>
                             Confirm
                         </Button>
                     </Box>

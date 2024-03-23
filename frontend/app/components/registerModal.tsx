@@ -3,14 +3,18 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation' // corrected from 'next/navigation'
 import { Button, Box, Modal, TextField, Typography, Divider } from '@mui/material';
 import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Fade from '@mui/material/Fade';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import { authAtom } from '@/Library/AuthAtom';
 import api from '../core/baseAPI';
+import defaultImage from '../../public/default.jpg';
 import { on } from 'events';
 
 interface RegisterModalProps {
@@ -23,20 +27,23 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
   const router = useRouter()
   const validationSchema = Yup.object().shape({
     username: Yup.string()
-      .min(5, 'Username must be at least 5 characters long')
-      .max(15, 'Username must be less than 15 characters long')
-      .required('Username is required'),
+    .min(5, 'Username must be at least 5 characters long')
+    .max(15, 'Username must be less than 15 characters long')
+    .required('Username is required'),
     password: Yup.string()
-      .required('Password is required'),
+    .min(8, 'Password must be at least 8 characters long')
+    .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$/, 'Password must contain at least one uppercase letter, one lowercase letter, and one number')
+    .required('Password is required'),
     password2: Yup.string()
-      .oneOf([Yup.ref('password'), ''], 'Passwords must match')
-      .required('Confirm Password is required'),
+    .oneOf([Yup.ref('password'), ''], 'Passwords must match')
+    .required('Confirm Password is required'),
     email: Yup.string()
-      .email('Email is not valid')
+    .email('Email is invalid')
   });
-
+  
   const [error, setError] = useState('');
-  const [auth, setAuth] = useAtom(authAtom);
+  const [showPassword, setShowPassword] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -53,19 +60,28 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
     resolver: yupResolver(validationSchema)
   });
 
+  const resetImage = () => {
+    setImage(null);
+    const fileInput = document.getElementById('contained-button-file') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  };
+
   const onSubmit = (data: any) => {
-    api.post('accounts/register/', {
-      username: data.username,
-      password: data.password,
-      password2: data.password2,
-      email: data.email
-    }, {
-      headers: {"Content-Type": "application/json"},
+    const formData = new FormData();
+    formData.append('username', data.username);
+    formData.append('password', data.password);
+    formData.append('password2', data.password2);
+    formData.append('email', data.email);
+    if (image) {
+      formData.append('profile_picture', image);
+    }
+    api.post('accounts/register/', formData, {
+      headers: {"Content-Type": "multipart/form-data"},
     })
     .then((response: any) => {
-      localStorage.setItem('token', JSON.stringify(response.data));
-      setAuth({ isAuthenticated: true, username: data.username });
-      handleClose();
+      openLoginModal();
     })
     .catch((error: any) => {
         const errorJSON = JSON.parse(error.request.response);
@@ -79,6 +95,7 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
   }
 
   const handleClose = () => {
+    setImage(null);
     setError('');
     reset();
     onClose();
@@ -122,9 +139,22 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
                     />
                     <TextField
                         label="Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         {...register('password')}
                         error={errors.password ? true : false}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={() => setShowPassword(!showPassword)}
+                                edge="end"
+                              >
+                                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
                         helperText={errors.password ? errors.password.message : ''}
                         margin="normal"
                         required
@@ -132,7 +162,7 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
                     />
                     <TextField
                         label="Confirm Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         {...register('password2')}
                         error={errors.password2 ? true : false}
                         helperText={errors.password2 ? errors.password2.message : ''}
@@ -149,6 +179,34 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
                         margin="normal"
                         fullWidth
                     />
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <img
+                        src={image ? URL.createObjectURL(image) : '/default.jpg'}
+                        alt="profile"
+                        style={{objectFit:"cover", width: '5rem', height: '5rem'}}
+                      />
+                      <p style={{ fontSize: '1rem', marginLeft: '10px', color: 'darkgray', alignSelf: 'flex-end' }}>{image ? image.name : ''}</p>
+                    </div>
+                    <input
+                      accept="image/*"
+                      type="file"
+                      id="contained-button-file"
+                      onChange={(event) => setImage(event.target.files ? event.target.files[0] : null)}
+                      hidden
+                    />
+                    <div
+                      style={{marginTop: '10px'}}>
+                      <label htmlFor="contained-button-file">
+                        <Button variant="contained" component="span">
+                            Upload Image
+                        </Button>
+                      </label>
+                      <label style={{ marginLeft: '10px' }}>
+                        <Button variant="contained" component="span" onClick={resetImage}>
+                            Reset Image
+                        </Button>
+                      </label>
+                    </div>
                     <br />
                     {error && <Typography color="error">{error}</Typography>}
                     <Button type="submit">Register</Button>
@@ -161,4 +219,4 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
   );
 }
 
-export { RegisterModal };
+export { RegisterModal }

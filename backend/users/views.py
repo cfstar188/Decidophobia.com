@@ -15,16 +15,14 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        print('refreshtoken', request.data.get("refresh_token", ''))
         try:
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
-            print("Token blacklisted")
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
-            print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 class RegisterUserAPIView(CreateAPIView):
     serializer_class = RegisterSerializer
@@ -33,17 +31,28 @@ class RegisterUserAPIView(CreateAPIView):
 class PurchaseHistoryView(APIView):
     permission_classes = [IsAuthenticated]
 
+    def format_date(self, date):
+        month_names = ["January", "February", "March", "April", "May", "June", 
+                   "July", "August", "September", "October", "November", "December"]
+
+        return f'{month_names[date.month-1]} {date.day}, {date.year}'
+
     def get(self, request):
         user = request.user
         purchases = Purchase.objects.filter(user=user)
-        response = {}
-        for index, purchase in enumerate(purchases):
-            response[index+1] = {
+        response = []
+        for purchase in purchases:
+            purchase_info = {
                 'product': purchase.product.name,
+                'product_price': purchase.product.price,
                 'company': purchase.product.company,
                 'quantity': purchase.quantity,
-                'date': purchase.purchase_date
+                'date': self.format_date(purchase.purchase_date.date()),
+                'url': purchase.product.url,
+                'order_id': purchase.order_id
             }
+
+            response.append(purchase_info)
 
         return Response({
             'purchases': response

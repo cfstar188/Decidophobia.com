@@ -5,6 +5,9 @@ import { Button, Box, Modal, TextField, Typography, Divider } from '@mui/materia
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Fade from '@mui/material/Fade';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import InputAdornment from '@mui/material/InputAdornment';
 
 import { authAtom } from '@/Library/AuthAtom';
 import api from '../core/baseAPI';
@@ -21,6 +24,8 @@ export default function LoginModal({ isOpen, onClose, setIsRegisterModalOpen }: 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [auth, setAuth] = useAtom(authAtom);
+  const [showPassword, setShowPassword] = useState(false);
+
   const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -110,8 +115,21 @@ export default function LoginModal({ isOpen, onClose, setIsRegisterModalOpen }: 
               />
               <TextField
                   label="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   onChange={handlePasswordChange}
                   margin="normal"
                   required
