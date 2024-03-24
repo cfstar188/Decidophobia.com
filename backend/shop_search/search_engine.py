@@ -61,13 +61,13 @@ The function returns a list of dictionaries. Each dictionary has the following k
 """
 
 
-eligible_shops = ["ebay", "bestbuy"]
+eligible_shops = ["ebay", "bestbuy", "kroger"]
 
 '''Main function that performs a search query to all supported shopping sites'''
 def search_engine(search_query):
     sanitize_params(search_query)
     searcher = Searcher()
-    # setup_database()
+    setup_database()
 
     for shop in search_query["shops"]:
         match shop.lower():
@@ -75,6 +75,8 @@ def search_engine(search_query):
                 searcher = EbayDecorator(searcher)
             case "bestbuy":
                 searcher = BestbuyDecorator(searcher)
+            case "kroger":
+                searcher = KrogerDecorator(searcher)
             case _:
                 print("An unknown shop was passed in. How is this possible?")
 
@@ -87,13 +89,16 @@ def search_engine(search_query):
 def interweave_results(search_results):
     bestbuy_results = [result for result in search_results if result["shop"].lower() == "bestbuy"]
     ebay_results = [result for result in search_results if result["shop"].lower() == "ebay"]
+    kroger_results = [result for result in search_results if result["shop"].lower() == "kroger"]
 
     interweave = []
-    for i in range(max(len(ebay_results), len(bestbuy_results))):
+    for i in range(max(len(ebay_results), len(bestbuy_results), len(kroger_results))):
         if i < len(ebay_results):
             interweave.append(ebay_results[i])
         if i < len(bestbuy_results):
             interweave.append(bestbuy_results[i])
+        if i < len(kroger_results):
+            interweave.append(kroger_results[i])
 
     return interweave
 
@@ -104,7 +109,7 @@ async def task_results(tasks):
 
 
 def setup_database():
-    if AuthInfo.objects.all():
+    if len(AuthInfo.objects.all()) == len(eligible_shops):
         return
 
     ebay_auth = AuthInfo(shop_name="ebay",
@@ -121,6 +126,22 @@ def setup_database():
                              request_headers={
                                  "X-EBAY-C-MARKETPLACE-ID": "EBAY_US"})
     ebay_search.save()
+
+    kroger_auth = AuthInfo(shop_name="kroger",
+                         mint_url="https://api.kroger.com/v1/connect/oauth2/token",
+                         request_headers={
+                             "Content-Type": "application/x-www-form-urlencoded",
+                             "Authorization": "Basic ZGVjaWRvcGhvYmlhLThlMmI4NWY0YzIyYmI2YThjOGVkOGI3YTVhYjY5ZTgxNzkwOTAxMDg2Mjg3OTM0MTc0OTppU3hQS09QTERNaXFCbnRiS3ZwUExqVUt5LUN6QVcwVXBuRC1xTkpF"},
+                         request_body={"grant_type": "client_credentials",
+                                       "scope": "product.compact"})
+    kroger_auth.save()
+
+    kroger_search = SearchInfo(shop_name="kroger",
+                             base_url="https://api.kroger.com/v1/products",
+                             request_headers={
+                                 "Accept": "application/json"})
+    kroger_search.save()
+
 
     bestbuy_auth = AuthInfo(shop_name="bestbuy",
                             token="a6xmm2a2athgchfhkwuv8vpq")
