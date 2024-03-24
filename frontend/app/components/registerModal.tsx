@@ -39,6 +39,7 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
     .required('Confirm Password is required'),
     email: Yup.string()
     .email('Email is invalid')
+    .required('Email is required')
   });
   
   const [error, setError] = useState('');
