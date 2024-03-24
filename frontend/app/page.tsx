@@ -1,10 +1,25 @@
 // localhost:3000
 "use client";
 import React from "react";
-import SearchTable from "@/app/components/Table/SearchTable";
+import Image from "next/image";
 import SearchBar from "@/app/components/SearchBar";
+import Link from "next/link";
+import { NavBar } from "@/app/components/NavBar";
+import { authAtom } from "@/Library/AuthAtom";
+import { useAtom } from "jotai";
 
-// Unused pages in nextjs, purely testing page
+// Adjusted HomePage to include content from the provided HTML
 export default function HomePage() {
-  return <SearchTable />;
+
+  return (
+    <div>
+
+      <div className="divcent">
+        <section className="hero-section">
+          <h1 style={{ textAlign: "center" }}>Decidophobia.com</h1>
+          <SearchBar />
+        </section>
+      </div>
+    </div>
+  );
 }

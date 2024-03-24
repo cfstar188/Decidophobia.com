@@ -24,3 +24,12 @@ body {
     text-wrap: balance;
   }
 }
+
+
+.hero-section {
+  /* background-image: url('https://source.unsplash.com/random/1920x1080?abstract'); */
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  padding: 50px 0;
+}
