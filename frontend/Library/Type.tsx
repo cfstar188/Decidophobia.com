@@ -1,8 +1,10 @@
-export type User = {
-  price: string;
+export type Product = {
+  price: number;
   id: number;
-  product: string;
+  name: string;
   company: string;
+  currency: string;
+  score: string;
   picture: any;
   url: any;
 };

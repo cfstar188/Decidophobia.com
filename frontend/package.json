@@ -9,23 +9,32 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@hookform/resolvers": "^3.3.4",
+    "@mui/icons-material": "^5.15.14",
+    "@mui/material": "^5.15.14",
     "axios": "^1.6.7",
     "jotai": "^2.7.0",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.1",
     "react-strap": "^0.0.1",
-    "reactstrap": "^9.2.2"
+    "reactstrap": "^9.2.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/node": "20.11.16",
     "@types/react": "18.2.54",
     "@types/react-dom": "^18",
+    "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
+    "react-router-dom": "^6.22.3",
     "tailwindcss": "^3.3.0",
     "typescript": "5.3.3"
   }
