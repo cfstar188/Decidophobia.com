@@ -142,6 +142,7 @@ product6 = {
     "score": 4.2
 }
 
+
 # Switch to questionnaire page after user submit product/get product and pass it to product table
 # Changed to filter, url is at filter.
 def filter(request):
@@ -184,29 +185,55 @@ def filter(request):
             'product_name': product_name
         }, status=status.HTTP_201_CREATED)
 
+def ebay_normalize(ebay_products):
+    
+    
+    
+    
+
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })
     print("in questionnaire")
-    priceFactor = request.POST.get("priceFactor", None)
-    #customerReview = request.POST.get("customerReview", None)
-    shipping = request.POST.get("shipping", None)
-    returnPolicy = request.POST.get("returnPolicy", None)
-    brandReputation = request.POST.get("brandReputation", None)
-    print("this is priceFactor\n")
-    print(priceFactor)
+    
+    if request.method == "GET":
+        print("This is a GET request")
+    elif request.method == "POST":
+        print("This is a POST request")
+    else:
+        print("This is a different type of request")
+        
+    product_name = request.GET.get("searchQ", None)
+    customer_review = request.GET.get("customerReview", None)
+    price_factor = request.GET.get("priceFactor", None)
+    shipping = request.GET.get("shipping", None)
+    return_policy = request.GET.get("returnPolicy", None)
+    brand_reputation = request.GET.get("brandReputation", None)
+    
+    print("this is productName")
+    print(product_name)
+    print("this is priceFactor")
+    print(price_factor)
+    print("this is customerReview")
+    print(customer_review)
+    print("this is shipping")
+    print(shipping)
+    print("this is returnPolicy")
+    print(return_policy)
+    print("this is brandReputation")
+    print(brand_reputation)
+    
     min_price = 0
     max_price = float("infinity")
-    if priceFactor == ">10000":
-
+    if price_factor == ">10000":
         max_price = float("infinity")
-    elif priceFactor == "<=10000":
+    elif price_factor == "<=10000":
         max_price = 10000
-    elif priceFactor == "<=3000":
+    elif price_factor == "<=3000":
         max_price = 3000
-    elif priceFactor == "<=1000":
+    elif price_factor == "<=1000":
         max_price = 1000
-    elif priceFactor == "<=500":
+    elif price_factor == "<=500":
         max_price = 500
     
     selected_shipping = ["Does not matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
@@ -220,75 +247,39 @@ def questionnaire(request):
     elif shipping == "Right now":
         selected_shipping = selected_shipping[4:]
     
-    # Input:
-    # The function 'shop_search' takes in the following parameters:
-
-    #     shop_name: string 
-    #     ** This is the name of the shopping site you want to search. Currently, only
-    #     "ebay" is supported (case insensitive)
-        
-    #     item_name: string 
-    #     ** This is the name of the item you want to search for
-        
-    #     num_items: int
-    #     ** This is the number of items you want returned back
-        
-    #     force_new_token = False
-    #     ** You shouldn't need to pass this in, ever. This is more so for testing; if 
-    #     you need an authorization token generated, you can set this to true.
-
-    # Output:
-    # The function returns a list of dictionaries. Each dictionary has the following keys:
-
-    #     dict['shop']: string
-    #     ** This is the name of the shop that was searched
-        
-    #     dict['name']: string
-    #     ** This is the name of the item you want to search for
-        
-    #     dict['link']: string
-    #     ** This is the link to the product on the shop's website
-        
-    #     dict['image']: string
-    #     ** This is a link to the product image
-        
-    #     dict['price']: float
-    #     ** This is the price of the product in USD
-        
-    #     dict['score']: int
-    #     This is our unique score that we give to items (it defaults to 100 currently)
-
     shop_name = "ebay"
-    item_name = request.POST.get('product_name')
-    print("item_name:" + item_name)
     num_items = 10
-    products_lst = shop_search(item_name, num_items, shop_name)
-
-    # print("Before filtering")
-    # for i in range(len(products_lst)):
-    #     print(products_lst[i])
+    ebay_products = shop_search(product_name, num_items, shop_name)
+    
+    print("Before filtering")
+    for product in ebay_products:
+        print(product)
         
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
-    product_lst2 = products_lst[:]
-    for i in range(0, len(products_lst)):
-        product = products_lst[i]
+    
+    # filtering algorithm: price
+    ebay_products2 = ebay_products[:]
+    for product in ebay_products:
         if(float(product['price']) > max_price):
-            product_lst2.remove(product)
+            ebay_products2.remove(product)
     
-    # print("filtering 1")
-    # for i in range(len(product_lst2)):
-    #     print(product_lst2[i])
+    print("filtering 1")
+    for item in ebay_products2:
+        print(item)
     
-    sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
+    # filtering algorithm: customer review
+    ebay_normalize(ebay_products2)
+    
+    sorted_products = sorted(ebay_products2, key=lambda x: x['score'], reverse=True)
 
     num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
 
     filter_result = sorted_products[0:num_of_products] #*customerReview]
     
     print("After filtering")
-    for i in range(len(filter_result)):
-        print(filter_result[i])
+    for result in filter_result:
+        print(result)
         
     #return jsonresponse to table
     response = JsonResponse({"products": filter_result})

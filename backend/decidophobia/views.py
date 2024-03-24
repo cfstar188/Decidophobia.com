@@ -185,6 +185,21 @@ def filter(request):
             'product_name': product_name
         }, status=status.HTTP_201_CREATED)
 
+def ebay_normalize(ebay_products, customer_review):
+        
+    # sort products by ebay's feedback_score and feedback_percentage tomorrow
+    sorted_products = sorted(ebay_products, key=lambda x: x['feedback_score'] * x["feedback_percentage"], reverse=True)
+
+    # divide total number of products by 5
+    num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
+
+    # return products that satisfy the given customer review from high quality to lower quality. Unqualified products are removed 
+    filter_result = sorted_products[0:num_of_products * (6 - customer_review)]
+    
+    return filter_result
+    
+    
+
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })
@@ -197,37 +212,37 @@ def questionnaire(request):
     else:
         print("This is a different type of request")
         
-    productName = request.GET.get("searchQ", None)
-    customerReview = request.GET.get("customerReview", None)
-    priceFactor = request.GET.get("priceFactor", None)
+    product_name = request.GET.get("searchQ", None)
+    customer_review = request.GET.get("customerReview", None)
+    price_factor = request.GET.get("priceFactor", None)
     shipping = request.GET.get("shipping", None)
-    returnPolicy = request.GET.get("returnPolicy", None)
-    brandReputation = request.GET.get("brandReputation", None)
+    return_policy = request.GET.get("returnPolicy", None)
+    brand_reputation = request.GET.get("brandReputation", None)
     
     print("this is productName")
-    print(productName)
+    print(product_name)
     print("this is priceFactor")
-    print(priceFactor)
+    print(price_factor)
     print("this is customerReview")
-    print(customerReview)
+    print(customer_review)
     print("this is shipping")
     print(shipping)
     print("this is returnPolicy")
-    print(returnPolicy)
+    print(return_policy)
     print("this is brandReputation")
-    print(brandReputation)
+    print(brand_reputation)
     
     min_price = 0
     max_price = float("infinity")
-    if priceFactor == ">10000":
+    if price_factor == ">10000":
         max_price = float("infinity")
-    elif priceFactor == "<=10000":
+    elif price_factor == "<=10000":
         max_price = 10000
-    elif priceFactor == "<=3000":
+    elif price_factor == "<=3000":
         max_price = 3000
-    elif priceFactor == "<=1000":
+    elif price_factor == "<=1000":
         max_price = 1000
-    elif priceFactor == "<=500":
+    elif price_factor == "<=500":
         max_price = 500
     
     selected_shipping = ["Does not matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
@@ -241,39 +256,36 @@ def questionnaire(request):
     elif shipping == "Right now":
         selected_shipping = selected_shipping[4:]
     
-    
     shop_name = "ebay"
     num_items = 10
-    products_lst = shop_search(productName, num_items, shop_name)
-
-    # print("Before filtering")
-    # for i in range(len(products_lst)):
-    #     print(products_lst[i])
+    ebay_products = shop_search(product_name, num_items, shop_name)
+    
+    print("Before filtering")
+    for product in ebay_products:
+        print(product)
         
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
-    product_lst2 = products_lst[:]
-    for i in range(0, len(products_lst)):
-        product = products_lst[i]
+    
+    # filtering algorithm: price
+    ebay_products2 = ebay_products[:]
+    for product in ebay_products:
         if(float(product['price']) > max_price):
-            product_lst2.remove(product)
+            ebay_products2.remove(product)
     
-    # print("filtering 1")
-    # for i in range(len(product_lst2)):
-    #     print(product_lst2[i])
+    print("filtering 1")
+    for item in ebay_products2:
+        print(item)
     
-    sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
+    # filtering algorithm: customer review
+    ebay_product_result = ebay_normalize(ebay_products2, customer_review)
 
-    num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
-
-    filter_result = sorted_products[0:num_of_products] #*customerReview]
-    
-    # print("After filtering")
-    # for i in range(len(filter_result)):
-    #     print(filter_result[i])
+    print("After filtering")
+    for result in ebay_product_result:
+        print(result)
         
     #return jsonresponse to table
-    response = JsonResponse({"products": filter_result})
+    response = JsonResponse({"products": ebay_product_result})
 
     # Add CORS headers directly to the response
     response["Access-Control-Allow-Origin"] = "*"
