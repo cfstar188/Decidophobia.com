@@ -1,8 +1,12 @@
 import { selectedListAtom, selectedProductAtom } from "@/Library/SelectedAtom";
 import { useAtom } from "jotai";
-import React, { useEffect } from "react";
+import React, {
+  DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS,
+  useState,
+} from "react";
 import Link from "next/link";
 import { PictureComp } from "./PictureComp";
+import { type } from "os";
 
 function truncateString(str: string, num: number) {
   if (str.length > num) {
@@ -12,20 +16,48 @@ function truncateString(str: string, num: number) {
   }
 }
 
+function displayProduct(array: any, scrollIndex: number, fixedLength: number) {
+  let arraySlice = array.slice(
+    scrollIndex * fixedLength,
+    (scrollIndex + 1) * fixedLength
+  );
+  console.log(arraySlice.length < 6);
+  while (arraySlice.length < 6) {
+    arraySlice.push({
+      product: "",
+      company: "",
+      price: "",
+    });
+  }
+  return arraySlice;
+}
+
 export function HorizontalSelectBar() {
   const [selectedProducts] = useAtom(selectedProductAtom);
   const [, setSelectedAtom] = useAtom(selectedListAtom);
   const fixedLength = 6;
 
-  const displayArray = Array.from({ length: fixedLength }, (_, index) => {
-    return (
-      selectedProducts[index] || {
-        product: "",
-        company: "",
-        price: "",
-      }
-    );
-  });
+  const [scrollIndex, setScrollIndex] = useState(0);
+
+  const scrollRight = () => {
+    console.log(selectedProducts.length);
+    if ((scrollIndex + 1) * fixedLength < selectedProducts.length + 1) {
+      setScrollIndex(scrollIndex + 1);
+    }
+  };
+
+  const scrollLeft = () => {
+    if (scrollIndex > 0) {
+      setScrollIndex(scrollIndex - 1);
+    }
+  };
+
+  //Display the content from the scroll*amount of items(6) to the scroll+1*6
+  const displayedProducts = displayProduct(
+    selectedProducts,
+    scrollIndex,
+    fixedLength
+  );
 
   const clearAll = () => {
     setSelectedAtom(() => {
@@ -35,8 +67,16 @@ export function HorizontalSelectBar() {
 
   return (
     <div className="w-full flex bg-gray-200 h-30 overflow-hidden p-2">
-      <div className="basis-11/12 grid grid-cols-6 justify-start items-center gap-2">
-        {displayArray.map((product, index) => (
+      <button
+        onClick={scrollLeft}
+        aria-label="Scroll Left"
+        className="flex justify-center items-center bg-tab rounded-full w-5 h-5 my-auto"
+        disabled={scrollIndex === 0}
+      >
+        {"<"}
+      </button>
+      <div className="basis-11/12 grid grid-cols-6 justify-start items-center gap-2 px-2">
+        {displayedProducts.map((product: any, index: any) => (
           <div
             key={index}
             className="bg-tab min-w-[200px] min-h-24 max-h-24 text-white p-2 rounded flex-1"
@@ -64,6 +104,13 @@ export function HorizontalSelectBar() {
           </div>
         ))}
       </div>
+      <button
+        onClick={scrollRight}
+        aria-label="Scroll Right"
+        className="flex justify-center items-center bg-tab rounded-full w-5 h-5 my-auto"
+      >
+        {">"}
+      </button>
       <div className="basis-1/12 flex flex-col justify-between items-center text-center">
         <Link
           className={"bg-tab rounded m-auto w-5/6"}
