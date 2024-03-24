@@ -20,7 +20,19 @@
         color: #fff;
         font-family: Roboto;
         font-size: larger;
+
     }
+
+    .form-floating label {
+        font-size: 15px;
+        transition: font-size 0.2s ease;
+      }
+
+      .form-floating input:focus + label,
+      .form-floating input:not(:placeholder-shown) + label {
+        font-size: 15px;
+        opacity: 1;
+      }
 </style>
 
   <body class="text-center mainbody">
@@ -31,13 +43,13 @@
           <a href="#" style="text-decoration: none;">Discussion Board </a>
       </div>
       {% if request.user.is_authenticated %}
-          
+
           <div style="margin-left: auto; display: flex;">
               <p>Welcome, {{ request.user.username }}!</p>
               <a style="margin: 0px; margin-left: 5px; text-decoration: none;" href="{% url 'logout' %}">Logout</a>
-              
+
           </div>
-          
+
       {% else %}
           <div style="margin-left: auto;">
               <a href="/login" style="text-decoration: underline;">Login/Signup</a>
@@ -53,14 +65,14 @@
               <h1>Decidophobia.com</h1>
               <h1 class="h3 mb-3 fw-normal">Please Sign Up</h1>
               <div class="form-floating" style="color: #000;">
-                  <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="username">
+                  <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"  name="username">
                   <label for="floatingInput">Username</label>
               </div>
-              <div class="form-floating" style="color: #000;">
+              <div class="form-floating" style="color: #000; margin-top: 10px;">
                   <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password1">
                   <label for="floatingPassword">Password</label>
               </div>
-              <div class="form-floating" style="color: #000;">
+              <div class="form-floating" style="color: #000; margin-top: 10px;">
                   <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password2">
                   <label for="floatingPassword">Confirm Password</label>
               </div>

@@ -1,31 +1,35 @@
 import { selectedListAtom } from "@/Library/SelectedAtom";
 import { useAtom } from "jotai";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type squareCheckBox = {
   id: number;
   label: string;
-  onChange: any;
 };
 
-function SquareCheckbox({ id, label, onChange }: squareCheckBox) {
+function SquareCheckbox({ id, label }: squareCheckBox) {
   const [isChecked, setIsChecked] = useState(false);
-  const [checkedList, setCheckedAtom] = useAtom(selectedListAtom);
+  const [selectedList, setCheckedAtom] = useAtom(selectedListAtom);
+
+  useEffect(() => {
+    if (selectedList.includes(id)) {
+      setIsChecked(true);
+    } else {
+      setIsChecked(false);
+    }
+  }, [selectedList]);
 
   //Updates the checked fuction
   const toggleCheckbox = () => {
-    const newCheckedState = !isChecked;
-    setIsChecked(newCheckedState);
-    if (onChange) {
-      onChange(newCheckedState);
-      setCheckedAtom((checkedList) => {
-        if (checkedList.includes(id)) {
-          return checkedList.filter((item) => item !== id);
-        } else {
-          return [...checkedList, id];
-        }
-      });
-    }
+    setCheckedAtom((checkedList) => {
+      if (checkedList.includes(id)) {
+        setIsChecked(false);
+        return checkedList.filter((item) => item !== id);
+      } else {
+        setIsChecked(true);
+        return [...checkedList, id];
+      }
+    });
   };
 
   return (

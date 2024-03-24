@@ -17,10 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import hello_world, register, login, dashboard, logout
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('register/', register, name="register/"),
-    path('login/', login, name="login/"),
+    path('login/', TokenObtainPairView.as_view(), name="login/"),
     path('dashboard/', dashboard, name="dashboard/"),
     path('logout/', logout, name="logout/"),
 ]
