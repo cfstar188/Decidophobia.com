@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export default function LoginPage() {
   return (
     <>
@@ -5,3 +6,63 @@ export default function LoginPage() {
     </>
   );
 }
+=======
+// localhost:3000/login
+'use client'
+
+import React, { useState } from 'react';
+import api from '../core/baseAPI';
+
+import { Button } from 'reactstrap';
+
+export default function LoginPage() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleUsernameChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = (data: React.FormEvent<HTMLFormElement>) => {
+    data.preventDefault();
+    console.log('Username:', username);
+    console.log('Password:', password);
+
+    api.post('/login/', {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      username: username,
+      password: password
+    })
+    .catch((error: any) => {
+      setError("Invalid login!")
+    });
+  };
+
+  return (
+    <>
+      <p className="text-center m-auto">Login</p>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Username:
+          <input type="text" value={username} onChange={handleUsernameChange} style={{ color: 'black', marginLeft: '0.5rem' }}/>
+        </label>
+        <br />
+        <br />
+        <label>
+          Password:
+          <input type="password" value={password} onChange={handlePasswordChange} style={{ color: 'black', marginLeft: '0.5rem' }}/>
+        </label>
+        <br />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <Button type="submit">Login</Button>
+      </form>
+    </>
+  );
+}
+>>>>>>> main

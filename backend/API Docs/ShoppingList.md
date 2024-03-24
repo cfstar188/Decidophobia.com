@@ -10,6 +10,10 @@ This endpoint is used to get the details of the shopping list. The response will
         "product_company": "Company 1",
         "product_price": 100,
         "quantity": 2
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     },
     {
         "product_id": 2,

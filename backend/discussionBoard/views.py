@@ -3,7 +3,10 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from . import models
 from django.http import HttpResponse
+<<<<<<< HEAD
 from django.http import JsonResponse
+=======
+>>>>>>> main
 
 # Create your views here.
 def messageBoard(request):
@@ -11,6 +14,11 @@ def messageBoard(request):
     for i in models.Message.objects.all():
         messages.append(i)
 
+<<<<<<< HEAD
+=======
+    context = {'messagesList' : messages}
+
+>>>>>>> main
     if request.method == 'POST':
         if request.user.is_authenticated:
             req = request.POST.get('your_message')
@@ -25,6 +33,7 @@ def messageBoard(request):
         else:
             return redirect('http://127.0.0.1:8000/login/')
 
+<<<<<<< HEAD
     response = JsonResponse({'messagesList' : messages})
 
     # Add CORS headers directly to the response
@@ -33,6 +42,9 @@ def messageBoard(request):
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
     response["Access-Control-Allow-Credentials"] = "true"
     return response
+=======
+    return render(request, 'discussBoard.html', context=context)
+>>>>>>> main
 
 
 def requestTest(request):

@@ -10,7 +10,11 @@
 
   </head>
 
+<<<<<<< HEAD
 <style>
+=======
+  <style>
+>>>>>>> main
     .divmain {
         display: flex;
         justify-content: center;
@@ -20,7 +24,23 @@
         color: #fff;
         font-family: Roboto;
         font-size: larger;
+<<<<<<< HEAD
     }
+=======
+
+    }
+
+    .form-floating label {
+        font-size: 15px;
+        transition: font-size 0.2s ease;
+      }
+
+      .form-floating input:focus + label,
+      .form-floating input:not(:placeholder-shown) + label {
+        font-size: 15px;
+        opacity: 1;
+      }
+>>>>>>> main
 </style>
 
   <body class="text-center mainbody">
@@ -31,6 +51,7 @@
           <a href="http://127.0.0.1:8000/discussion_board/messages/" style="text-decoration: none;">Discussion Board </a>
       </div>
       {% if request.user.is_authenticated %}
+<<<<<<< HEAD
           
           <div style="margin-left: auto; display: flex;">
               <p>Welcome, {{ request.user.username }}!</p>
@@ -38,6 +59,15 @@
               
           </div>
           
+=======
+
+          <div style="margin-left: auto; display: flex;">
+              <p>Welcome, {{ request.user.username }}!</p>
+              <a style="margin: 0px; margin-left: 5px; text-decoration: none;" href="{% url 'logout' %}">Logout</a>
+
+          </div>
+
+>>>>>>> main
       {% else %}
           <div style="margin-left: auto;">
               <a href="/login" style="text-decoration: underline;">Login/Signup</a>
@@ -47,17 +77,29 @@
   </nav>
 
     <div class="divmain">
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> main
         <main class="form-signin">
             <form method="post" class="form-group">
                 {% csrf_token %}
                 <h1>Decidophobia.com</h1>
                 <h1 class="h3 mb-3 fw-normal">Please Sign In</h1>
+<<<<<<< HEAD
                 <div class="form-floating" style="color: #000;">
                     <input type="username" class="form-control" id="floatingInput" placeholder="name@example.com" name="username">
                     <label for="floatingInput">Username</label>
                 </div>
                 <div class="form-floating" style="color: #000;">
+=======
+                <div class="form-floating" style="color: #000; margin-top: 10px;">
+                    <input type="username" class="form-control" id="floatingInput" placeholder="name@example.com" name="username">
+                    <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating" style="color: #000; margin-top: 10px;">
+>>>>>>> main
                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
                     <label for="floatingPassword">Password</label>
                 </div>

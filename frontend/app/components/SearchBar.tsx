@@ -5,6 +5,7 @@ function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
 
+<<<<<<< HEAD
   const buttonStyle = {
   color: 'white',
   backgroundColor: 'blue',
@@ -12,16 +13,21 @@ function SearchBar() {
   borderRadius: '5px',
   };
 
+=======
+>>>>>>> main
   const handleSearch = (e: any) => {
     e.preventDefault();
     router.push(`/search/searchQ=${searchQuery}`);
   };
 
+<<<<<<< HEAD
   const filterHandler = (e: any) => {
     e.preventDefault(); // Prevent default link behavior
     router.push(`/filter/${searchQuery}`); // Construct the filter URL
   }
 
+=======
+>>>>>>> main
   return (
     <form onSubmit={handleSearch}>
       <input
@@ -31,6 +37,7 @@ function SearchBar() {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       <button type="submit">Search</button>
+<<<<<<< HEAD
       <button         
         className="btn btn-light fw-bold border-white bg-white"
         type="button"
@@ -41,6 +48,8 @@ function SearchBar() {
       >
       Filter
       </button>
+=======
+>>>>>>> main
     </form>
   );
 }

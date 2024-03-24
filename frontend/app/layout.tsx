@@ -13,7 +13,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+<<<<<<< HEAD
       <body className={inter.className}>
+=======
+      <body className={inter.className + " text-white"}>
+>>>>>>> main
         <JotaiProvider>
           <NavBar />
           {children}

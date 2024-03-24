@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect
 # from . forms import CreateUserForm, CreateLoginForm
 from django.contrib.auth import authenticate
+# from . forms import CreateUserForm, CreateLoginForm
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.models import auth
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
@@ -20,7 +26,15 @@ import json
 def hello_world(request):
     return render(request, 'temp.html')
 
-  
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.http import JsonResponse
+from shop_search.search_engine import search_engine
+def hello_world(request):
+    return render(request, 'temp.html')
+
 def home(request):
     return render(request, 'home.html')
 
@@ -38,11 +52,13 @@ def login(request):
         if user is not None:
             auth_login(request, user)
             messages.success(request, 'Login successful.')
-            return redirect('home') 
+            return redirect('home')
         else:
             messages.error(request, 'Invalid username or password.')
 
-    return render(request, 'login.html')
+    return Response({"message": "Login failed."}, status=status.HTTP_200_OK)
+
+
 
 def logout(request):
     auth_logout(request)
@@ -58,7 +74,7 @@ def signup(request):
             username = form.cleaned_data.get('username')
             auth_login(request, user)
             messages.success(request, f'Signup successful. Welcome, {username}!')
-            return redirect('home')  
+            return redirect('home')
         else:
             print(form.errors)
             messages.error(request, 'Signup failed. Please correct the errors in the form.')
@@ -142,6 +158,20 @@ product6 = {
     "score": 4.2
 }
 
+def settings(request):
+    return render(request, 'settings.html')
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important to keep the user logged in
+            return redirect('home')  # Redirect to home page
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {'form': form})
 
 # Switch to questionnaire page after user submit product/get product and pass it to product table
 # Changed to filter, url is at filter.
@@ -186,7 +216,6 @@ def filter(request):
         }, status=status.HTTP_201_CREATED)
 
 def ebay_normalize(ebay_products, customer_review):
-        
     # sort products by ebay's feedback_score and feedback_percentage tomorrow
     sorted_products = sorted(ebay_products, key=lambda x: x['feedback_score'] * x["feedback_percentage"], reverse=True)
 
@@ -198,8 +227,6 @@ def ebay_normalize(ebay_products, customer_review):
     
     return filter_result
     
-    
-
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })

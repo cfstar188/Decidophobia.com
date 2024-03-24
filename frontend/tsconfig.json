@@ -33,8 +33,16 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
+<<<<<<< HEAD
   ],
   "exclude": [
     "node_modules"
   ]
 }
+=======
+, "app/shopping-cart/components/cartItem.tsx", "app/shopping-cart/components/cart.tsx"  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+>>>>>>> main

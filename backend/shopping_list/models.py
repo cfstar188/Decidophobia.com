@@ -7,7 +7,11 @@ from products.models import Product
 
 # Create your models here.
 class ShoppingListItem(BaseModel):
+<<<<<<< HEAD
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+=======
+    user = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
+>>>>>>> main
     product_id = models.ForeignKey(to=Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(validators=[MinValueValidator(1),
                                                        MaxValueValidator(100)])

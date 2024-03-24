@@ -14,6 +14,7 @@ export default function SearchPage() {
   const [products, setAllProduct] = useAtom(allProductAtom);
   const searchParams = useSearchParams();
 
+<<<<<<< HEAD
   const productName = searchParams.get("searchQ");
   const priceFactor = searchParams.get("priceFactor");
   const customerReview = searchParams.get("customerReview");
@@ -34,6 +35,16 @@ export default function SearchPage() {
         console.log("received response");
         return response.json();
       })
+=======
+  const newParmas = searchParams.get("searchQ");
+  const newParmas2 = searchParams.get("new");
+  console.log("params", newParmas);
+  console.log("params2:", newParmas2);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/questionnaire/?searchQ=${newParmas}`)
+      .then((response) => response.json())
+>>>>>>> main
       .then((data) => {
         console.log(data);
         const transformedData = JsonToAtom(data);
