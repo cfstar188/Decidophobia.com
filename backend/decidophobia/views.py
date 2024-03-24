@@ -18,7 +18,7 @@ import requests
 #Below 6 lines are integration change -- attemping to merge 13 and 24, change made by Marvin
 from django.shortcuts import render
 from django.http import JsonResponse
-from shop_search.search_engine import shop_search
+from shop_search.search_engine import search_engine, elegant_print
 import json
 
 
@@ -215,18 +215,61 @@ def filter(request):
             'product_name': product_name
         }, status=status.HTTP_201_CREATED)
 
-def ebay_normalize(ebay_products, customer_review):
+# normalize product score from bestbuy and ebay. To be on a scale of 0 to 100
+def normalize(bestbuy_products, ebay_products):
+    highest_score = 0
+    lowest_score = float('inf')
+    for bestbuy_product in bestbuy_products:
+        if bestbuy_product["product_review"] < lowest_score:
+            lowest_score = bestbuy_product["product_review"]
+        if bestbuy_product["product_review"] > highest_score:
+            highest_score = bestbuy_product["product_review"]
+        
+    for bestbuy_product in bestbuy_products:
+        normalized_value = ((bestbuy_product['product_review'] - lowest_score) / (highest_score - lowest_score)) * 100
+        bestbuy_product['product_review'] = normalized_value
+    
+    highest_score = 0
+    lowest_score = float('inf')
+    for ebay_product in ebay_products:
+        if ebay_product["seller_score"] * ebay_product["seller_percentage"] < lowest_score:
+            lowest_score = ebay_product["seller_score"] * ebay_product["seller_percentage"]
+        if ebay_product["seller_score"] * ebay_product["seller_percentage"] > highest_score:
+            highest_score = ebay_product["seller_score"] * ebay_product["seller_percentage"]
+        
+    # notice seller score is storing normalized value
+    for ebay_product in ebay_products:
+        normalized_value = ((ebay_product["seller_score"] * ebay_product["seller_percentage"] - lowest_score) / (highest_score - lowest_score)) * 100
+        ebay_product['seller_score'] = normalized_value
+
+def customer_review_and_brand_reput_calibrate(interleaved_products, customer_review):
     # sort products by ebay's feedback_score and feedback_percentage tomorrow
-    sorted_products = sorted(ebay_products, key=lambda x: x['feedback_score'] * x["feedback_percentage"], reverse=True)
+    bestbuy_products = [result for result in interleaved_products if result["shop"].lower() == "bestbuy"]
+    ebay_products = [result for result in interleaved_products if result["shop"].lower() == "ebay"]
+    
+    normalize(bestbuy_products, ebay_products)
+        
+    # apply brand reputation factor to product
+    # best buy has product score 80.8 and ebay has product score 
+    for product in bestbuy_products:
+        product['product_review'] *= 80.8
+    for product in ebay_products:
+        product["seller_score"] *= 72.1
+        
+    normalize(bestbuy_products, ebay_products)
+
+    bestbuy_products.extend(ebay_products)
+            
+    sorted_products = sorted(bestbuy_products, key=lambda x: x["product_review"] if x['shop'] == "bestbuy" else x['seller_score'], reverse=True)    
 
     # divide total number of products by 5
-    num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
+    num_of_products = 1 if (len(sorted_products)) // 5 == 0 else (len(sorted_products)) // 5
 
     # return products that satisfy the given customer review from high quality to lower quality. Unqualified products are removed 
     filter_result = sorted_products[0:num_of_products * (6 - customer_review)]
     
     return filter_result
-    
+
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })
@@ -283,36 +326,35 @@ def questionnaire(request):
     elif shipping == "Right now":
         selected_shipping = selected_shipping[4:]
     
-    shop_name = "ebay"
-    num_items = 10
-    ebay_products = shop_search(product_name, num_items, shop_name)
-    
-    print("Before filtering")
-    for product in ebay_products:
-        print(product)
+    interleaved_products = search_engine({"item": product_name, "shops": ["ebay", "bestbuy"]})
+        
+    print("after searching and before filtering")
+    # for product in interleaved_products:
+    #     print(product)
         
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
     
-    # filtering algorithm: price
-    ebay_products2 = ebay_products[:]
-    for product in ebay_products:
+    # filtering algorithm: apply price factor
+    interleaved_products_cpy = interleaved_products[:]
+    for product in interleaved_products:
         if(float(product['price']) > max_price):
-            ebay_products2.remove(product)
+            interleaved_products_cpy.remove(product)
     
     print("filtering 1")
-    for item in ebay_products2:
+    for item in interleaved_products_cpy:
         print(item)
     
-    # filtering algorithm: customer review
-    ebay_product_result = ebay_normalize(ebay_products2, customer_review)
-
+    # filtering algorithm: apply customer review and brand reputation
+    # filtering algorithm: brand reputation. Src: https://www.axios.com/2023/05/23/corporate-brands-reputation-america
+    interleaved_sorted_products = customer_review_and_brand_reput_calibrate(interleaved_products_cpy, customer_review)
+    
     print("After filtering")
-    for result in ebay_product_result:
+    for result in interleaved_sorted_products:
         print(result)
         
     #return jsonresponse to table
-    response = JsonResponse({"products": ebay_product_result})
+    response = JsonResponse({"products": interleaved_sorted_products})
 
     # Add CORS headers directly to the response
     response["Access-Control-Allow-Origin"] = "*"

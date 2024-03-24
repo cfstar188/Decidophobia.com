@@ -1,10 +1,6 @@
 from .searcher_interface import SearcherInterface
 from ..models import AuthInfo
-<<<<<<< HEAD
 from datetime import datetime, UTC
-=======
-# from datetime import datetime, UTC
->>>>>>> main
 import asyncio
 
 class SearcherDecorator(SearcherInterface):
