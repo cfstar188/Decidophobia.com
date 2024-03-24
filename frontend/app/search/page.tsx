@@ -9,6 +9,7 @@ import {
   prevSearchParams,
   selectedProductAtom,
 } from "@/Library/SelectedAtom";
+import api from "../core/baseAPI";
 import JsonToAtom from "@/Library/JsonToSearch";
 import { useSearchParams } from "next/navigation";
 
@@ -22,8 +23,9 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (newParams !== lastSearchParams) {
-      fetch(`http://localhost:8000/questionnaire/?searchQ=${newParams}`)
-        .then((response) => response.json())
+      api.get(`/questionnaire/?searchQ=${newParams}`)
+      // fetch(`http://localhost:8000/questionnaire/?searchQ=${newParams}`)
+        .then((response) => response.data)
         .then((data) => {
           console.log(newParams, lastSearchParams);
           const transformedData = JsonToAtom(data);

@@ -30,6 +30,7 @@ export function SearchTable() {
       setNotLoggedInAlert(true);
     }
     else {
+      console.log('product', product)
       api.post("/products/create-product/", {
         name: product.name,
         company: product.company,
@@ -58,7 +59,7 @@ export function SearchTable() {
   }
 
   return (
-    <>
+    <div style={{paddingLeft: '10%', paddingRight: '10%', paddingBottom: '10%'}}>
       <div className="grid grid-cols-4 min-w-[500px] gap-4 p-4">
         {products.map((product: Product, index) => (
           <div
@@ -98,7 +99,7 @@ export function SearchTable() {
       <Alerts message="Product already in cart!" severity="error"
               isOpen={itemAlreadyInCartAlert}
               onClose={() => setitemAlreadyInCartAlert(false)} />
-    </>
+    </div>
   );
 }
 

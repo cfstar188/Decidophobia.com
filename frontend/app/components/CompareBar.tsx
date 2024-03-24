@@ -6,7 +6,6 @@ import React, {
 } from "react";
 import Link from "next/link";
 import { PictureComp } from "./PictureComp";
-import { type } from "os";
 
 function truncateString(str: string, num: number) {
   if (str.length > num) {
@@ -93,7 +92,7 @@ export function HorizontalSelectBar() {
               {typeof product.picture === "string" ? (
                 <div className="basis-2/3 pl-2">
                   <div className="line-clamp-2 overflow-hidden">
-                    {truncateString(product.product, 33)}
+                    {truncateString(product.name, 33)}
                   </div>
                   <div className="">${`${product.price}`}</div>
                 </div>
