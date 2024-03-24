@@ -10,7 +10,7 @@ export function createProduct(
 ): Product {
   const returnProduct: Product = {
     picture: image,
-    product: product,
+    name: product,
     price: price,
     currency: currency,
     score: score,
