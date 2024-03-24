@@ -45,17 +45,19 @@ class BestbuyDecorator(SearcherDecorator):
                     all_items = []
                     seller_metrics = []
                     for elem in search_dict.get("products"):
-                        all_items.append({"name": elem.get("name"),
-                                          "shop": "BestBuy",
-                                          "link": elem.get("url"),
-                                          "image": elem.get("image"),
-                                          "price": elem.get("salePrice"),
-                                          "currency": "USD",
-                                          "score": 100})
-                        seller_metrics.append({"review_count": elem.get("customerReviewCount"),
-                                               "review_average": elem.get("customerReviewAverage")})
+                        if (elem.get("customerReviewCount") and elem.get("customerReviewAverage")):
+                            all_items.append({"name": elem.get("name"),
+                                            "shop": "BestBuy",
+                                            "link": elem.get("url"),
+                                            "image": elem.get("image"),
+                                            "price": elem.get("salePrice"),
+                                            "currency": "USD",
+                                            "score": 80,
+                                            "metrics": {"review_count": elem.get("customerReviewCount"),
+                                                "review_average": elem.get("customerReviewAverage")}})
 
                     print("BestBuy request performed succesfully")
+
                     return all_items
                 else:
                     print("BestBuy search failed.")

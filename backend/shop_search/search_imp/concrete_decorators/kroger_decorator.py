@@ -62,7 +62,8 @@ class KrogerDecorator(SearcherDecorator):
                                             "image": elem.get("images")[0].get("sizes")[0].get("url"),
                                             "price": price,
                                             "currency": "USD",
-                                            "score": 78})
+                                            "score": 78,
+                                            "metrics":{"price": price}})
                     print("Kroger request performed succesfully")
                     return all_items
                 else:

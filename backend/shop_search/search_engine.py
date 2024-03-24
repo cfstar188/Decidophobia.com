@@ -14,7 +14,7 @@ will be specified.
 
     shops: list 
     This is the name of the shopping sites you want to search. 
-    Currently, the supported sites are "ebay" and "bestbuy" [case-insensitive].
+    Currently, the supported sites are "ebay", "bestbuy" and "kroger" [case-insensitive].
     Additionally, a value of ["all"] searches all supported sites
     **Default**: ["all"]
 
@@ -58,6 +58,26 @@ The function returns a list of dictionaries. Each dictionary has the following k
 
     dict['score']: int
     This is our unique score that we give to items (it defaults to 100 currently)
+
+    dict['metrics']: dict
+    This is only used by the questionnaire app. They consist of the specific metrics
+    each e-commerce website uses to rate their products. As such, they differ for each
+    e-commerce site.
+        eBay:
+        -- dict['metrics']['feedback_score']: Gives you the seller's delta review count,
+        based on the number of positive reviews minus the number of negative reviews.
+        -- dict['metrics']['feedback_percentage']: Gives you the seller's positive
+        review percentage, based on the number of positive reviews divided by the
+        total review count.
+
+
+        BestBuy:
+        -- dict['metrics']['review_count']: Gives you the number of product reviews.
+        -- dict['metrics']['review_average']: Gives you the average product rating.
+
+        Kroger:
+        -- dict['metrics']['price']: Gives you the price of the product.
+
 """
 
 

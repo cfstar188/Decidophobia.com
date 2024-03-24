@@ -49,16 +49,24 @@ class EbayDecorator(SearcherDecorator):
                     all_items = []
                     seller_metrics = []
                     for elem in search_dict.get("itemSummaries"):
-                        all_items.append({"name": elem.get("title"),
-                                          "shop": "eBay",
-                                          "link": elem.get("itemWebUrl"),
-                                          "image": elem.get("image").get("imageUrl"),
-                                          "price": elem.get("price").get("value"),
-                                          "currency": elem.get("price").get("currency"),
-                                          "score": 100})
-                        seller_metrics.append({"feedback_score": elem.get("seller").get("feedbackScore"),
-                                               "feedback_percentage": elem.get("seller").get("feedbackPercentage")})
+                        if  (elem.get("seller").get("feedbackScore") and elem.get("seller").get("feedbackPercentage")):
+                            if elem.get("image"):
+                                image = elem.get("image").get("imageUrl")
+                            else:
+                                image = "https://demofree.sirv.com/nope-not-here.jpg"
+
+                            all_items.append({"name": elem.get("title"),
+                                            "shop": "eBay",
+                                            "link": elem.get("itemWebUrl"),
+                                            "image": image,
+                                            "price": elem.get("price").get("value"),
+                                            "currency": elem.get("price").get("currency"),
+                                            "score": 72,
+                                            "metrics": {"feedback_score": elem.get("seller").get("feedbackScore"),
+                                                "feedback_percentage": elem.get("seller").get("feedbackPercentage")}})
+                        
                     print("eBay request performed succesfully")
+
                     return all_items
                 else:
                     print("eBay search failed.")
