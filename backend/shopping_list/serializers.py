@@ -12,10 +12,11 @@ class ShoppingListSerializer(serializers.ModelSerializer):
     product_company = serializers.CharField(source='product_id.company', read_only=True)
     product_price = serializers.DecimalField(source='product_id.price', max_digits=8, decimal_places=2, read_only=True)
     preview_picture = serializers.URLField(source='product_id.preview_picture', read_only=True)
+    url = serializers.URLField(source='product_id.url', read_only=True)
 
     class Meta:
         model = ShoppingListItem
-        fields = ('product_id', 'product_name', 'product_company', 'product_price', 'quantity', 'preview_picture')
+        fields = ('product_id', 'product_name', 'product_company', 'product_price', 'quantity', 'preview_picture', 'url')
 
     def create(self, validated_data):
         request = self.context['request']
@@ -34,6 +35,8 @@ class ShoppingListSerializer(serializers.ModelSerializer):
             'product_company': item.product_id.company,
             'product_price': item.product_id.price,
             'quantity': item.quantity,
+            'preview_picture': item.product_id.preview_picture,
+            'url': item.product_id.url
         }
 
         return item_data

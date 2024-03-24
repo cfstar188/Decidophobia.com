@@ -1,25 +1,34 @@
+import { selectedListAtom } from "@/Library/SelectedAtom";
+import { useAtom } from "jotai";
 import React from "react";
-import { CircularXButton } from "./Button/CircularXButton";
 
-export function PictureComp({ id, setData, src }: any) {
-  const buttonStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "50px", // Adjust the size as needed
-    height: "50px", // Ensure width and height are the same for a perfect circle
-    borderRadius: "50%", // This makes the button circular
-    border: "none", // Optional: remove the border for a cleaner look
-    backgroundColor: "#f00", // Set your desired background color
-    color: "#fff", // Set the color of the "X"
-    fontSize: "20px", // Adjust the size of the "X"
-    cursor: "pointer", // Changes the cursor on hover to indicate it's clickable
+export function PictureComp({ id, src, print, button, height }: any) {
+  const [, setCheckedAtom] = useAtom(selectedListAtom);
+
+  const deleteItem = () => {
+    setCheckedAtom((checkedList) => {
+      console.log(print);
+      if (checkedList.includes(id)) {
+        return checkedList.filter((item) => item !== id);
+      } else {
+        return [...checkedList, id];
+      }
+    });
   };
 
   return (
-    <div>
-      <CircularXButton id={id} setData={setData} />
-      <img className="h-80 w-50" src={src} />
+    <div className="flex">
+      {typeof src === "string" ? <img className={height} src={src} /> : <></>}
+      {button ? (
+        <button
+          className="flex items-center justify-center w-5 h-5 rounded-full bg-black text-white text-xl cursor-pointer"
+          onClick={() => deleteItem()}
+        >
+          X
+        </button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

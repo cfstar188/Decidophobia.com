@@ -24,13 +24,13 @@
     }
 
     .form-floating label {
-        font-size: 15px; 
-        transition: font-size 0.2s ease; 
+        font-size: 15px;
+        transition: font-size 0.2s ease;
       }
-      
+
       .form-floating input:focus + label,
       .form-floating input:not(:placeholder-shown) + label {
-        font-size: 15px; 
+        font-size: 15px;
         opacity: 1;
       }
 </style>
@@ -43,13 +43,13 @@
           <a href="http://127.0.0.1:8000/discussion_board/messages/" style="text-decoration: none;">Discussion Board </a>
       </div>
       {% if request.user.is_authenticated %}
-          
+
           <div style="margin-left: auto; display: flex;">
               <p>Welcome, {{ request.user.username }}!</p>
               <a style="margin: 0px; margin-left: 5px; text-decoration: none;" href="{% url 'logout' %}">Logout</a>
-              
+
           </div>
-          
+
       {% else %}
           <div style="margin-left: auto;">
               <a href="/login" style="text-decoration: underline;">Login/Signup</a>
@@ -59,7 +59,7 @@
   </nav>
 
     <div class="divmain">
-      
+
         <main class="form-signin">
             <form method="post" class="form-group">
                 {% csrf_token %}
