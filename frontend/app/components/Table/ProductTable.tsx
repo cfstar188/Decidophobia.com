@@ -3,11 +3,10 @@
 import React from "react";
 import { PictureComp } from "@/app/components/PictureComp";
 import { useAtom } from "jotai";
-import { selectedListAtom, selectedProductAtom } from "@/Library/SelectedAtom";
+import { selectedProductAtom } from "@/Library/SelectedAtom";
 import { Product } from "@/Library/Type";
 
 export function ProductTable() {
-  const [checkedList, setCheckedAtom] = useAtom(selectedListAtom);
   const [selectedProducts] = useAtom(selectedProductAtom);
 
   const keys =
@@ -22,6 +21,10 @@ export function ProductTable() {
           {keys.map((key, index) => {
             // Skip the id row
             if (key === "id") {
+              return null;
+            }
+
+            if (key === "company") {
               return null;
             }
 
@@ -45,6 +48,14 @@ export function ProductTable() {
                       />
                     ) : key === "price" ? (
                       <div className="text-white">${product[key]}</div>
+                    ) : key === "link" ? (
+                      <a
+                        href={product[key]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Link to Store
+                      </a>
                     ) : (
                       <div className="text-white">{product[key]}</div>
                     )}

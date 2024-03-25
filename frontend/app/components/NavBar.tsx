@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import api from "../core/baseAPI";
 import LoginModal from "./loginModal";
-import RegisterModal from './registerModal';
+import RegisterModal from "./registerModal";
 
 interface LinkProps {
   label: any;
@@ -42,29 +42,35 @@ export function NavBar() {
     const token: any = JSON.parse(localStorage.getItem("token") || "");
     const refreshToken: string = token.refresh;
 
-    api.post("accounts/logout/", {
-      refresh_token: refreshToken,
-    }, {
-      headers: { "Content-Type": "application/json" }
-    })
-    .then((response: any) => {
-    setAuth({ isAuthenticated: false, username: "" });
-    localStorage.removeItem("token");
-    })
+    api
+      .post(
+        "accounts/logout/",
+        {
+          refresh_token: refreshToken,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((response: any) => {
+        setAuth({ isAuthenticated: false, username: "" });
+        localStorage.removeItem("token");
+      });
   };
 
   const currentRoute: string = usePathname();
   const newRoute: string = currentTab(currentRoute);
 
-  const mainLinks: LinkProps[] = auth.isAuthenticated ? [
-    { link: "/", label: "Home" },
-    { link: "/#", label: "Discussion" },
-    { link: "/shopping-cart", label: "Cart" },
-  ] :
-  [
-    { link: "/", label: "Home" },
-    { link: "/#", label: "Discussion" }
-  ]
+  const mainLinks: LinkProps[] = auth.isAuthenticated
+    ? [
+        { link: "/", label: "Home" },
+        { link: "/#", label: "Discussion" },
+        { link: "/shopping-cart", label: "Cart" },
+      ]
+    : [
+        { link: "/", label: "Home" },
+        { link: "/#", label: "Discussion" },
+      ];
 
   const mainItems: JSX.Element[] = mainLinks.map((item: LinkProps, index) => (
     <Link
@@ -85,13 +91,15 @@ export function NavBar() {
         {auth.isAuthenticated ? (
           <>
             <Link
-              className={newRoute === '/logout' ? activeStyle : nonActiveStyle}
+              className={newRoute === "/logout" ? activeStyle : nonActiveStyle}
               href="/profile"
             >
-              <label className={hoverStyle + " w-full"}>Welcome, {auth.username}!</label>
+              <label className={hoverStyle + " w-full"}>
+                Welcome, {auth.username}!
+              </label>
             </Link>
             <Link
-              className={newRoute === '/logout' ? activeStyle : nonActiveStyle}
+              className={newRoute === "/logout" ? activeStyle : nonActiveStyle}
               href="/"
               onClick={logout}
             >
@@ -100,9 +108,22 @@ export function NavBar() {
           </>
         ) : (
           <>
-            <button onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
-            <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} setIsRegisterModalOpen={setIsRegisterModalOpen} />
-            <RegisterModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} setIsLoginModalOpen={setIsLoginModalOpen} />
+            <button
+              className={newRoute === "/logout" ? activeStyle : nonActiveStyle}
+              onClick={() => setIsLoginModalOpen(true)}
+            >
+              Login/Register
+            </button>
+            <LoginModal
+              isOpen={isLoginModalOpen}
+              onClose={() => setIsLoginModalOpen(false)}
+              setIsRegisterModalOpen={setIsRegisterModalOpen}
+            />
+            <RegisterModal
+              isOpen={isRegisterModalOpen}
+              onClose={() => setIsRegisterModalOpen(false)}
+              setIsLoginModalOpen={setIsLoginModalOpen}
+            />
           </>
         )}
       </div>
