@@ -7,9 +7,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from users.serializers import RegisterSerializer
+from users.serializers import RegisterSerializer, CustomTokenObtainPairSerializer
 from products.models import Purchase
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
@@ -56,4 +60,15 @@ class PurchaseHistoryView(APIView):
 
         return Response({
             'purchases': response
+        })
+
+
+class UserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            'username': user.username,
+            'avatar': user.profile_picture.url if user.profile_picture else None
         })
