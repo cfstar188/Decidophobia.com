@@ -67,7 +67,7 @@ eligible_shops = ["ebay", "bestbuy"]
 def search_engine(search_query):
     sanitize_params(search_query)
     searcher = Searcher()
-    setup_database()
+    # setup_database()
 
     for shop in search_query["shops"]:
         match shop.lower():
