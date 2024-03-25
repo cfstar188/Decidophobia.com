@@ -13,9 +13,9 @@ export default function JsonToAtom(jsonList: any): any[] {
     const name: string = json[i].name;
     const price: number = Number(json[i].price);
     const currency: string = json[i].currency;
-    const score: string = json[i].score;
+    const score: number = Number(json[i].score);
     const image: any = json[i].image;
-    array.push(createProduct(image, name, price, currency, score, i));
+    array.push(createProduct(name, price, currency, score, image));
   }
 
   return array;

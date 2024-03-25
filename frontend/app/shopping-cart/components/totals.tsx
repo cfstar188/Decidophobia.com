@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import { Button } from '@mui/material';
-
+import React from 'react';
 import { CartItemProps } from './cartItem';
-import PurchasedModal from './confirmModal';
 
 const Totals: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
     let total = 0;
@@ -13,27 +10,26 @@ const Totals: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
 
     
     return (
-        <>
-            <div
-            style={{
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginTop: '1rem',
-            }}
-            >
-            <ul>
-                {cart.map((item, index) => (
-                <li key={index}>
-                    {item.product_name}........................{item.quantity} x ${item.product_price}
-                </li>
-                ))}
-            </ul>
-            <div>
-                <h4>Total: ${total.toFixed(2)}</h4>
-            </div>
-            </div>
-            <PurchasedModal cart={cart} />
-        </>
+        <div
+        style={{
+            // display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: '1rem',
+        }}
+        >
+        <ul>
+            {cart.map((item, index) => (
+            <li key={index}>
+                {item.product_name}........................{item.quantity} x ${item.product_price}
+            </li>
+            ))}
+        </ul>
+        <div>
+            <h4>Total:</h4>
+            <h4>${total.toFixed(2)}</h4>
+        </div>
+        </div>
     );
 };
 

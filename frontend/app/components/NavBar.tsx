@@ -1,12 +1,43 @@
 import { useAtom } from "jotai";
 import { authAtom } from "@/Library/AuthAtom";
+// import AuthContext from "@/app/contexts/AuthContext";
+
+/*
+export function NavBar() {
+  const [auth, setAuth] = useAtom(authAtom);
+
+  const logout = () => {
+    setAuth({ isAuthenticated: false, username: "" });
+    localStorage.removeItem("token");
+  };
+
+  return (
+    <nav style={{ display: "flex" }}>
+      <div>
+        <Link href="/">Home</Link>
+        <Link href="#">Discussion Board</Link>
+        {auth.isAuthenticated && <Link href="/cart">Shopping Cart</Link>}
+      </div>
+      {!auth.isAuthenticated ? (
+        <div style={{ marginLeft: "auto", display: "flex" }}>
+          <p>Welcome, {auth.username}!</p>
+          <Link href="/logout" onClick={logout}>
+            Logout
+          </Link>
+        </div>
+      ) : (
+        <div style={{ marginLeft: "auto" }}>
+          <Link href="/login">Login/Signup</Link>
+        </div>
+      )}
+    </nav>
+  );
+}
+
+*/
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-
-import api from "../core/baseAPI";
-import LoginModal from "./loginModal";
-import RegisterModal from './registerModal';
 
 interface LinkProps {
   label: any;
@@ -35,36 +66,22 @@ function currentTab(currentRoute: string) {
 
 export function NavBar() {
   const [auth, setAuth] = useAtom(authAtom);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const logout = () => {
-    const token: any = JSON.parse(localStorage.getItem("token") || "");
-    const refreshToken: string = token.refresh;
-
-    api.post("accounts/logout/", {
-      refresh_token: refreshToken,
-    }, {
-      headers: { "Content-Type": "application/json" }
-    })
-    .then((response: any) => {
     setAuth({ isAuthenticated: false, username: "" });
     localStorage.removeItem("token");
-    })
   };
 
   const currentRoute: string = usePathname();
   const newRoute: string = currentTab(currentRoute);
 
-  const mainLinks: LinkProps[] = auth.isAuthenticated ? [
+  const mainLinks: LinkProps[] = [
     { link: "/", label: "Home" },
+    { link: "/login", label: <>Welcome, {auth.username}!</> },
+    { link: "/logout", label: "logout" },
     { link: "/#", label: "Discussion" },
     { link: "/shopping-cart", label: "Cart" },
-  ] :
-  [
-    { link: "/", label: "Home" },
-    { link: "/#", label: "Discussion" }
-  ]
+  ];
 
   const mainItems: JSX.Element[] = mainLinks.map((item: LinkProps, index) => (
     <Link
@@ -81,31 +98,6 @@ export function NavBar() {
   return (
     <nav className="h-10 flex justify-between items-center bg-primary drop-shadow-lg">
       <div className="flex h-10">{mainItems}</div>
-      <div className="flex h-10">
-        {auth.isAuthenticated ? (
-          <>
-            <Link
-              className={newRoute === '/logout' ? activeStyle : nonActiveStyle}
-              href="/profile"
-            >
-              <label className={hoverStyle + " w-full"}>Welcome, {auth.username}!</label>
-            </Link>
-            <Link
-              className={newRoute === '/logout' ? activeStyle : nonActiveStyle}
-              href="/"
-              onClick={logout}
-            >
-              <label className={hoverStyle + " w-full"}>Logout</label>
-            </Link>
-          </>
-        ) : (
-          <>
-            <button onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
-            <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} setIsRegisterModalOpen={setIsRegisterModalOpen} />
-            <RegisterModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} setIsLoginModalOpen={setIsLoginModalOpen} />
-          </>
-        )}
-      </div>
     </nav>
   );
 }

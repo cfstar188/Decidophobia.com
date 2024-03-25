@@ -1,8 +1,8 @@
 "use client";
 import JsonToAtom from "@/Library/JsonToSearch";
 import { allProductAtom } from "@/Library/SelectedAtom";
-import HorizontalSelectBar from "@/app/components/CompareBar";
-import SearchTable from "@/app/components/Table/SearchTable";
+import HorizontalSelectBar from "@/app/components/HorizontalSelectBar";
+import SearchTable from "@/app/components/SearchTable";
 import { useAtom } from "jotai";
 import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";

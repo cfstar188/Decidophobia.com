@@ -16,16 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from .views import home, login, signup, logout, settings, change_password, questionnaire
+from .views import home, login, signup, logout, cart, remove_from_cart, settings, change_password, questionnaire
 from django.contrib.auth import views as auth_views
+from shopping_list.views import DeleteShoppingItem
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('login/register/', signup, name='signup'),
-    # path('logout/', logout, name='logout'),
+    path('', home, name='home'),
+    path('login/', login),
+    path('login/register/', signup, name='signup'),
+    path('logout/', logout, name='logout'),
     path('settings/', settings, name='settings'),
     path('settings/change_password/', change_password, name='change_password'),
+    path('cart/', cart, name='cart'),
+    path('remove-from-cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
     path("", include("django_nextjs.urls")),
     path("table/", include("product_table.urls")),
     path("", include("django_nextjs.urls")),
@@ -33,7 +38,7 @@ urlpatterns = [
     path("search/", include("search_page.urls")),
     path('questionnaire/', questionnaire, name='questionnaire'),
     path('filter/', filter, name='filter' ),
-    path('accounts/', include('users.urls')),
+    # path('user_accounts/', include('user_accounts.urls')),
     path('shopping-list/', include('shopping_list.urls')),
     path('discussion_board/', include('discussionBoard.urls')),
     path('search_item/', include("tester_app.urls"))

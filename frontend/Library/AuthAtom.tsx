@@ -1,4 +1,4 @@
-import { atomWithStorage } from 'jotai/utils';
+import { atom } from "jotai";
 
-const auth = {isAuthenticated: false, username: ''};
-export const authAtom = atomWithStorage('auth', { isAuthenticated: false, username: '' });
+const auth = {isAuthenticated: false, username: 'User'};
+export const authAtom = atom(auth);
