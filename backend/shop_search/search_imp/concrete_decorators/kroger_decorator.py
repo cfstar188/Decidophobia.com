@@ -1,7 +1,7 @@
 from ..decorator_helper import *
 
 
-class EbayDecorator(SearcherDecorator):
+class KrogerDecorator(SearcherDecorator):
     def __init__(self, searcher):
         super().__init__(searcher)
 
@@ -30,50 +30,48 @@ class EbayDecorator(SearcherDecorator):
 
         token = await self.get_auth_token(force_new_token)
         if token == -1:
-            print("(ebay) Couldn't mint new authorization token.")
+            print("(kroger) Couldn't mint new authorization token.")
             return []
 
-        search_info = await SearchInfo.objects.aget(shop_name="ebay")
-        print("eBay request initiated")
+        search_info = await SearchInfo.objects.aget(shop_name="kroger")
+        print("Kroger request initiated")
         async with aiohttp.ClientSession() as session:
             async with session.get(search_info.base_url,
-                                       params={"q": item,
-                                              "limit": num_items},
+                                       params={"filter.term": item,
+                                              "filter.locationId": "01400465",
+                                              "filter.limit": 50},
                                        headers=search_info.request_headers | {
                                           "Authorization": f'Bearer {token}'}) as search_response:
                 if search_response.status == 200:
                     search_dict = await search_response.json()
-                    if not search_dict.get("itemSummaries"):
-                        print("(eBay) No results found.")
+                    if not search_dict.get("data"):
+                        print("(kroger) No results found.")
                         return []
                     all_items = []
                     seller_metrics = []
-                    for elem in search_dict.get("itemSummaries"):
-                        if  (elem.get("seller").get("feedbackScore") and elem.get("seller").get("feedbackPercentage")):
-                            if elem.get("image"):
-                                image = elem.get("image").get("imageUrl")
+                    for elem in search_dict.get("data"):
+                        if (elem.get("items")[0].get("price")):
+                            if elem.get("items")[0].get("price").get("promo") > 0:
+                                price = elem.get("items")[0].get("price").get("promo")
                             else:
-                                image = "https://demofree.sirv.com/nope-not-here.jpg"
+                                price = elem.get("items")[0].get("price").get("regular")
 
-                            all_items.append({"name": elem.get("title"),
-                                            "shop": "eBay",
-                                            "link": elem.get("itemWebUrl"),
-                                            "image": image,
-                                            "price": elem.get("price").get("value"),
-                                            "currency": elem.get("price").get("currency"),
-                                            "score": 72,
-                                            "metrics": {"feedback_score": elem.get("seller").get("feedbackScore"),
-                                                "feedback_percentage": elem.get("seller").get("feedbackPercentage")}})
-                        
-                    print("eBay request performed succesfully")
-
+                            all_items.append({"name": elem.get("description"),
+                                            "shop": "Kroger",
+                                            "link": f'https://www.kroger.com/p/giveus100onsprint3plz/{elem.get("productId")}',
+                                            "image": elem.get("images")[0].get("sizes")[0].get("url"),
+                                            "price": price,
+                                            "currency": "USD",
+                                            "score": 78,
+                                            "metrics":{"price": price}})
+                    print("Kroger request performed succesfully")
                     return all_items
                 else:
-                    print("eBay search failed.")
+                    print("Kroger search failed.")
                     return []
 
     def get_shop_name(self):
-        return "ebay"
+        return "kroger"
 
     def get_token_config(self, config_file):
         return super().get_token_config(config_file)
