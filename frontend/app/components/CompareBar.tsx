@@ -1,9 +1,6 @@
 import { selectedListAtom, selectedProductAtom } from "@/Library/SelectedAtom";
 import { useAtom } from "jotai";
-import React, {
-  DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS,
-  useState,
-} from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { PictureComp } from "./PictureComp";
 
@@ -20,7 +17,6 @@ function displayProduct(array: any, scrollIndex: number, fixedLength: number) {
     scrollIndex * fixedLength,
     (scrollIndex + 1) * fixedLength
   );
-  console.log(arraySlice.length < 6);
   while (arraySlice.length < 6) {
     arraySlice.push({
       product: "",
