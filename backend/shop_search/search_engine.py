@@ -57,7 +57,8 @@ The function returns a list of dictionaries. Each dictionary has the following k
     Currently, dict['currency'] will always be USD.
 
     dict['score']: int
-    This is our unique score that we give to items (it defaults to 100 currently)
+    This is our unique score that we give to items (it defaults to the brand reputation
+    score currently, as given in https://theharrispoll.com/partners/media/axios-harrispoll-100/)
 
     dict['metrics']: dict
     This is only used by the questionnaire app. They consist of the specific metrics
