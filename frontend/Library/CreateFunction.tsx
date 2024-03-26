@@ -6,8 +6,8 @@ export function createProduct(
   price: number,
   currency: string = "",
   score: string,
-  id: number,
-  link: string
+  url: string = "",
+  id: number
 ): Product {
   const returnProduct: Product = {
     picture: image,
@@ -17,7 +17,7 @@ export function createProduct(
     score: score,
     id: id,
     company: "",
-    link: link,
+    link: url,
   };
 
   return returnProduct;

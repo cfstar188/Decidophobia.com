@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation' // corrected from 'next/navigation'
 import { Button, Box, Modal, TextField, Typography, Divider } from '@mui/material';
 import { IconButton } from '@mui/material';
@@ -9,7 +9,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { authAtom } from '@/Library/AuthAtom';
+import AuthContext from '../contexts/AuthContext';
 import api from '../core/baseAPI';
 
 interface LoginModalProps {
@@ -20,11 +20,12 @@ interface LoginModalProps {
 
 export default function LoginModal({ isOpen, onClose, setIsRegisterModalOpen }: LoginModalProps) {
   const router = useRouter()
-  const [username, setUsername] = useState('');
+  const [usernameField, setUsernameField] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [auth, setAuth] = useAtom(authAtom);
+  // const [auth, setAuth] = useAtom(authAtom);
   const [showPassword, setShowPassword] = useState(false);
+  const { auth, setIsAuthenticated, setUsername, setAvatar} = useContext(AuthContext);
 
   const style = {
     position: 'absolute' as 'absolute',
@@ -43,32 +44,46 @@ export default function LoginModal({ isOpen, onClose, setIsRegisterModalOpen }: 
     setIsRegisterModalOpen(true);
   }
   const handleClose = () => {
-    setUsername('');
+    setUsernameField('');
     setPassword('');
     setError('');
     onClose();
   }
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
+    setUsernameField(event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
+  useEffect(() => {
+    console.log('auth', auth);
+  }, [auth]);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    console.log('auth', auth)
     api.post('accounts/login/', {
-      username: username,
+      username: usernameField,
       password: password
     }, {
       headers: {"Content-Type": "application/json"},
     })
     .then((response: any) => {
-      localStorage.setItem('token', JSON.stringify(response.data));
-      setAuth({ isAuthenticated: true, username: username });
+      localStorage.setItem('token', JSON.stringify({
+        access: response.data.access,
+        refresh: response.data.refresh
+      }));
+      setIsAuthenticated(true);
+      setUsername(response.data.username);
+      setAvatar(response.data.avatar ? response.data.avatar : null);
+      sessionStorage.setItem('auth', JSON.stringify({
+        isAuthenticated: true,
+        username: response.data.username,
+        avatar: response.data.avatar ? response.data.avatar : null
+      }))
       handleClose();
       router.push('/');
     })
@@ -107,7 +122,7 @@ export default function LoginModal({ isOpen, onClose, setIsRegisterModalOpen }: 
           <form onSubmit={handleSubmit}>
               <TextField
                   label="Username"
-                  value={username}
+                  value={usernameField}
                   onChange={handleUsernameChange}
                   margin="normal"
                   required

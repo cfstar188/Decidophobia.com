@@ -13,7 +13,11 @@ class CreateProductView(CreateAPIView):
     permission_classes = [ProductPermissions]
 
     def post(self, request, *args, **kwargs):
-        if product:=Product.objects.filter(name=request.data.get('name', ''), price=request.data.get('price', ''), company=request.data.get('company', ''), preview_picture=request.data.get('preview_picture', '')).first():
+        if product:=Product.objects.filter(name=request.data.get('name', ''),
+                                           price=request.data.get('price', ''),
+                                           company=request.data.get('company', ''),
+                                           preview_picture=request.data.get('preview_picture', ''),
+                                           url=request.data.get('url', '')).first():
             return Response({
                 'id': product.id,
                 'name': product.name,

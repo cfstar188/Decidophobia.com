@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
 
 import { CartItemProps } from './cartItem';
 import PurchasedModal from './confirmModal';
+import CartContext from '../contexts/CartContext';
 
-const Totals: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
+export default function Totals() {
+    const { cart } = useContext(CartContext);
+
     let total = 0;
 
     for (let i = 0; i < cart.length; i++) {
@@ -13,28 +17,20 @@ const Totals: React.FC<{cart: CartItemProps[]}> = ({ cart }) => {
 
     
     return (
-        <>
-            <div
-            style={{
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginTop: '1rem',
-            }}
-            >
-            <ul>
-                {cart.map((item, index) => (
-                <li key={index}>
-                    {item.product_name}........................{item.quantity} x ${item.product_price}
-                </li>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ maxHeight: '500px', overflow: 'auto' }}>
+            <List>
+                {cart.map((item: CartItemProps, index: number) => (
+                    <ListItem key={index}>
+                        <ListItemText primary={`${item.product_name}........${item.quantity} x $${item.product_price}`} />
+                    </ListItem>
                 ))}
-            </ul>
-            <div>
-                <h4>Total: ${total.toFixed(2)}</h4>
-            </div>
-            </div>
-            <PurchasedModal cart={cart} />
-        </>
+            </List>
+        </Box>
+        <Typography variant="h6">
+            Total: ${total.toFixed(2)}
+        </Typography>
+        <PurchasedModal />
+    </Box>
     );
 };
-
-export default Totals;

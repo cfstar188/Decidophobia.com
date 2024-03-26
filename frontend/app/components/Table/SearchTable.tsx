@@ -1,12 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useAtom } from "jotai";
 import HorizontalSelectBar from "@/app/components/CompareBar";
 import SquareCheckbox from "@/app/components/Button/ItemCheckBox";
 import { allProductAtom } from "@/Library/SelectedAtom";
-import api from "@/app/core/baseAPI";
-import Alerts from "@/app/components/alerts";
-import { authAtom } from "@/Library/AuthAtom";
+import api from "../../core/baseAPI";
+import Alerts from "../alerts";
+// import { authAtom } from "@/Library/AuthAtom";
+import AuthContext from "@/app/contexts/AuthContext";
 import { Product } from "@/Library/Type";
 
 function truncateString(str: string, num: number) {
@@ -18,7 +19,7 @@ function truncateString(str: string, num: number) {
 }
 
 export function SearchTable() {
-  const [auth] = useAtom(authAtom);
+  const {auth} = useContext(AuthContext);
   const [products] = useAtom(allProductAtom);
   const [tester, setTester] = useState();
 
@@ -35,38 +36,34 @@ export function SearchTable() {
     console.log("auth", auth);
     if (!auth.isAuthenticated) {
       setNotLoggedInAlert(true);
-    } else {
-      console.log("product", product);
-      api
-        .post(
-          "/products/create-product/",
-          {
-            name: product.name,
-            company: product.company,
-            price: product.price,
-            preview_picture: product.picture,
-          },
-          {
-            headers: {
-              Key: "decidophobiaAdmin",
-            },
-          }
-        )
-        .then((response) => {
-          console.log(response.data.id);
-          api
-            .post("/shopping-list/add-item/", {
-              product_id: response.data.id,
-              quantity: 1,
-            })
-            .then((response) => {
-              setBuyState(1);
-              setShowAddedToCartAlert(true);
-            })
-            .catch((error) => {
-              setitemAlreadyInCartAlert(true);
-            });
-        });
+    }
+    else {
+      console.log('product', product)
+      api.post("/products/create-product/", {
+        name: product.name,
+        company: product.company,
+        price: product.price,
+        preview_picture: product.picture,
+        url: product.link
+      }, {
+        headers: {
+          'Key': 'decidophobiaAdmin'
+        }
+      })
+      .then((response) => {
+        console.log(response.data.id);
+        api.post("/shopping-list/add-item/", {
+          product_id: response.data.id,
+          quantity: 1,
+        })
+          .then((response) => {
+            setBuyState(1);
+            setShowAddedToCartAlert(true);
+          })
+          .catch((error) => {
+            setitemAlreadyInCartAlert(true)
+          });
+      });
     }
   }
 
