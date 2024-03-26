@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView
-from users.views import CustomTokenObtainPairView, RegisterUserAPIView, LogoutView, PurchaseHistoryView, UserView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from users.views import CustomTokenObtainPairView, RegisterUserAPIView, LogoutView, PurchaseHistoryView, ChangePasswordView, UserView
 
 urlpatterns = [
     path('login/', CustomTokenObtainPairView.as_view()),
@@ -25,5 +25,6 @@ urlpatterns = [
     path('register/', RegisterUserAPIView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('purchase-history/', PurchaseHistoryView.as_view()),
-    path('user/', UserView.as_view()),
+    path('change-password/', ChangePasswordView.as_view(), name='change-password'),
+    path('user/', UserView.as_view())
 ]

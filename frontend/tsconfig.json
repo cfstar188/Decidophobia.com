@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "app/shopping-cart/components/cartItem.tsx", "app/shopping-cart/components/cart.tsx"  ],
+, "app/shopping-cart/components/cartItem.tsx", "app/shopping-cart/components/cart.tsx", "app/contexts/AuthContext.js"  ],
   "exclude": [
     "node_modules"
   ]

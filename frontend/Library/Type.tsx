@@ -6,5 +6,5 @@ export type Product = {
   currency: string;
   score: string;
   picture: any;
-  url: any;
+  link: any;
 };

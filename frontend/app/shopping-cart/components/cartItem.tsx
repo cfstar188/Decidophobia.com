@@ -1,21 +1,85 @@
-import React, { useState } from 'react';
-import { CardBody, CardTitle, CardSubtitle, CardText } from 'reactstrap';
+import React, { useState, useContext } from 'react';
 import Button from '@mui/material/Button';
-import { Card,  CardHeader, CardContent, Box, CardMedia } from '@mui/material';
+import Menu, { MenuProps } from '@mui/material/Menu';
+import { styled, alpha } from '@mui/material/styles';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import MenuItem from '@mui/material/MenuItem';
+import { Card,  CardHeader, CardContent, Box, CardMedia, Divider, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import Alerts from '@/app/components/alerts';
 import api from '@/app/core/baseAPI';
 import { CartItemProps } from '../page';
-import { set } from 'react-hook-form';
-import noImage from '@/public/no_product_image.png';
+import CartContext from '../contexts/CartContext';
 
-const CartItem: React.FC<{item: CartItemProps}> = ({ item }) => {
+const StyledMenu = styled((props: MenuProps) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color:
+      theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    boxShadow:
+      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
+    },
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      '&:active': {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity,
+        ),
+      },
+    },
+  },
+}))
+
+export default function CartItem(item: CartItemProps) {
+  const {cart, removeFromCart, updateItemQuantity} = useContext(CartContext);
   const [cartItem, setItem] = useState(item);
-  // const [showAlert, setShowAlert] = useState(false);
-  const [decreaseAlertOpen, setDecreaseAlertOpen] = useState(false);
-  const [increaseAlertOpen, setIncreaseAlertOpen] = useState(false);
+  const [changeQuantityAlertOpen, setChangeQuantityAlertOpen] = useState(false);
+  const [itemRemovedAlertOpen, setItemRemovedAlertOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-  function updateQuantity(product_id: number, quantity: number, up_or_down: number) {
+  function removeItem(product_id: number) {
+    api.delete('shopping-list/remove-item/', {
+      data: { product_id: product_id }
+    })
+      .then((response) => {
+        console.log('product_id:', product_id);
+        removeFromCart(product_id);
+        setItemRemovedAlertOpen(true);
+      });
+  }
+
+  function updateQuantity(product_id: number, quantity: number) {
     api.patch('shopping-list/change-quantity/', {
       product_id: product_id,
       quantity: quantity
@@ -23,90 +87,80 @@ const CartItem: React.FC<{item: CartItemProps}> = ({ item }) => {
       headers: {'Content-Type': 'application/json'}
     })
       .then((response) => {
-        if (up_or_down === 1) {
-          setIncreaseAlertOpen(true);
-        }
-        else {
-          setDecreaseAlertOpen(true);
-        }
-        setItem({...cartItem, quantity: quantity});
+        setChangeQuantityAlertOpen(true);
+        updateItemQuantity(product_id, quantity);
+        handleClose();
       });
   }
 
   return (
     <>
-      <Card
-        style={{
-          width: '15rem',
-          border: '1px solid white',
-          borderRadius: '10px',
-        }}
-      >
-        <CardMedia
-          component='img'
-          alt='img'
-          src={item.preview_picture ? item.preview_picture : '/no_product_image.png'}
-          style={{borderRadius: '10px 10px 0 0', objectFit: 'contain'}}
-          sx={{width: '100%', height: '10rem'}}
-        />
-        <Box style={{padding: '0.5rem'}}>
-          <CardHeader 
-            style={{margin: '-0.5rem'}}
-            title={`$${item.product_price}`}
-            titleTypographyProps={{ fontSize: '1rem'}}
-            subheader={`${cartItem.product_name} - ${cartItem.product_company}`}
-          />
-          <Box style={{
-            display: 'flex',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-          }}>
-            <Button
-              style={{
-                backgroundColor: 'rgba(255, 0, 0, 0.4)',
-                borderColor: 'rgba(255, 0, 0, 0.5)',
-                color: 'white',
-                borderRadius: '5px',
-                padding: '10px 20px',
-                fontSize: '15px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-              onClick={() => {updateQuantity(cartItem.product_id, cartItem.quantity-1, 0)}}
-              disabled = {cartItem.quantity === 1}
-            >
-              -
-            </Button>
-            <CardText>
-              Quantity: {cartItem.quantity}
-            </CardText>
-            <Button
-              style={{
-                backgroundColor: '#007bff',
-                borderColor: '#007bff',
-                color: 'white',
-                borderRadius: '5px',
-                padding: '10px 20px',
-                fontSize: '15px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-              onClick={() => {updateQuantity(cartItem.product_id, cartItem.quantity+1, 1)}}
-            >
-              +
-            </Button>
-          </Box>
-        </Box>
+      <Card style={{ display: 'flex', width: '100%' }}>
+        <CardContent sx={{ flex: '1 0 auto', width: '100%' }}>
+            <Box sx={{display: 'flex'}}>
+                <CardMedia
+                    component="img"
+                    sx={{ width: 125, height: 125, objectFit: 'contain' }}
+                    src={item.preview_picture ? item.preview_picture : '/no_product_image.png'}
+                />
+                <Box sx={{display: 'flex', flexDirection: 'column', gap: '0.5rem', pl: 1, maxWidth: '100%'}}>
+                  <CardHeader
+                      sx={{width: '100%', height: '100%', overflow: 'hidden' }}
+                      title={`${cartItem.product_name} ${(cartItem.product_company != '') ? `-${cartItem.product_company}` : ''}`}
+                      titleTypographyProps={{ fontSize: '1rem'}}
+                      subheader={
+                        <>
+                            {`Item price: $${item.product_price}`}
+                            <br/>
+                            {`Total price: $${item.product_price * item.quantity}`}
+                        </>
+                    }/>
+                  <Box sx={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+                    <Button
+                      sx={{marginLeft: '1rem', pl: '1rem', pr: '1rem', backgroundColor: 'white', color: 'black', border: '1px solid black'}}
+                      id="demo-customized-button"
+                      aria-controls={open ? 'demo-customized-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? 'true' : undefined}
+                      disableElevation
+                      onClick={handleClick}
+                      endIcon={<KeyboardArrowDownIcon />}
+                    >
+                      Quantity: {item.quantity}
+                    </Button>
+                    <IconButton onClick={() => removeItem(item.product_id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                    <StyledMenu
+                      id="demo-customized-menu"
+                      MenuListProps={{
+                        'aria-labelledby': 'demo-customized-button',
+                      }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                    >
+                      {Array.from({ length: 10 }, (_, i) => (
+                        <MenuItem
+                          key={i}
+                          onClick={() => updateQuantity(item.product_id, i + 1)}>
+                          {i + 1}
+                        </MenuItem>
+                      ))}
+                    </StyledMenu>
+                  </Box>
+                </Box>
+            </Box>
+        </CardContent>
       </Card>
-      <Alerts message="Decreased Quantity" severity="success"
-              isOpen={decreaseAlertOpen}
-              onClose={() => setDecreaseAlertOpen(false)} />
-      <Alerts message="Increased Quantity" severity="success"
-              isOpen={increaseAlertOpen}
-              onClose={() => setIncreaseAlertOpen(false)} />
+      <Alerts message="Quantity Changed" severity="success"
+              isOpen={changeQuantityAlertOpen}
+              onClose={() => setChangeQuantityAlertOpen(false)} />
+      <Alerts message="Item Removed" severity="success"
+              isOpen={itemRemovedAlertOpen}
+              onClose={() => setItemRemovedAlertOpen(false)} />
     </>
   );
 }
 
-export default CartItem;
 export type { CartItemProps };

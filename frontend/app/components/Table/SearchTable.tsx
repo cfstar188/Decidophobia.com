@@ -1,17 +1,18 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useAtom } from "jotai";
 import HorizontalSelectBar from "@/app/components/CompareBar";
 import SquareCheckbox from "@/app/components/Button/ItemCheckBox";
 import { allProductAtom } from "@/Library/SelectedAtom";
 import api from "../../core/baseAPI";
 import Alerts from "../alerts";
-import { authAtom } from "@/Library/AuthAtom";
+// import { authAtom } from "@/Library/AuthAtom";
+import AuthContext from "@/app/contexts/AuthContext";
 import { Product } from "@/Library/Type";
 
 
 export function SearchTable() {
-  const [auth] = useAtom(authAtom);
+  const {auth} = useContext(AuthContext);
   const [products] = useAtom(allProductAtom);
   const [tester, setTester] = useState();
 
@@ -36,6 +37,7 @@ export function SearchTable() {
         company: product.company,
         price: product.price,
         preview_picture: product.picture,
+        url: product.link
       }, {
         headers: {
           'Key': 'decidophobiaAdmin'
