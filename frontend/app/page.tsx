@@ -7,16 +7,17 @@ import Link from "next/link";
 import { NavBar } from "@/app/components/NavBar";
 import { authAtom } from "@/Library/AuthAtom";
 import { useAtom } from "jotai";
+import './globals.css';
+
 
 // Adjusted HomePage to include content from the provided HTML
 export default function HomePage() {
 
   return (
     <div>
-
       <div className="divcent">
         <section className="hero-section">
-          <h1 style={{ textAlign: "center" }}>Decidophobia.com</h1>
+        <h1 style={{ textAlign: "center", fontFamily: "Roboto", fontSize: "3rem", margin: "15px 0", fontWeight: 700, color: "#fff", textShadow: "2px 2px 4px rgba(0,0,0,0.2)" }}>Decidophobia.com</h1>
           <SearchBar />
         </section>
       </div>

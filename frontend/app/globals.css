@@ -1,6 +1,12 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+
+/* @import 'bootstrap/dist/css/bootstrap.min.css'; */
+
 
 :root {
   background-color: #212529;
@@ -17,6 +23,7 @@
 body {
   color: #212529;
   padding: 1rem;
+  font-family: Roboto;
 }
 
 @layer utilities {
@@ -25,6 +32,9 @@ body {
   }
 }
 
+.homeform {
+  color: #000;
+}
 
 .hero-section {
   /* background-image: url('https://source.unsplash.com/random/1920x1080?abstract'); */
