@@ -290,9 +290,9 @@ def questionnaire(request):
     
     interleaved_products = search_engine({"item": product_name, "shops": ["ebay", "bestbuy", "kroger"]})
         
-    # for item in interleaved_products:
-    #     if item['shop'].lower() == "kroger":
-    #         print(item, end="\n")
+    for item in interleaved_products:
+        if item['shop'].lower() == "kroger":
+            print(item['score'], end="\n")
     print("after searching and before filtering")
     # for product in interleaved_products:
     #     print(product)

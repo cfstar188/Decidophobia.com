@@ -18,25 +18,35 @@ export default function SearchPage() {
   const [products, setAllProduct] = useAtom(allProductAtom);
   const searchParams = useSearchParams();
 
-  const newParams = searchParams.get("searchQ") || "";
-  const [lastSearchParams, checkSearchQ] = useAtom(prevSearchParams);
+  const productName = searchParams.get("searchQ");
+  const priceFactor = searchParams.get("priceFactor");
+  const customerReview = searchParams.get("customerReview");
+  const shipping = searchParams.get("shipping");
+  const returnPolicy = searchParams.get("returnPolicy");
+  const brandReputation = searchParams.get("brandReputation");
+  
+  console.log("productName", productName);
+  console.log("priceFactor", priceFactor);
+  console.log("customerReview", customerReview);
+  console.log("shipping", shipping);
+  console.log("returnPolicy", returnPolicy);
+  console.log("brandReputation", brandReputation);
 
   useEffect(() => {
-    if (newParams !== lastSearchParams) {
-      api.get(`/questionnaire/?searchQ=${newParams}`)
-      // fetch(`http://localhost:8000/questionnaire/?searchQ=${newParams}`)
-        .then((response) => response.data)
-        .then((data) => {
-          console.log(newParams, lastSearchParams);
-          const transformedData = JsonToAtom(data);
-          setAllProduct(transformedData);
-          checkSearchQ(newParams);
-        })
-        .catch((error) => {
-          console.error("Error fetching questions:", error);
-        });
-    }
-  }, [newParams, lastSearchParams]);
+    fetch(`http://localhost:8000/questionnaire/?searchQ=${productName}&priceFactor=${priceFactor}&customerReview=${customerReview}&shipping=${shipping}&returnPolicy=${returnPolicy}&brandReputation=${brandReputation}`)
+      .then((response) => {
+        console.log("received response");
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        const transformedData = JsonToAtom(data);
+        setAllProduct(transformedData);
+      })
+      .catch((error) => {
+        console.error("Error fetching questions:", error);
+      });
+  }, []);
 
   return (
     <>
