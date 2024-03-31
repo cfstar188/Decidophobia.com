@@ -87,13 +87,9 @@ export function SearchTable() {
               <div className="line-clamp-3 overflow-hidden">
                 {truncateString(product.name, 100)}
               </div>
-              <div className="text-white col-span-2">{product.company}</div>
-              <div className="text-white col-span-1">
-                Price: {product.price}
-              </div>
-              <div className="text-white col-span-1">
-                Score: {product.score}
-              </div>
+              <div className="col-span-2">{product.company}</div>
+              <div className="col-span-1">Price: {product.price}</div>
+              <div className="col-span-1">Score: {product.score}</div>
               <div>
                 <SquareCheckbox id={index} label="Compare" />
                 <button

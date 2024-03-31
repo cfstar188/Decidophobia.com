@@ -1,15 +1,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useContext } from "react";
-import Button from '@mui/material/Button';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Button from "@mui/material/Button";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import LoginModal from "./loginModal";
-import RegisterModal from './registerModal';
+import RegisterModal from "./registerModal";
 import AuthContext from "../contexts/AuthContext";
-import UserDropdown from "./userDropdown";
 import { Avatar } from "@mui/material";
-
+import UserDropdown from "./userDropdown";
 
 interface LinkProps {
   label: any;
@@ -52,15 +51,16 @@ export function NavBar() {
 
   const currentRoute: string = usePathname();
   const newRoute: string = currentTab(currentRoute);
-  const mainLinks: LinkProps[] = auth.isAuthenticated ? [
-    { link: "/", label: "Home" },
-    { link: "/#", label: "Discussion" },
-    { link: "/shopping-cart", label: "Cart" },
-  ] :
-  [
-    { link: "/", label: "Home" },
-    { link: "/#", label: "Discussion" }
-  ]
+  const mainLinks: LinkProps[] = auth.isAuthenticated
+    ? [
+        { link: "/", label: "Home" },
+        { link: "/#", label: "Discussion" },
+        { link: "/shopping-cart", label: "Cart" },
+      ]
+    : [
+        { link: "/", label: "Home" },
+        { link: "/#", label: "Discussion" },
+      ];
 
   const mainItems: JSX.Element[] = mainLinks.map((item: LinkProps, index) => (
     <Link
@@ -82,18 +82,22 @@ export function NavBar() {
           <>
             <Button
               id="demo-customized-button"
-              aria-controls={open ? 'demo-customized-menu' : undefined}
+              aria-controls={open ? "demo-customized-menu" : undefined}
               aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
+              aria-expanded={open ? "true" : undefined}
               variant="contained"
               disableElevation
               onClick={handleClick}
               endIcon={<KeyboardArrowDownIcon />}
               startIcon={<Avatar src={auth.avatar} alt={auth.username} />}
             >
-            Welcome, {auth.username}!
+              Welcome, {auth.username}!
             </Button>
-            <UserDropdown anchorEl={anchorEl} open={open} handleClose={handleClose} />
+            <UserDropdown
+              anchorEl={anchorEl}
+              open={open}
+              handleClose={handleClose}
+            />
           </>
         ) : (
           <>

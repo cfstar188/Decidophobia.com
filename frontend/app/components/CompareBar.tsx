@@ -74,7 +74,7 @@ export function HorizontalSelectBar() {
         {displayedProducts.map((product: any, index: any) => (
           <div
             key={index}
-            className="bg-tab min-w-[200px] min-h-24 max-h-24 text-white p-2 rounded flex-1"
+            className="bg-tab min-w-[200px] min-h-24 max-h-24  p-2 rounded flex-1"
           >
             <div className="flex">
               <div className="basis-1/3 justify-center items-center h-24">

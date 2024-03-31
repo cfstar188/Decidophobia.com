@@ -47,7 +47,7 @@ export function ProductTable() {
                         height={"h-80 w-full object-contain"}
                       />
                     ) : key === "price" ? (
-                      <div className="text-white">${product[key]}</div>
+                      <div className="">${product[key]}</div>
                     ) : key === "link" ? (
                       <a
                         href={product[key]}
@@ -57,7 +57,7 @@ export function ProductTable() {
                         Link to Store
                       </a>
                     ) : (
-                      <div className="text-white">{product[key]}</div>
+                      <div className="">{product[key]}</div>
                     )}
                   </td>
                 ))}
