@@ -95,14 +95,14 @@ export default function UserDropdown({ anchorEl, open, handleClose }: UserDropdo
         open={open}
         onClose={handleClose}
     >
-        <Link passHref href='/profile'>
+        <Link passHref href='/profile' onClick={handleClose}>
             <MenuItem disableRipple>
                 <EditIcon />
                 Edit Profile
             </MenuItem>
         </Link>
-        <Link passHref href='/order-history'>
-            <MenuItem onClick={handleClose} disableRipple>
+        <Link passHref href='/order-history' onClick={handleClose}>
+            <MenuItem disableRipple>
                 <ReceiptLongIcon />
                 Order History
             </MenuItem>

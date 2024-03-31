@@ -11,6 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import UpdateAPIView
+from rest_framework.permissions import AllowAny
 
 from users.serializers import RegisterSerializer, CustomTokenObtainPairSerializer
 from users.serializers import RegisterSerializer
@@ -41,6 +42,7 @@ class LogoutView(APIView):
 
 
 class RegisterUserAPIView(CreateAPIView):
+    permission_classes = [AllowAny]
     serializer_class = RegisterSerializer
 
 

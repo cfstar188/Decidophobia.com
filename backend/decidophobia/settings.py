@@ -75,7 +75,7 @@ CORS_ALLOW_HEADERS = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://127.0.0.1:3000'
+    'http://localhost:3001'
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -105,8 +105,12 @@ WSGI_APPLICATION = 'decidophobia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'project_db',
+        'USER': 'decdophobia-admin',
+        'PASSWORD': 'password1',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 

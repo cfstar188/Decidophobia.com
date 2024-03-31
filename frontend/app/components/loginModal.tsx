@@ -10,7 +10,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import AuthContext from '../contexts/AuthContext';
-import api from '../core/baseAPI';
+import axios from 'axios';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -64,8 +64,13 @@ export default function LoginModal({ isOpen, onClose, setIsRegisterModalOpen }: 
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('auth', auth)
-    api.post('accounts/login/', {
+
+    axios.defaults.xsrfCookieName = 'csrftoken';
+    axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
+    axios.defaults.withCredentials = true;
+    const api = axios.create();
+
+    api.post('http://127.0.0.1:8000/accounts/login/', {
       username: usernameField,
       password: password
     }, {

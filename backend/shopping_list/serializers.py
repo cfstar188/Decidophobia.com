@@ -18,6 +18,11 @@ class ShoppingListSerializer(serializers.ModelSerializer):
         model = ShoppingListItem
         fields = ('product_id', 'product_name', 'product_company', 'product_price', 'quantity', 'preview_picture', 'url')
 
+    def to_representation(self, instance):
+            representation = super().to_representation(instance)
+            representation['product_price'] = float(representation['product_price'])
+            return representation
+
     def create(self, validated_data):
         request = self.context['request']
         user = get_object_or_404(get_user_model(), id=request.user.id)

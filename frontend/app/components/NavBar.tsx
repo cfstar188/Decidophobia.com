@@ -89,7 +89,7 @@ export function NavBar() {
               disableElevation
               onClick={handleClick}
               endIcon={<KeyboardArrowDownIcon />}
-              startIcon={<Avatar src={auth.avatar} alt={auth.username} />}
+              startIcon={<Avatar src={auth.avatar ? auth.avatar : ''} alt={auth.username} />}
             >
             Welcome, {auth.username}!
             </Button>

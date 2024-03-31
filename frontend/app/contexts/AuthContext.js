@@ -6,12 +6,14 @@ const AuthContext = createContext();
 
 export function AuthProvider({children}) {
     const [auth, setAuth] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const auth = localStorage.getItem('auth');
-        console.log('auth from session storage', auth);
+        const auth = sessionStorage.getItem('auth');
+        console.log('ran')
         if (auth) {
             setAuth(JSON.parse(auth));
+            setIsLoading(false);
         } else {
             api.get('accounts/user')
             .then((response) => {
@@ -32,9 +34,16 @@ export function AuthProvider({children}) {
                     username: '',
                     avatar: ''
                 });
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
         }
     }, []);
+    if (isLoading) {
+        console.log('Loading', isLoading)
+        return <div>Loading...</div>
+    }
 
     const setIsAuthenticated = (isAuthenticated) => {
         setAuth((prevState) => {
@@ -47,7 +56,6 @@ export function AuthProvider({children}) {
 
     const setUsername = (username) => {
         setAuth((prevState) => {
-            console.log('prevState', prevState);
             return {
                 ...prevState,
                 username: username
