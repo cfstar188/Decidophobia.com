@@ -41,6 +41,7 @@ export default function DecisionFactors( {
     // console.log("params productName 2", params.productName);
 
     const url = (`/search?searchQ=${params.productName}&${queryParams.toString()}`);
+    console.log("url", url);
     router.push(url);
   };
 
@@ -53,11 +54,11 @@ export default function DecisionFactors( {
       {/* <input type="hidden" name="product_name" value={params.productName} /> */}
         <label htmlFor="priceFactor">Price:</label>
         <select id="priceFactor" name="priceFactor">
-          <option value=">10000">Bill Gates</option>
-          <option value="<=10000">Rich</option>
-          <option value="<=3000">Average salary</option>
-          <option value="<=1000">Survivor</option>
-          <option value="<=500">Bankrupt</option>
+          <option value="10000">Bill Gates</option>
+          <option value="1000">Rich</option>
+          <option value="500">Average salary</option>
+          <option value="100">Survivor</option>
+          <option value="50">Bankrupt</option>
         </select>
         <label htmlFor="customerReview">Customer reviews:</label>
         <select id="customerReview" name="customerReview">

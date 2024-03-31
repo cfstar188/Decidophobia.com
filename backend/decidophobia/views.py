@@ -231,6 +231,7 @@ def questionnaire(request):
     
     if request.method == "GET":
         print("This is a GET request")
+        print("absolute url: ", request.build_absolute_uri())
     elif request.method == "POST":
         print("This is a POST request")
     else:
@@ -258,20 +259,20 @@ def questionnaire(request):
     
     min_price = 0
     max_price = float("infinity")
-    if price_factor == ">10000":
+    if price_factor == "10000":
         max_price = float("infinity")
         min_price = 10000
-    elif price_factor == "<=10000":
+    elif price_factor == "1000":
         max_price = 10000
-        min_price = 3000
-    elif price_factor == "<=3000":
-        max_price = 3000
-        min_price = 1000
-    elif price_factor == "<=1000":
-        max_price = 1000
         min_price = 500
-    elif price_factor == "<=500":
+    elif price_factor == "500":
         max_price = 500
+        min_price = 100
+    elif price_factor == "100":
+        max_price = 100
+        min_price = 50
+    elif price_factor == "50":
+        max_price = 50
         min_price = 0
     
     selected_shipping = ["Does not matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
