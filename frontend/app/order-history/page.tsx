@@ -29,13 +29,14 @@ export default function OrderHistory() {
                         flexWrap: 'wrap',
                         gap: '1.5rem',
                         paddingLeft: '10%',
-                        paddingRight: '10%'}}>
+                        paddingRight: '10%',
+                        justifyContent: 'center'}}>
                 {orderHistory.map((order: any, index) => {
                     const itemTotal = order.quantity * order.product_price
                     console.log('itemTotal', itemTotal)
                     return (
                         <div key={index} style={{width: 'max-content'}}>
-                            <Card sx={{ display: 'flex' }}>
+                            <Card sx={{ display: 'flex', width: '440px' }}>
                                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                     <Box sx={{display: 'flex'}}>
                                         <Box sx={{display: 'flex'}}>
@@ -52,7 +53,7 @@ export default function OrderHistory() {
                                                 titleTypographyProps={{ fontSize: '1rem'}}
                                                 subheaderTypographyProps={{ fontSize: '0.85rem' }}/>
                                         </Box>
-                                        <Box sx={{display: 'flex', justifyItems: 'flex-end', justifyContent: 'flex-end'}}>
+                                        <Box sx={{display: 'flex', flexGrow: 1,justifyContent: 'flex-end' }}>
                                             <CardHeader
                                                 sx={{width: 'fit-content', height: 'min-content'}}
                                                 title="Order Number"
@@ -66,12 +67,20 @@ export default function OrderHistory() {
                                         <Box sx={{display: 'flex'}}>
                                             <CardMedia
                                                 component="img"
-                                                sx={{ width: 100 }}
-                                                src="/default.jpg"
+                                                sx={{ width: 100, objectFit: 'contain' }}
+                                                src={order.preview_picture ? order.preview_picture : "/no_product_image.png"}
                                             />
-                                            <Box sx={{display: 'flex', flexDirection: 'column', gap: '0.5rem', pl: 1}}>
-                                                <Typography variant="subtitle1" color="text.secondary" component="div">
-                                                {order.product} - {order.company}
+                                            <Box sx={{display: 'flex', flexDirection: 'column', gap: '0.5rem', pl: 1, maxWidth: 'min-content'}}>
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    color="text.secondary"
+                                                    component="div"
+                                                    sx={{
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                    }}>
+                                                    {`${order.product} ${(order.company != '') ? `-${order.company}` : ''}`}
                                                 </Typography>
                                                 <Button variant="contained" color="primary" href={order.url ? order.url : 'https://www.google.com/'} target='_blank'>Buy Again</Button>
                                             </Box>

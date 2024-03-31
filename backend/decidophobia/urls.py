@@ -17,13 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from .views import home, login, signup, logout, settings, change_password, questionnaire
-from django.contrib.auth import views as auth_views
-
+from django.conf import settings as django_settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('login/register/', signup, name='signup'),
-    # path('logout/', logout, name='logout'),
     path('settings/', settings, name='settings'),
     path('settings/change_password/', change_password, name='change_password'),
     path("", include("django_nextjs.urls")),
@@ -37,4 +35,4 @@ urlpatterns = [
     path('shopping-list/', include('shopping_list.urls')),
     path('discussion_board/', include('discussionBoard.urls')),
     path('search_item/', include("tester_app.urls"))
-]
+] + static(django_settings.MEDIA_URL, document_root=django_settings.MEDIA_ROOT)

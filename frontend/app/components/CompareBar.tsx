@@ -1,9 +1,6 @@
 import { selectedListAtom, selectedProductAtom } from "@/Library/SelectedAtom";
 import { useAtom } from "jotai";
-import React, {
-  DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS,
-  useState,
-} from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { PictureComp } from "./PictureComp";
 
@@ -20,7 +17,6 @@ function displayProduct(array: any, scrollIndex: number, fixedLength: number) {
     scrollIndex * fixedLength,
     (scrollIndex + 1) * fixedLength
   );
-  console.log(arraySlice.length < 6);
   while (arraySlice.length < 6) {
     arraySlice.push({
       product: "",
@@ -78,7 +74,7 @@ export function HorizontalSelectBar() {
         {displayedProducts.map((product: any, index: any) => (
           <div
             key={index}
-            className="bg-tab min-w-[200px] min-h-24 max-h-24 text-white p-2 rounded flex-1"
+            className="bg-tab min-w-[200px] min-h-24 max-h-24  p-2 rounded flex-1"
           >
             <div className="flex">
               <div className="basis-1/3 justify-center items-center h-24">
