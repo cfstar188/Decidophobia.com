@@ -16,25 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [isDarkMode, setIsDarkMode] = useAtom(darkMode);
-  /*
-  useEffect(() => {
-    const theme = isDarkMode == "dark" ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", theme);
-    console.log(isDarkMode);
-  }, [isDarkMode]);
-
-  const toggleTheme = () => {
-    if (isDarkMode == "light") {
-      setIsDarkMode("dark");
-    } else {
-      setIsDarkMode("light");
-    }
-  };
-  */
-
   return (
     <html lang="en">
-      <body className={inter.className + " text-white"}>
+      <body className={inter.className + ""}>
         <AuthProvider>
           <JotaiProvider>
             <div data-theme={isDarkMode}>

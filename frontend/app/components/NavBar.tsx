@@ -18,8 +18,8 @@ interface LinkProps {
 const hoverStyle: string = "hover:link link-underline link-underline-black";
 const linkStyle: string =
   "flex items-center pl-[30px] pr-[30px] h-full text-xl font-semibold no-underline";
-const activeStyle: string = linkStyle + " text-white bg-tab";
-const nonActiveStyle: string = linkStyle + " text-white";
+const activeStyle: string = linkStyle + "  bg-tab";
+const nonActiveStyle: string = linkStyle + " ";
 
 function currentTab(currentRoute: string) {
   const newArray: string[] = currentRoute.split("/");
