@@ -10,6 +10,11 @@ function SearchBar() {
     router.push(`/search/searchQ=${searchQuery}`);
   };
 
+  const filterHandler = (e: any) => {
+    e.preventDefault(); // Prevent default link behavior
+    router.push(`/filter/${searchQuery}`); // Construct the filter URL
+  }
+
   return (
     <form onSubmit={handleSearch}>
       <input
@@ -19,6 +24,14 @@ function SearchBar() {
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       <button type="submit">Search</button>
+      
+      <button         
+        type="submit"
+        name="action"
+        value="filter"
+        onClick={filterHandler}
+      > Filter
+      </button>
     </form>
   );
 }

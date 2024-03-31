@@ -117,37 +117,164 @@ def filter(request):
         product_name = request.GET.get("searchQ")
         # render questionnaire.html directly
         #print("product name is :" + request.GET.get("searchQ"))
-        print(product_name)
-        return render(request, 'questionnaire.html')
+        print("product_name is " + product_name)
+        
+        return Response({
+            'message': 'return product name to questionnaire page',
+            'product_name': product_name
+        }, status=status.HTTP_201_CREATED)
+
+# normalize each product based on customer review. To be on a scale of 0 to 100
+def normalize_products(bestbuy_products, ebay_products, kroger_products):
+    if len(bestbuy_products) > 1:
+        highest_score = 0
+        lowest_score = float('inf')
+        for bestbuy_product in bestbuy_products:
+            bestbuy_products_review = float(bestbuy_product['metrics']["review_count"]) * float(bestbuy_product['metrics']["review_average"])
+            if bestbuy_products_review < lowest_score:
+                lowest_score = bestbuy_products_review
+            if bestbuy_products_review > highest_score:
+                highest_score = bestbuy_products_review
+                
+        # for ind in range(0, min(5, len(bestbuy_products))):
+        #     print("bestbuy_product score: ", bestbuy_products[ind]['metrics']['review_average'], bestbuy_products[ind]['metrics']['review_count'])
+        
+        for bestbuy_product in bestbuy_products:
+            bestbuy_products_review = float(bestbuy_product['metrics']["review_count"])  *  float(bestbuy_product['metrics']["review_average"])
+            normalized_value = ((bestbuy_products_review - lowest_score) / (highest_score - lowest_score)) * 100
+            bestbuy_product['metrics']['normalized_value'] = normalized_value
+    elif len(bestbuy_products) == 1:
+        bestbuy_products[0]['metrics']['normalized_value'] = 50 
+        
+    if len(ebay_products) > 1:
+        highest_score = 0
+        lowest_score = float('inf')
+        for ebay_product in ebay_products:
+            ebay_product_review = float(ebay_product['metrics']['feedback_score']) * float(ebay_product['metrics']['feedback_percentage'])
+            if  float(ebay_product_review) < lowest_score:
+                lowest_score = ebay_product_review
+            if float(ebay_product_review) > highest_score:
+                highest_score = ebay_product_review
+            
+        for ebay_product in ebay_products:
+            ebay_product_review = float(ebay_product['metrics']['feedback_score']) * float(ebay_product['metrics']['feedback_percentage'])
+            normalized_value = (( ebay_product_review - lowest_score) / (highest_score - lowest_score)) * 100
+            ebay_product['metrics']['normalized_value'] = normalized_value
+    elif len(ebay_products) == 1:
+        ebay_products[0]['metrics']['normalized_value'] = 50 
+    
+    if len(kroger_products) > 1:
+        highest_score = 0
+        lowest_score = float('inf')
+        for kroger_product in kroger_products:
+            kroger_product_review = float(kroger_product['metrics']['price'])
+            if  kroger_product_review < lowest_score:
+                lowest_score = kroger_product_review
+            if kroger_product_review > highest_score:
+                highest_score = kroger_product_review
+            
+        for kroger_product in kroger_products:
+            kroger_product_review = float(kroger_product['metrics']['price'])
+            normalized_value = (( kroger_product_review - lowest_score) / (highest_score - lowest_score)) * 100
+            kroger_product['metrics']['normalized_value'] = normalized_value
+    elif len(kroger_products) == 1:
+        kroger_products[0]['metrics']['normalized_value'] = 50 
+
+def normalize_after_adjusting_based_on_brand_reputation(bestbuy_products, ebay_products, kroger_products):
+    # apply brand reputation factor to product
+    # best buy has product score 80.8 and ebay has product score 
+    all_products = bestbuy_products + ebay_products + kroger_products
+    for product in all_products:
+        product['metrics']['normalized_value'] *= product['score']
+        
+    highest = 0
+    lowest = float('inf')
+    for product in all_products:
+        if product['metrics']['normalized_value'] < lowest:
+            lowest = product['metrics']['normalized_value']
+        if product['metrics']['normalized_value'] > highest:
+            highest = product['metrics']['normalized_value']
+            
+    # normalize to the scale of 0 to 100
+    for product in all_products:
+        product['metrics']['normalized_value'] = ((product['metrics']['normalized_value'] - lowest) / (highest - lowest)) * 100    
+    
+    return all_products
+
+def customer_review_and_brand_reput_calibrate(interleaved_products, customer_review):
+    # sort products by ebay's feedback_score and feedback_percentage tomorrow
+    bestbuy_products = [result for result in interleaved_products if result["shop"].lower() == "bestbuy"]
+    ebay_products = [result for result in interleaved_products if result["shop"].lower() == "ebay"]
+    kroger_products = [result for result in interleaved_products if result["shop"].lower() == "kroger"]
+    
+    # normalize products from different websites to be on the same scale
+    normalize_products(bestbuy_products, ebay_products, kroger_products)
+        
+    # after applying the effects of different brand reputation, normalize the products to be on the same scale again
+    normalized_products = normalize_after_adjusting_based_on_brand_reputation(bestbuy_products, ebay_products, kroger_products)
+            
+    sorted_and_normalized_products = sorted(normalized_products, key=lambda x: x["metrics"]['normalized_value'] , reverse=True)    
+
+    # divide total number of products by 5
+    num_of_products = 1 if (len(sorted_and_normalized_products)) // 5 == 0 else (len(sorted_and_normalized_products)) // 5
+
+    # return products that satisfy the given customer review from high quality to lower quality. Unqualified products are removed 
+    filter_result = sorted_and_normalized_products[0:num_of_products * (6 - int(customer_review))]
+    
+    return filter_result
+
 
 def questionnaire(request):
     #TO-DO: Pass user preferences to ahmed's function and he can do the filtering
     # products_lst = search_engine.exec_search({"product_name" : product_name })
-       
-    priceFactor = request.POST.get("priceFactor", None)
-    #customerReview = request.POST.get("customerReview", None)
-    shipping = request.POST.get("shipping", None)
-    returnPolicy = request.POST.get("returnPolicy", None)
-    brandReputation = request.POST.get("brandReputation", None)
+    print("in questionnaire")
+    
+    if request.method == "GET":
+        print("This is a GET request")
+    elif request.method == "POST":
+        print("This is a POST request")
+    else:
+        print("This is a different type of request")
+        
+    product_name = request.GET.get("searchQ", None)
+    customer_review = request.GET.get("customerReview", None)
+    price_factor = request.GET.get("priceFactor", None)
+    shipping = request.GET.get("shipping", None)
+    return_policy = request.GET.get("returnPolicy", None)
+    brand_reputation = request.GET.get("brandReputation", None)
+    
+    print("this is productName")
+    print(product_name)
+    print("this is priceFactor")
+    print(price_factor)
+    print("this is customerReview")
+    print(customer_review)
+    print("this is shipping")
+    print(shipping)
+    print("this is returnPolicy")
+    print(return_policy)
+    print("this is brandReputation")
+    print(brand_reputation)
+    
     min_price = 0
     max_price = float("infinity")
-    if priceFactor == ">10000":
-        min_price = 10000
+    if price_factor == ">10000":
         max_price = float("infinity")
-    elif priceFactor == "<=10000":
-        min_price = 3000
+        min_price = 10000
+    elif price_factor == "<=10000":
         max_price = 10000
-    elif priceFactor == "<=3000":
-        min_price = 1000
+        min_price = 3000
+    elif price_factor == "<=3000":
         max_price = 3000
-    elif priceFactor == "<=1000":
-        min_price = 500
+        min_price = 1000
+    elif price_factor == "<=1000":
         max_price = 1000
-    elif priceFactor == "<=500":
-        min_price = 0
+        min_price = 500
+    elif price_factor == "<=500":
         max_price = 500
+        min_price = 0
     
-    selected_shipping = ["Doesn't matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
+    selected_shipping = ["Does not matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
     
     if shipping == "A couple week":
         selected_shipping = selected_shipping[1:]
@@ -158,67 +285,42 @@ def questionnaire(request):
     elif shipping == "Right now":
         selected_shipping = selected_shipping[4:]
     
-    # Input:
-    # The function 'shop_search' takes in the following parameters:
-
-    #     shop_name: string 
-    #     ** This is the name of the shopping site you want to search. Currently, only
-    #     "ebay" is supported (case insensitive)
+    print("before search engine")
+    
+    interleaved_products = search_engine({"item": product_name, "shops": ["ebay", "bestbuy", "kroger"]})
         
-    #     item_name: string 
-    #     ** This is the name of the item you want to search for
+    # for item in interleaved_products:
+    #     if item['shop'].lower() == "kroger":
+    #         print(item, end="\n")
+    print("after searching and before filtering")
+    # for product in interleaved_products:
+    #     print(product)
         
-    #     num_items: int
-    #     ** This is the number of items you want returned back
-        
-    #     force_new_token = False
-    #     ** You shouldn't need to pass this in, ever. This is more so for testing; if 
-    #     you need an authorization token generated, you can set this to true.
-
-    # Output:
-    # The function returns a list of dictionaries. Each dictionary has the following keys:
-
-    #     dict['shop']: string
-    #     ** This is the name of the shop that was searched
-        
-    #     dict['name']: string
-    #     ** This is the name of the item you want to search for
-        
-    #     dict['link']: string
-    #     ** This is the link to the product on the shop's website
-        
-    #     dict['image']: string
-    #     ** This is a link to the product image
-        
-    #     dict['price']: float
-    #     ** This is the price of the product in USD
-        
-    #     dict['score']: int
-    #     This is our unique score that we give to items (it defaults to 100 currently)
-
-    #shop_name = "ebay"
-    item_name = request.GET.get('searchQ')
-    #num_items = 10
-    products_lst = search_engine({"shops": "bestbuy", "item": item_name, "num_item": 100})
-
     #TO-DO: Finally, filter result based on the filtering algorithm
     # filtering algorithm prototype
-    product_lst2 = products_lst[:]
-    for i in range(0, len(products_lst)):
-        product = products_lst[i]
-        print(product)
-        
+    
+    # filtering algorithm: apply price factor
+    interleaved_products_cpy = interleaved_products[:]
+    for product in interleaved_products:
         if(float(product['price']) > max_price or float(product['price']) < min_price):
-            product_lst2.remove(product)
+            interleaved_products_cpy.remove(product)
     
-    sorted_products = sorted(product_lst2, key=lambda x: x['score'], reverse=True)
-
-    num_of_products = 1 if len(sorted_products) // 5 == 0 else len(sorted_products) // 5
-
-    filter_result = sorted_products[0:num_of_products] #*customerReview]
+    print("filtering 1, printing out products:")
+    # for ind in range(0, 10):
+    #     print(interleaved_products_cpy[ind], end="\n")
     
+    # filtering algorithm: apply customer review and brand reputation
+    # filtering algorithm: brand reputation. Src: https://www.axios.com/2023/05/23/corporate-brands-reputation-america
+    print("Before applying customer review and brand reputation\n")
+    interleaved_sorted_products = customer_review_and_brand_reput_calibrate(interleaved_products_cpy, customer_review)
+    
+    # print("filtering 2, printing out products: \n")
+    # for ind in range(0, 10):
+    #     print(interleaved_sorted_products[ind])
+        
     #return jsonresponse to table
-    response = JsonResponse({"products": filter_result})
+    print("before returning")
+    response = JsonResponse({"products": interleaved_sorted_products})
 
     # Add CORS headers directly to the response
     response["Access-Control-Allow-Origin"] = "*"
