@@ -27,7 +27,10 @@ function DarkButton() {
   };
 
   return (
-    <button onClick={toggleTheme} className="p-2 bg-primary rounded">
+    <button
+      onClick={toggleTheme}
+      className="p-2 bg-primary rounded flex items-center h-full text-xl font-semibold no-underline"
+    >
       Toggle Theme
     </button>
   );

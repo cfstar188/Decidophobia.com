@@ -19,7 +19,7 @@ function truncateString(str: string, num: number) {
 }
 
 export function SearchTable() {
-  const {auth} = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const [products] = useAtom(allProductAtom);
   const [tester, setTester] = useState();
 
@@ -36,34 +36,39 @@ export function SearchTable() {
     console.log("auth", auth);
     if (!auth.isAuthenticated) {
       setNotLoggedInAlert(true);
-    }
-    else {
-      console.log('product', product)
-      api.post("/products/create-product/", {
-        name: product.name,
-        company: product.company,
-        price: product.price,
-        preview_picture: product.picture,
-        url: product.link
-      }, {
-        headers: {
-          'Key': 'decidophobiaAdmin'
-        }
-      })
-      .then((response) => {
-        console.log(response.data.id);
-        api.post("/shopping-list/add-item/", {
-          product_id: response.data.id,
-          quantity: 1,
-        })
-          .then((response) => {
-            setBuyState(1);
-            setShowAddedToCartAlert(true);
-          })
-          .catch((error) => {
-            setitemAlreadyInCartAlert(true)
-          });
-      });
+    } else {
+      console.log("product", product);
+      api
+        .post(
+          "/products/create-product/",
+          {
+            name: product.name,
+            company: product.company,
+            price: product.price,
+            preview_picture: product.picture,
+            url: product.link,
+          },
+          {
+            headers: {
+              Key: "decidophobiaAdmin",
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data.id);
+          api
+            .post("/shopping-list/add-item/", {
+              product_id: response.data.id,
+              quantity: 1,
+            })
+            .then((response) => {
+              setBuyState(1);
+              setShowAddedToCartAlert(true);
+            })
+            .catch((error) => {
+              setitemAlreadyInCartAlert(true);
+            });
+        });
     }
   }
 
@@ -75,7 +80,7 @@ export function SearchTable() {
         {products.map((product: Product, index) => (
           <div
             key={index}
-            className="border border-gray-300 rounded-lg py-4 px-10 flex flex-col items-center justify-between"
+            className="border border-foreground rounded-lg py-4 px-10 flex flex-col items-center justify-between"
           >
             <div className="grid-cols-2 gird-rows-auto w-full">
               <img
@@ -84,22 +89,24 @@ export function SearchTable() {
                 className="max-w-full max-h-[200px] object-contain col-span-2 m-auto"
               />
               <div />
-              <div className="line-clamp-3 overflow-hidden">
-                {truncateString(product.name, 100)}
-              </div>
-              <div className="col-span-2">{product.company}</div>
-              <div className="col-span-1">Price: {product.price}</div>
-              <div className="col-span-1">Score: {product.score}</div>
-              <div>
-                <SquareCheckbox id={index} label="Compare" />
-                <button
-                  className="bg-blue-700"
-                  onClick={(e: any) => {
-                    handleBuy(product);
-                  }}
-                >
-                  Add to Cart!
-                </button>
+              <div className="py-3">
+                <div className="line-clamp-3 overflow-hidden">
+                  {truncateString(product.name, 100)}
+                </div>
+                <div className="col-span-2">{product.company}</div>
+                <div className="col-span-1">Price: {product.price}</div>
+                <div className="col-span-1">Score: {product.score}</div>
+                <div>
+                  <SquareCheckbox id={index} label="Compare" />
+                  <button
+                    className="bg-secondary p-1 rounded-xl"
+                    onClick={(e: any) => {
+                      handleBuy(product);
+                    }}
+                  >
+                    Add to Cart!
+                  </button>
+                </div>
               </div>
             </div>
           </div>

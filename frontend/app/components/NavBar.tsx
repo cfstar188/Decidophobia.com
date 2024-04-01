@@ -9,6 +9,7 @@ import RegisterModal from "./registerModal";
 import AuthContext from "../contexts/AuthContext";
 import { Avatar } from "@mui/material";
 import UserDropdown from "./userDropdown";
+import DarkButton from "./Button/DarkButton";
 
 interface LinkProps {
   label: any;
@@ -77,6 +78,9 @@ export function NavBar() {
   return (
     <nav className="h-10 flex justify-between items-center bg-primary drop-shadow-lg">
       <div className="flex h-10">{mainItems}</div>
+      <div className="flex h-10">
+        <DarkButton />
+      </div>
       <div className="flex h-10">
         {auth.isAuthenticated ? (
           <>
