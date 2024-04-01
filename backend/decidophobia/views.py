@@ -226,3 +226,47 @@ def questionnaire(request):
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
     response["Access-Control-Allow-Credentials"] = "true"
     return response
+
+def cartview(request):
+    if not (request.user.is_authenticated):
+        return render(request, 'shopcart.html')
+    uri = "http://127.0.0.1:8000/shopping-list/details/"
+    response = requests.get(uri)
+    total_cost = 0.0
+    if response.status_code == 200:
+        for product in response.json():
+            total_cost += product['product_price'] * product["quantity"]
+        print(response.json())
+        return render(request, 'shopcart.html', {'user_products': response.json, 'total_cost': total_cost})
+    return render(request, 'shopcart.html', {'total_cost': total_cost})
+
+
+def remove_from_cart(request, product_id):
+    uri = "http://127.0.0.1:8000/shopping-list/remove-item/"
+    response = requests.delete(uri, json={"product_id": product_id})
+    return redirect('cartview')
+
+
+def update_cart(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('item_id')
+        new_quantity = request.POST.get('quantity')
+        
+        # Retrieve the shopping list item
+        print(f"Item ID: {item_id}, New Quantity: {new_quantity}")
+        # product = get_object_or_404(Product, pk=item_id)
+        # shopping_list_item = get_object_or_404(ShoppingListItem, id=item_id)
+        User = get_user_model()
+    
+        # Get the user instance or return None if user doesn't exist
+        user_instance = get_object_or_404(User, username=request.user.username)
+        
+        # Retrieve the shopping list item for the user and product
+        shopping_list_item = ShoppingListItem.objects.filter(user=user_instance, product_id=item_id).first()
+        
+        # Update the quantity
+        shopping_list_item.quantity = new_quantity
+        shopping_list_item.save()
+        return redirect("http://127.0.0.1:8000/shopping-list/details/")
+    else:
+        return redirect('home')
