@@ -20,7 +20,7 @@
                 <a href="/" style="text-decoration: none;">Home</a>
                 <a href="#" style="text-decoration: none;">Discussion Board </a>
                 {% if request.user.is_authenticated %}
-                <a href="/cart">Shopping Cart</a>
+                <a href="/cartview">Shopping Cart</a>
                 
                 {% endif %}
             </div>
@@ -44,11 +44,17 @@
           <ul class="list">
             {% for product in user_products %}
             <li class="subli" style="display: flex;">
-                <img class="itemimg" src="{{ product.url }}" alt="{{ product.name }}">
+                <img class="itemimg" src="{{ product.preview_picture }}" alt="{{ product.name }}">
 
                 <h2>{{ product.product_name }}</h2>
                 <p>Cost: ${{ product.product_price }}</p>
-                <p>Quantity: {{ product.quantity }}</p>
+                <form action="{% url 'update_cart' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="item_id" value="{{ product.product_id }}">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" max="100" value="{{ product.quantity }}">
+                    <button type="submit">Update</button>
+                </form>
                 <form action="{% url 'shopping-list-delete' %}" method="post">
                     <input type="hidden" name="product_id" value="{{ product.product_id }}">
                     {% csrf_token %}
