@@ -22,7 +22,7 @@ export default function HomePage() {
               fontSize: "3rem",
               margin: "15px 0",
               fontWeight: 700,
-              color: "#fff",
+              color: "colorText",
               textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
             }}
           >
