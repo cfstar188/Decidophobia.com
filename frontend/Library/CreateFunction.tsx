@@ -6,6 +6,7 @@ export function createProduct(
   price: number,
   currency: string = "",
   score: string,
+  url: string = "",
   id: number
 ): Product {
   const returnProduct: Product = {
@@ -16,7 +17,7 @@ export function createProduct(
     score: score,
     id: id,
     company: "",
-    url: undefined,
+    link: url,
   };
 
   return returnProduct;

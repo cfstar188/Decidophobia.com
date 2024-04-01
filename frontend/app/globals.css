@@ -9,21 +9,51 @@
 
 
 :root {
-  background-color: #212529;
+  --foreground: hsl(45, 38%, 84%);
+  --background: hsl(51, 43%, 90%);
+  --primary: hsl(190, 30%, 80%);
+  --secondary: hsl(201, 38%, 84%);
+  --tab: hsl(195, 23%, 76%);
+  --colorText: hsl(100, 100%, 100%);
 }
 
+/* System setting if darkmode, but creates a wierd lag timer that if you have dark mode set on computer but then light mode set in state then it goes from dark mode to light mode without
+actually clicking the button
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground: hsl(0, 0%, 100%);
+    --background: hsl(210, 11%, 15%);
+    --primary: hsl(220, 7%, 27%);
+    --secondary: hsl(201, 38%, 84%);
+    --tab: hsl(206deg, 21%, 27%);
+    --colorText: hsl(0, 0%, 0%);
   }
+}
+*/
+
+:root[data-theme="dark"] {
+  --foreground: hsl(0, 0%, 100%);
+  --background: hsl(210, 11%, 15%);
+  --primary: hsl(220, 7%, 27%);
+  --secondary: hsl(201, 38%, 84%);
+  --tab: hsl(206deg, 21%, 27%);
+  --colorText: hsl(100, 100%, 100%);
+}
+
+:root[data-theme="light"] {
+  --foreground: hsl(45, 38%, 84%);
+  --background: hsl(51, 43%, 90%);
+  --primary: hsl(190, 30%, 80%);
+  --secondary: hsl(201, 38%, 84%);
+  --tab: hsl(195, 23%, 76%);
+  --colorText: hsl(0, 0%, 0%);
 }
 
 body {
-  color: #212529;
+  color: var(--foreground);
+  background-color: var(--background);
   padding: 1rem;
-  font-family: Roboto;
+  color: var(--colorText);
 }
 
 @layer utilities {

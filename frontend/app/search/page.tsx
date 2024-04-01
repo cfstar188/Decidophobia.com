@@ -23,10 +23,12 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (newParams !== lastSearchParams) {
-      api.get(`/questionnaire/?searchQ=${newParams}`)
-      // fetch(`http://localhost:8000/questionnaire/?searchQ=${newParams}`)
+      api
+        .get(`/questionnaire/?searchQ=${newParams}`)
+        // fetch(`http://localhost:8000/questionnaire/?searchQ=${newParams}`)
         .then((response) => response.data)
         .then((data) => {
+          console.log(data);
           console.log(newParams, lastSearchParams);
           const transformedData = JsonToAtom(data);
           setAllProduct(transformedData);
@@ -44,22 +46,6 @@ export default function SearchPage() {
       <div className="fixed bottom-0 left-0 w-full">
         <HorizontalSelectBar />
       </div>
-      <button
-        className="bg-blue-700"
-        onClick={(e: any) => {
-          console.log(products);
-        }}
-      >
-        Click
-      </button>
-      <button
-        className="bg-blue-700"
-        onClick={(e: any) => {
-          console.log(selectedProducts);
-        }}
-      >
-        Click
-      </button>
     </>
   );
 }
