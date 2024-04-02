@@ -10,6 +10,13 @@ import Alerts from "../alerts";
 import AuthContext from "@/app/contexts/AuthContext";
 import { Product } from "@/Library/Type";
 
+function truncateString(str: string, num: number) {
+  if (str.length > num) {
+    return str.slice(0, num) + "...";
+  } else {
+    return str;
+  }
+}
 
 export function SearchTable() {
   const {auth} = useContext(AuthContext);
@@ -26,7 +33,7 @@ export function SearchTable() {
   useEffect(() => {}, [products]);
 
   function handleBuy(product: Product) {
-    console.log('auth', auth)
+    console.log("auth", auth);
     if (!auth.isAuthenticated) {
       setNotLoggedInAlert(true);
     }
@@ -61,7 +68,9 @@ export function SearchTable() {
   }
 
   return (
-    <div style={{paddingLeft: '10%', paddingRight: '10%', paddingBottom: '10%'}}>
+    <div
+      style={{ paddingLeft: "10%", paddingRight: "10%", paddingBottom: "10%" }}
+    >
       <div className="grid grid-cols-4 min-w-[500px] gap-4 p-4">
         {products.map((product: Product, index) => (
           <div
@@ -75,32 +84,45 @@ export function SearchTable() {
                 className="max-w-full max-h-[200px] object-contain col-span-2 m-auto"
               />
               <div />
-              <div className="text-white col-span-2">{product.name}</div>
-              <div className="text-white col-span-2">{product.company}</div>
-              <div className="text-white col-span-1">Price: {product.price}</div>
-              <div className="text-white col-span-1">Score: {product.score}</div>
-              <SquareCheckbox id={index} label="Compare" />
-              <button
-                className="bg-blue-700"
-                onClick={(e: any) => {
-                  handleBuy(product);
-                }}
-              >
-                Add to Cart!
-              </button>
+              <div className="line-clamp-3 overflow-hidden">
+                {truncateString(product.name, 100)}
+              </div>
+              <div className="col-span-2">{product.company}</div>
+              <div className="col-span-1">Price: {product.price}</div>
+              <div className="col-span-1">Score: {product.score}</div>
+              <div>
+                <SquareCheckbox id={index} label="Compare" />
+                <button
+                  className="bg-blue-700"
+                  onClick={(e: any) => {
+                    handleBuy(product);
+                  }}
+                >
+                  Add to Cart!
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
-      <Alerts message="Login to add to cart!" severity="error"
-              isOpen={notLoggedInAlertOpen}
-              onClose={() => setNotLoggedInAlert(false)} />
-      <Alerts message="Added to cart!" severity="success"
-              isOpen={showAddedToCartAlert}
-              onClose={() => setShowAddedToCartAlert(false)} />
-      <Alerts message="Product already in cart!" severity="error"
-              isOpen={itemAlreadyInCartAlert}
-              onClose={() => setitemAlreadyInCartAlert(false)} />
+      <Alerts
+        message="Login to add to cart!"
+        severity="error"
+        isOpen={notLoggedInAlertOpen}
+        onClose={() => setNotLoggedInAlert(false)}
+      />
+      <Alerts
+        message="Added to cart!"
+        severity="success"
+        isOpen={showAddedToCartAlert}
+        onClose={() => setShowAddedToCartAlert(false)}
+      />
+      <Alerts
+        message="Product already in cart!"
+        severity="error"
+        isOpen={itemAlreadyInCartAlert}
+        onClose={() => setitemAlreadyInCartAlert(false)}
+      />
     </div>
   );
 }

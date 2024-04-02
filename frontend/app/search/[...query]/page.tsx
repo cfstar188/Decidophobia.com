@@ -1,3 +1,4 @@
+/*
 "use client";
 import JsonToAtom from "@/Library/JsonToSearch";
 import { allProductAtom } from "@/Library/SelectedAtom";
@@ -39,3 +40,4 @@ export default function SearchPageQuery() {
     </>
   );
 }
+*/

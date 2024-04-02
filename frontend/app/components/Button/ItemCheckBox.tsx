@@ -33,7 +33,7 @@ function SquareCheckbox({ id, label }: squareCheckBox) {
   };
 
   return (
-    <div className="flex my-auto">
+    <div className="flex my-auto pb-1">
       <div
         className="items-center cursor-pointer my-auto"
         onClick={toggleCheckbox}
@@ -44,7 +44,7 @@ function SquareCheckbox({ id, label }: squareCheckBox) {
           }`}
         />
       </div>
-      <label className="text-white">{label}</label>
+      <label className="">{label}</label>
     </div>
   );
 }

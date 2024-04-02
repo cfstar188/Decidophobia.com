@@ -14,15 +14,16 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        background: "#212529",
-        primary: "#404349",
-        secondary: "#404349",
-        light: "#c7dbe6",
-        tab: "#364652",
-        hover: "#226C2A",
+        background: "var(--background-color)",
+        primary: "var(--primary)",
+        light: "var(--light)",
+        tab: "var(--tab)",
+        hover: "var(--hover)",
+        colorText: "var(--colorText)",
       },
     },
   },
   plugins: [],
 };
+
 export default config;

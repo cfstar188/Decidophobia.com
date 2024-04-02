@@ -7,7 +7,6 @@ import { createProduct } from "./CreateFunction";
  */
 export default function JsonToAtom(jsonList: any): any[] {
   let array: any[] = [];
-  console.log(jsonList);
   const json: any = jsonList.products;
   for (let i: number = 0; i < json.length; i++) {
     const name: string = json[i].name;
