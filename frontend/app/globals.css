@@ -12,6 +12,7 @@
 
 :root {
   --foreground: hsl(45, 38%, 84%);
+  --foreground-color: hsl(0, 0%, 100%);
   --background: hsl(51, 43%, 90%);
   --primary: hsl(190, 30%, 80%);
   --secondary: hsl(201, 38%, 84%);
@@ -43,14 +44,14 @@ actually clicking the button
   --colorText: hsl(100, 100%, 100%);
 }
 
-:root[data-theme="light"] {
-  --foreground: hsl(45, 38%, 84%);
+:root[data-theme="colour"] {
+  --foreground: hsl(87, 100%, 32%);
   --foreground-color: hsl(0, 0%, 0%);
-  --background: hsl(51, 43%, 90%);
-  --primary: hsl(190, 30%, 80%);
-  --secondary: hsl(201, 100%, 50%);
-  --tab: hsl(195, 23%, 76%);
-  --colorText: hsl(0, 0%, 0%);
+  --background: hsl(222, 71%, 74%);
+  --primary: hsl(80, 100%, 40%);
+  --secondary: hsl(330, 78%, 55%);
+  --tab: hsl(255, 85%, 54%);
+  --colorText: hsl(0, 0%, 96%);
 }
 
 body {

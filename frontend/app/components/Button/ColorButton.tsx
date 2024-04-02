@@ -7,7 +7,7 @@ export const darkMode = atom(
     : "light"
 );
 
-function DarkButton() {
+function ColourButton() {
   const [isDarkMode, setIsDarkMode] = useAtom(darkMode);
 
   useEffect(() => {
@@ -17,13 +17,11 @@ function DarkButton() {
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = isDarkMode !== "dark" ? "dark" : "";
+    const newTheme = isDarkMode !== "colour" ? "colour" : "";
     setIsDarkMode(newTheme);
 
     localStorage.setItem("theme", newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
-
-    console.log("Theme toggled to:", newTheme);
   };
 
   return (
@@ -31,9 +29,9 @@ function DarkButton() {
       onClick={toggleTheme}
       className="p-2 bg-primary rounded flex items-center h-full text-xl font-semibold no-underline"
     >
-      Dark
+      Colour
     </button>
   );
 }
 
-export default DarkButton;
+export default ColourButton;

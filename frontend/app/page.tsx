@@ -5,7 +5,7 @@ import Image from "next/image";
 import SearchBar from "@/app/components/SearchBar";
 import Link from "next/link";
 import { NavBar } from "@/app/components/NavBar";
-import { authAtom } from "@/Library/AuthAtom";
+import AuthContext from "@/app/contexts/AuthContext";
 import { useAtom } from "jotai";
 import "./globals.css";
 

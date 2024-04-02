@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState, useContext } from "react";
 import { useAtom } from "jotai";
-import HorizontalSelectBar from "@/app/components/CompareBar";
 import SquareCheckbox from "@/app/components/Button/ItemCheckBox";
 import { allProductAtom } from "@/Library/SelectedAtom";
 import api from "../../core/baseAPI";
@@ -21,7 +20,6 @@ function truncateString(str: string, num: number) {
 export function SearchTable() {
   const { auth } = useContext(AuthContext);
   const [products] = useAtom(allProductAtom);
-  const [tester, setTester] = useState();
 
   // I have set the buy button to this state, but I think you might need a state that updates inside a useeffect that calls your api.
   // This is just I thought since I have been doing a lot of react learning for this project. So you might know a better way.
@@ -98,14 +96,26 @@ export function SearchTable() {
                 <div className="col-span-1">Score: {product.score}</div>
                 <div>
                   <SquareCheckbox id={index} label="Compare" />
-                  <button
-                    className="bg-secondary p-1 rounded-xl"
-                    onClick={(e: any) => {
-                      handleBuy(product);
-                    }}
-                  >
-                    Add to Cart!
-                  </button>
+                  {auth.isAuthenticated === false ? (
+                    <button
+                      className="bg-slate-700 text-slate-500 p-1 rounded-xl"
+                      onClick={(e: any) => {
+                        console.log("is auth", auth.isAuthenticated);
+                        handleBuy(product);
+                      }}
+                    >
+                      Add to Cart!
+                    </button>
+                  ) : (
+                    <button
+                      className="bg-secondary p-1 rounded-xl"
+                      onClick={(e: any) => {
+                        handleBuy(product);
+                      }}
+                    >
+                      Add to Cart!
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
