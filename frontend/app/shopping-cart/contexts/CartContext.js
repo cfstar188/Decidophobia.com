@@ -8,7 +8,6 @@ export function CartProvider({children}) {
     const [alertOpen, setAlertOpen] = useState(false);
 
     useEffect(() => {
-        console.log('cart cartcontext.tsx', cart);
     }, [cart]);
 
     const togglePurchaseModal = () => {

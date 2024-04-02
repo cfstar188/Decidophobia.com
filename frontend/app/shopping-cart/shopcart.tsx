@@ -29,6 +29,8 @@ export default function ShoppingCart() {
     }, []);
 
     return (
+        cart.length !== 0 ?
+        (
         <div>
             <h1>Shopping Cart</h1>
             <div 
@@ -53,7 +55,11 @@ export default function ShoppingCart() {
                     <Totals/>
                 </div>
             </div>
-        </div>
+        </div>) : (
+            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '90vw', height: 'calc(100vh - 80px)'}}>
+                <img src="/cart-empty.png" alt="cart" style={{maxWidth: '100%', maxHeight: '100%'}}/>
+            </div>
+        )
     );
 };
 

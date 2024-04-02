@@ -40,6 +40,7 @@ export default function PurchasedModal() {
                 console.log('response', response);
                 setCart((cart: any) => cart.filter((item: any) => !checkedItems.includes(item.product_id)));
                 setOpen(false);
+                
             })
     }
 

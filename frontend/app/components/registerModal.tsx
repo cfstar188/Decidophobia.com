@@ -12,10 +12,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { authAtom } from '@/Library/AuthAtom';
-import api from '../core/baseAPI';
-import defaultImage from '../../public/default.jpg';
-import { on } from 'events';
+import axios from 'axios';
 
 interface RegisterModalProps {
     isOpen: boolean;
@@ -69,6 +66,12 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
     }
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+        setImage(event.target.files[0]);
+    }
+  };
+
   const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append('username', data.username);
@@ -78,7 +81,13 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
     if (image) {
       formData.append('profile_picture', image);
     }
-    api.post('accounts/register/', formData, {
+
+    axios.defaults.xsrfCookieName = 'csrftoken';
+    axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
+    axios.defaults.withCredentials = true;
+    const api = axios.create();
+
+    api.post('http://127.0.0.1:8000/accounts/register/', formData, {
       headers: {"Content-Type": "multipart/form-data"},
     })
     .then((response: any) => {
@@ -184,15 +193,23 @@ export default function RegisterModal({ isOpen, onClose, setIsLoginModalOpen }: 
                       <img
                         src={image ? URL.createObjectURL(image) : '/default.jpg'}
                         alt="profile"
-                        style={{objectFit:"cover", width: '5rem', height: '5rem'}}
+                        style={{objectFit:"contain", width: '5rem', height: '5rem'}}
                       />
-                      <p style={{ fontSize: '1rem', marginLeft: '10px', color: 'darkgray', alignSelf: 'flex-end' }}>{image ? image.name : ''}</p>
+                      <p style={{ 
+                        fontSize: '1rem', 
+                        marginLeft: '10px', 
+                        color: 'darkgray', 
+                        alignSelf: 'flex-end',
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap'
+                      }}>{image ? image.name : ''}</p>
                     </div>
                     <input
                       accept="image/*"
                       type="file"
                       id="contained-button-file"
-                      onChange={(event) => setImage(event.target.files ? event.target.files[0] : null)}
+                      onChange={handleFileChange}
                       hidden
                     />
                     <div

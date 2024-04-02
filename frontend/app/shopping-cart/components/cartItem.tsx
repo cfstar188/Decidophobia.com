@@ -92,7 +92,7 @@ export default function CartItem(item: CartItemProps) {
         handleClose();
       });
   }
-
+  console.log('productprice type:', typeof item.product_price)
   return (
     <>
       <Card style={{ display: 'flex', width: '100%' }}>
@@ -100,7 +100,7 @@ export default function CartItem(item: CartItemProps) {
             <Box sx={{display: 'flex'}}>
                 <CardMedia
                     component="img"
-                    sx={{ width: 125, height: 125, objectFit: 'contain' }}
+                    sx={{ width: 125, height: 125, objectFit: 'contain', alignSelf: 'center' }}
                     src={item.preview_picture ? item.preview_picture : '/no_product_image.png'}
                 />
                 <Box sx={{display: 'flex', flexDirection: 'column', gap: '0.5rem', pl: 1, maxWidth: '100%'}}>
@@ -110,9 +110,9 @@ export default function CartItem(item: CartItemProps) {
                       titleTypographyProps={{ fontSize: '1rem'}}
                       subheader={
                         <>
-                            {`Item price: $${item.product_price}`}
+                            {`Item price: $${item.product_price.toFixed(2)}`}
                             <br/>
-                            {`Total price: $${item.product_price * item.quantity}`}
+                            {`Total price: $${(item.product_price * item.quantity).toFixed(2)}`}
                         </>
                     }/>
                   <Box sx={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
