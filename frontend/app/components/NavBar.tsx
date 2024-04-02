@@ -9,6 +9,8 @@ import RegisterModal from "./registerModal";
 import AuthContext from "../contexts/AuthContext";
 import { Avatar } from "@mui/material";
 import UserDropdown from "./userDropdown";
+import DarkButton from "./Button/DarkButton";
+import ColourButton from "./Button/ColorButton";
 
 interface LinkProps {
   label: any;
@@ -17,7 +19,7 @@ interface LinkProps {
 
 const hoverStyle: string = "hover:link link-underline link-underline-black";
 const linkStyle: string =
-  "flex items-center pl-[30px] pr-[30px] h-full text-xl font-semibold no-underline";
+  "flex items-center pl-[30px] pr-[30px] h-full text-xl font-semibold no-underline border-r border-gray-200";
 const activeStyle: string = linkStyle + "  bg-tab";
 const nonActiveStyle: string = linkStyle + " ";
 
@@ -75,11 +77,17 @@ export function NavBar() {
   ));
 
   return (
-    <nav className="h-10 flex justify-between items-center bg-primary drop-shadow-lg">
-      <div className="flex h-10">{mainItems}</div>
+    <nav className="h-10 flex justify-between items-center bg-primary drop-shadow-lg ">
+      <div className="flex h-10 border-l">{mainItems}</div>
       <div className="flex h-10">
+        <div className="flex h-10 border-l">
+          <DarkButton />
+        </div>
+        <div className="flex h-10 border-l">
+          <ColourButton />
+        </div>
         {auth.isAuthenticated ? (
-          <>
+          <div className="border-l">
             <Button
               id="demo-customized-button"
               aria-controls={open ? "demo-customized-menu" : undefined}
@@ -98,9 +106,9 @@ export function NavBar() {
               open={open}
               handleClose={handleClose}
             />
-          </>
+          </div>
         ) : (
-          <>
+          <div className="border-l">
             <button
               className={newRoute === "/logout" ? activeStyle : nonActiveStyle}
               onClick={() => setIsLoginModalOpen(true)}
@@ -117,7 +125,7 @@ export function NavBar() {
               onClose={() => setIsRegisterModalOpen(false)}
               setIsLoginModalOpen={setIsLoginModalOpen}
             />
-          </>
+          </div>
         )}
       </div>
     </nav>

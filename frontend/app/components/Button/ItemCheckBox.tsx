@@ -40,7 +40,7 @@ function SquareCheckbox({ id, label }: squareCheckBox) {
       >
         <div
           className={`col-span-1 w-5 h-5 border-2 border-gray-400 mr-2 ${
-            isChecked ? "bg-cyan-500" : "bg-transparent"
+            isChecked ? "bg-secondary" : "bg-transparent"
           }`}
         />
       </div>
