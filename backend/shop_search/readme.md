@@ -16,13 +16,4 @@ If you helped develop this project, you should have received a JSON file (api_ke
 
 ## Contributors
 
-- [Your Name]
-- [Other Contributors]
-
-## License
-
-This project is licensed under the [License Name] License - see the LICENSE.md file for details.
-
-## Acknowledgments
-
-- Mention any libraries or resources used that made this project possible.
+- Ahmed Mohamed
