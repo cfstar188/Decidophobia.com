@@ -1,3 +1,6 @@
+from django.shortcuts import render, redirect
+# from . forms import CreateUserForm, CreateLoginForm
+from django.contrib.auth import authenticate
 # from . forms import CreateUserForm, CreateLoginForm
 from django.http import JsonResponse
 from rest_framework import status
@@ -8,14 +11,27 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.http import JsonResponse
+# import shop_search
+import requests
+
+#Below 6 lines are integration change -- attemping to merge 13 and 24, change made by Marvin
+from django.shortcuts import render
+from django.http import JsonResponse
+from shop_search.search_engine import search_engine, elegant_print
+import json
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import JsonResponse
 from shop_search.search_engine import search_engine
+
+
+
 def hello_world(request):
     return render(request, 'temp.html')
+
 
 def home(request):
     return render(request, 'home.html')
@@ -46,7 +62,6 @@ def logout(request):
     auth_logout(request)
     return redirect('home')
 
-
 def signup(request):
     if request.method == 'POST':
         print("Form submitted!")
@@ -66,6 +81,80 @@ def signup(request):
         form = UserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
+
+
+def cart(request):
+    if not (request.user.is_authenticated):
+        return render(request, 'shopcart.html')
+    uri = "http://127.0.0.1:8000/shopping-list/details"
+    response = requests.get(uri)
+    if response.status_code == 200:
+        total_cost = 0.0
+        for product in response.json():
+            total_cost += product['product_price'] * product["quantity"]
+        return render(request, 'shopcart.html', {'user_products': response.json, 'total_cost': total_cost})
+    return render(request, 'shopcart.html')
+
+
+def remove_from_cart(request, product_id):
+    # product = get_object_or_404(ProductItem, pk=product_id)
+    # if product.user == request.user:
+    #     product.delete()
+    return redirect('cart')
+
+product1 = {
+    "name": "Laptop 1",
+    "link": "https://example.com/laptop1",
+    "image": "https://example.com/images/laptop1.jpg",
+    "price": 999.99,
+    "currency": "USD",
+    "score": 4.5
+}
+
+product2 = {
+    "name": "Smartphone X",
+    "link": "https://example.com/smartphoneX",
+    "image": "https://example.com/images/smartphoneX.jpg",
+    "price": 799.99,
+    "currency": "USD",
+    "score": 4.2
+}
+
+product3 = {
+    "name": "Headphones Pro",
+    "link": "https://example.com/headphonespro",
+    "image": "https://example.com/images/headphonespro.jpg",
+    "price": 199.99,
+    "currency": "USD",
+    "score": 4.7
+}
+
+product4 = {
+    "name": "Tablet Plus",
+    "link": "https://example.com/tabletplus",
+    "image": "https://example.com/images/tabletplus.jpg",
+    "price": 499.99,
+    "currency": "USD",
+    "score": 4.3
+}
+
+product5 = {
+    "name": "Gaming Console Deluxe",
+    "link": "https://example.com/gamingdeluxe",
+    "image": "https://example.com/images/gamingdeluxe.jpg",
+    "price": 599.99,
+    "currency": "USD",
+    "score": 4.8
+}
+
+product6 = {
+    "name": "iphone",
+    "link": "https://example.com/gamingdeluxe",
+    "image": "https://example.com/images/gamingdeluxe.jpg",
+    "price": 1000000.99,
+    "currency": "CAD",
+    "score": 4.2
+}
 
 def settings(request):
     return render(request, 'settings.html')
@@ -231,7 +320,6 @@ def questionnaire(request):
     
     if request.method == "GET":
         print("This is a GET request")
-        print("absolute url: ", request.build_absolute_uri())
     elif request.method == "POST":
         print("This is a POST request")
     else:
@@ -259,20 +347,20 @@ def questionnaire(request):
     
     min_price = 0
     max_price = float("infinity")
-    if price_factor == "10000":
+    if price_factor == ">10000":
         max_price = float("infinity")
         min_price = 10000
-    elif price_factor == "1000":
+    elif price_factor == "<=10000":
         max_price = 10000
+        min_price = 3000
+    elif price_factor == "<=3000":
+        max_price = 3000
+        min_price = 1000
+    elif price_factor == "<=1000":
+        max_price = 1000
         min_price = 500
-    elif price_factor == "500":
+    elif price_factor == "<=500":
         max_price = 500
-        min_price = 100
-    elif price_factor == "100":
-        max_price = 100
-        min_price = 50
-    elif price_factor == "50":
-        max_price = 50
         min_price = 0
     
     selected_shipping = ["Does not matter", "A couple week", "A week or so", "Amazon speeds", "Right now"]
@@ -290,10 +378,10 @@ def questionnaire(request):
     
     interleaved_products = search_engine({"item": product_name, "shops": ["ebay", "bestbuy", "kroger"]})
         
-    for item in interleaved_products:
-        if item["shop"].lower() == "bestbuy":
-            print("bestbuy product")
-            print(item['metrics']['review_average'])
+    # for item in interleaved_products:
+    #     if item['shop'].lower() == "kroger":
+    #         print(item, end="\n")
+    print("after searching and before filtering")
     # for product in interleaved_products:
     #     print(product)
         
@@ -329,47 +417,3 @@ def questionnaire(request):
     response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type, Accept, Origin, Authorization"
     response["Access-Control-Allow-Credentials"] = "true"
     return response
-
-def cartview(request):
-    if not (request.user.is_authenticated):
-        return render(request, 'shopcart.html')
-    uri = "http://127.0.0.1:8000/shopping-list/details/"
-    response = requests.get(uri)
-    total_cost = 0.0
-    if response.status_code == 200:
-        for product in response.json():
-            total_cost += product['product_price'] * product["quantity"]
-        print(response.json())
-        return render(request, 'shopcart.html', {'user_products': response.json, 'total_cost': total_cost})
-    return render(request, 'shopcart.html', {'total_cost': total_cost})
-
-
-def remove_from_cart(request, product_id):
-    uri = "http://127.0.0.1:8000/shopping-list/remove-item/"
-    response = requests.delete(uri, json={"product_id": product_id})
-    return redirect('cartview')
-
-
-def update_cart(request):
-    if request.method == 'POST':
-        item_id = request.POST.get('item_id')
-        new_quantity = request.POST.get('quantity')
-        
-        # Retrieve the shopping list item
-        print(f"Item ID: {item_id}, New Quantity: {new_quantity}")
-        # product = get_object_or_404(Product, pk=item_id)
-        # shopping_list_item = get_object_or_404(ShoppingListItem, id=item_id)
-        User = get_user_model()
-    
-        # Get the user instance or return None if user doesn't exist
-        user_instance = get_object_or_404(User, username=request.user.username)
-        
-        # Retrieve the shopping list item for the user and product
-        shopping_list_item = ShoppingListItem.objects.filter(user=user_instance, product_id=item_id).first()
-        
-        # Update the quantity
-        shopping_list_item.quantity = new_quantity
-        shopping_list_item.save()
-        return redirect("http://127.0.0.1:8000/shopping-list/details/")
-    else:
-        return redirect('home')

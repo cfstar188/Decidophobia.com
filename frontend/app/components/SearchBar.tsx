@@ -11,6 +11,15 @@ function SearchBar() {
     router.push(`/search/?searchQ=${searchQuery}`);
   };
 
+  const filterHandler = (e: any) => {
+    e.preventDefault(); // Prevent default link behavior
+    if (e.target.name === "filter") {
+      router.push(`/filter/${searchQuery}`);
+    } else {
+      router.push(`/search/?searchQ=${searchQuery}`);
+    }
+  }
+
   return (
     <form className="homeForm" onSubmit={handleSearch}>
       <input
@@ -33,6 +42,13 @@ function SearchBar() {
         style={{ marginLeft: "10px", backgroundColor: "#2E8BC0" }}
       >
         Search
+      </Button>
+      <Button         
+        type="submit"
+        name="filter"
+        variant="contained"
+        style={{ marginLeft: "10px", backgroundColor: "#2E8BC0" }}
+      > Filter
       </Button>
     </form>
   );

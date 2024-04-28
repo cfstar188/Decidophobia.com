@@ -1,4 +1,4 @@
-// localhost:3000/search/
+ // localhost:3000/search/
 "use client";
 import React, { useEffect, useState } from "react";
 import SearchTable from "@/app/components/Table/SearchTable";
@@ -18,27 +18,37 @@ export default function SearchPage() {
   const [products, setAllProduct] = useAtom(allProductAtom);
   const searchParams = useSearchParams();
 
-  const newParams = searchParams.get("searchQ") || "";
+  const productName = searchParams.get("searchQ");
+  const priceFactor = searchParams.get("priceFactor");
+  const customerReview = searchParams.get("customerReview");
+  const shipping = searchParams.get("shipping");
+  const returnPolicy = searchParams.get("returnPolicy");
+  const brandReputation = searchParams.get("brandReputation");
   const [lastSearchParams, checkSearchQ] = useAtom(prevSearchParams);
+  console.log("productName", productName);
+  console.log("priceFactor", priceFactor);
+  console.log("customerReview", customerReview);
+  console.log("shipping", shipping);
+  console.log("returnPolicy", returnPolicy);
+  console.log("brandReputation", brandReputation);
 
   useEffect(() => {
-    if (newParams !== lastSearchParams) {
-      api
-        .get(`/questionnaire/?searchQ=${newParams}`)
+    if (productName !== lastSearchParams) {
+      api.get(`/questionnaire/?searchQ=${productName}&priceFactor=${priceFactor}&customerReview=${customerReview}&shipping=${shipping}&returnPolicy=${returnPolicy}&brandReputation=${brandReputation}`)
         // fetch(`http://localhost:8000/questionnaire/?searchQ=${newParams}`)
         .then((response) => response.data)
         .then((data) => {
           console.log(data);
-          console.log(newParams, lastSearchParams);
+          console.log(productName, lastSearchParams);
           const transformedData = JsonToAtom(data);
           setAllProduct(transformedData);
-          checkSearchQ(newParams);
+          checkSearchQ(productName);
         })
         .catch((error) => {
           console.error("Error fetching questions:", error);
         });
     }
-  }, [newParams, lastSearchParams]);
+  }, [productName, lastSearchParams]);
 
   return (
     <>
