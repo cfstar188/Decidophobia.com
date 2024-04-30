@@ -219,7 +219,10 @@ def customer_review_and_brand_reput_calibrate(interleaved_products, customer_rev
     num_of_products = 1 if (len(sorted_and_normalized_products)) // 5 == 0 else (len(sorted_and_normalized_products)) // 5
 
     # return products that satisfy the given customer review from high quality to lower quality. Unqualified products are removed 
-    filter_result = sorted_and_normalized_products[0:num_of_products * (6 - int(customer_review))]
+    if(not (customer_review is None) and not customer_review == "null"):
+        filter_result = sorted_and_normalized_products[0:num_of_products * (6 - int(customer_review))]
+    else:
+        return interleaved_products
     
     return filter_result
 
