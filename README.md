@@ -223,11 +223,9 @@ gantt
     section Sprint 3
     Bug Fixes & Polish      :2024-03-10  , 14d
 ```
-
 <!-- TOC --><a name="authors"></a>
 ## Authors
 
-:::info
 **Decidophobia is a public project** lead by a team of 7 individuals. 
 
 The members of this team are (listed alphabetically):
