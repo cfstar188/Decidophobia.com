@@ -61,8 +61,44 @@ Decidophobia is mainly an eCommerce aggregator and a product rating system. We u
 
 <img src="README_images/general_architecture.png" alt="decidophobia banner"/>
 
-Add text here...
-> Read more about sequence-diagrams here: http://bramp.github.io/js-sequence-diagrams/
+<p>The architecture diagram represents the software architecture for <strong>Decidophobia.com</strong>, a web application developed using Django and React with SQLite as the database. The architecture is designed to handle requests efficiently, process data, and deliver responses to the client. Below is an overview of the various components and their interactions within the system:</p>
+
+<h4>1. SQLite Database</h4>
+<ul>
+  <li><strong>Core Models (core_models.py)</strong>: This file defines the database models, which represent the data structures and their relationships.</li>
+  <li>The SQLite database is the primary storage for our application data. It is queried directly by the Django application to fetch or store data.</li>
+</ul>
+
+<h4>2. Django Backend</h4>
+<ul>
+  <li><strong>URLs (urls.py)</strong>: This module maps URLs to the corresponding views in the application.</li>
+  <li><strong>Views (views.py)</strong>: Views handle the business logic of the application. They receive web requests, interact with models to retrieve data, and send responses back to the client.</li>
+  <li><strong>Django HTTP Framework</strong>: This is the core framework that handles HTTP requests and responses. It integrates the URLs and Views, processing incoming requests based on the defined URL patterns and generating outgoing responses.</li>
+  <li><strong>API Services (ShopSearch.py)</strong>: External API services are integrated here, providing additional data or functionalities that complement the core application features.</li>
+  <li><strong>Template (HTML)</strong>: Django templates are used to generate HTML content that is returned to the client as part of web responses.</li>
+</ul>
+
+<h4>3. React Frontend</h4>
+<ul>
+  <li>The React application serves as the frontend of Decidophobia.com. It handles user interactions, makes API calls to the Django backend, and updates the user interface accordingly.</li>
+  <li><strong>RESTful API Calls</strong>: The React frontend communicates with the Django backend through RESTful API calls, requesting data and receiving responses in JSON format.</li>
+</ul>
+
+<h4>4. Client</h4>
+<ul>
+  <li>This is the user's device (e.g., computer, smartphone), which runs the web browser. It sends requests to and receives responses from the React frontend.</li>
+</ul>
+
+<h4>Flow of a Request:</h4>
+<ol>
+  <li><strong>Client Interaction</strong>: The user interacts with the React application, triggering an HTTP request to the Django backend.</li>
+  <li><strong>URL Routing</strong>: Django processes the incoming request, routing it to the appropriate view based on the URL.</li>
+  <li><strong>Data Processing</strong>: The view may perform database queries through the model, interact with external API services, and process the necessary data.</li>
+  <li><strong>Response Generation</strong>: The view generates a response, which could be a JSON data packet for API calls or an HTML page rendered using templates.</li>
+  <li><strong>Client Update</strong>: The React frontend processes the response, updating the UI dynamically based on the received data.</li>
+</ol>
+
+<p>This architecture ensures that the application is modular, with clear separation of concerns among the database, backend, and frontend. It leverages the strengths of Django and React to provide a responsive and dynamic user experience.</p>
 
 <!-- TOC --><a name="technical"></a>
 ## Technical
