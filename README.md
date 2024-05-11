@@ -204,7 +204,6 @@ Feature: Discussion Board
 <!-- TOC --><a name="project-management"></a>
 ## Project Management
 <img src="README_images/jira.png" alt="decidophobia banner"/>
-<p style="text-align:center;color:grey;"><em> Jira workspace </em>  </p>
 
 Throughout every sprint, Jira was used to manage our prouduct backlog. Our development was mainly split into 3 sprints, along with initial sprint pre-planning sessions. 
 
