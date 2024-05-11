@@ -8,7 +8,7 @@ This package facilitates making asynchronous requests to multiple shopping sites
 
 ## API Keys
 
-If you helped develop this project, you should have received a JSON file containing the API keys (client secret). You need this JSON file to utilize this package.
+If you helped develop this project, you should have received a JSON file (api_keys.json) containing the API keys (client secret). You need this JSON file to utilize this package.
 
 ### Usage Instructions:
 
@@ -16,13 +16,4 @@ If you helped develop this project, you should have received a JSON file contain
 
 ## Contributors
 
-- [Your Name]
-- [Other Contributors]
-
-## License
-
-This project is licensed under the [License Name] License - see the LICENSE.md file for details.
-
-## Acknowledgments
-
-- Mention any libraries or resources used that made this project possible.
+- Ahmed Mohamed
