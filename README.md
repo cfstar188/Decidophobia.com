@@ -1,8 +1,4 @@
----
-title: 'Project documentation template'
-disqus: hackmd
----
-![decidophobia banner](https://hackmd.io/_uploads/rJKnrI3GR.png)
+<img src="README_images/decidophobia banner.png" alt="decidophobia banner"/>
 
 **Decidophobia**: An eCommerce Site for Indecisive Shoppers 
 ===
@@ -12,8 +8,26 @@ disqus: hackmd
 
 ## Table of Contents
 
-[TOC]
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
 
+- [Another eCommerce Site... What's Special?!](#another-ecommerce-site-whats-special)
+- [In a Nutshell](#in-a-nutshell)
+- [General Architecture](#general-architecture)
+- [Technical](#technical)
+   * [Technical Summary](#technical-summary)
+   * [~ Questionnaire](#-questionnaire)
+   * [~ HTTP Client](#-http-client)
+   * [~ Comparing Products](#-comparing-products)
+   * [~ Order Management](#-order-management)
+   * [~ User Accounts](#-user-accounts)
+   * [~ Discussion Board](#-discussion-board)
+- [Main User Stories](#main-user-stories)
+- [Project Management](#project-management)
+- [Authors](#authors)
+
+<!-- TOC end -->
+
+<!-- TOC --><a name="another-ecommerce-site-whats-special"></a>
 ## Another eCommerce Site... What's Special?!
 Yes, we agree: there are too many eCommerce sites to begin with. But that's exactly why we *decided* to just add 1 more to the list...
 
@@ -35,50 +49,59 @@ Clearly, the number of eCommerce sites don't seem to end. With so many choices t
 
 With this context in mind, we present a solution to the flurry of open tabs and the constant back-and-forth in between: one website that can just give me the best deal, every single time. 
 
+<!-- TOC --><a name="in-a-nutshell"></a>
 ## In a Nutshell
-![Recent - Google Drive - Google Chrome 2024-05-04 8_22_45 AM](https://hackmd.io/_uploads/BJoAuimMA.png)
+<img src="README_images/home_screen.png" alt="decidophobia banner"/>
 
 Decidophobia is mainly an eCommerce aggregator and a product rating system. We use availabe eCommerce API's to request, aggregate and display produts from different websites. Put in other words, we talk to online shopping sites and ask them for a list of their products. Then, we rank those products based on a variety of common-sense metrics like your individual preferences, price and product reviews. 
 
 
-General Architecture
----
+<!-- TOC --><a name="general-architecture"></a>
+## General Architecture
 
-![image](https://hackmd.io/_uploads/SJ3ijPBGC.png)
+<img src="README_images/general_architecture.png" alt="decidophobia banner"/>
 
 Add text here...
 > Read more about sequence-diagrams here: http://bramp.github.io/js-sequence-diagrams/
 
+<!-- TOC --><a name="technical"></a>
 ## Technical
+<!-- TOC --><a name="technical-summary"></a>
 ### Technical Summary
 Decidophobia currently sits as a web-app with a Django backend and a React (Next.js) frontend. It also uses Docker to ensure universal runnability, and Postgres as its DBMS.
 
+<!-- TOC --><a name="-questionnaire"></a>
 ### ~ Questionnaire
 React was used to construct a questionnaire that collected user preferences. This included selections about how imporant product ratings, brand reputation and quick delivery time were to the user. 
 
+<!-- TOC --><a name="-http-client"></a>
 ### ~ HTTP Client
 To request product information, an HTTP client was architected using the decorator pattern. The client requests and retrieves information (JSON) using OAuth 2.0 protocols while minting authentication tokens automatically. 
 
+<!-- TOC --><a name="-comparing-products"></a>
 ### ~ Comparing Products
 The product comparison feature uses the JSON returned by the HTTP client to index each product accordingly. By using React, the search result page is created by placing each indexed product into a series of tables. Then, when a user clicks "Compare", the indices of these products is moved onto an array which maps onto the side-by-side product bar at the bottom of the screen. 
 
-![Decidophobia Team Folder - Google Drive - Google Chrome 2024-05-06 2_41_30 PM](https://hackmd.io/_uploads/SyQ24s8MC.png)
+<img src="README_images/product_comparison.png" alt="decidophobia banner"/>
 
+<!-- TOC --><a name="-order-management"></a>
 ### ~ Order Management
 React was used to design the shopping cart and order history pages. React components from the Material UI components library were utilized to create the frontend pages. For the cart functionality (adding/removing/updating items), axios was used to send requests to the backend.
 
 Each shopping cart item and purchase-history entry is stored with foreign keys to the products and users tables. Moreover, a randomly generated, unique, 10-character alphanumeric ID was used to identify each specific order.
 
-![Decidophobia Team Folder - Google Drive - Google Chrome 2024-05-06 2_39_22 PM](https://hackmd.io/_uploads/Byg7NoLzA.png)
+<img src="README_images/shopping_cart.png" alt="decidophobia banner"/>
 
+<!-- TOC --><a name="-user-accounts"></a>
 ### ~ User Accounts
 React was used to design the user settings page. It interacts with the Django backend, which uses different serializers to change the various components of a user account, i.e. email and password. User accounts are facilitated using a *CustomUser* model that is a subclass of Django's *AbstractBaseUser*.
 
+<!-- TOC --><a name="-discussion-board"></a>
 ### ~ Discussion Board
 React was used to create the discussion board, while user messages were stored in a Django backend. Axios requests are used to interact with the Django backend, primarily to retrieve and insert messages to display onto the discussion board.
 
-Main User Stories
----
+<!-- TOC --><a name="main-user-stories"></a>
+## Main User Stories
 
 > “There’s always more to build than we have time or resources to build — always.” [name=Jeff Patton]
 <details> 
@@ -178,9 +201,9 @@ Feature: Discussion Board
 > Read more about Gherkin here: https://docs.cucumber.io/gherkin/reference/
 
 
-Project Management
----
-![image](https://hackmd.io/_uploads/H1txI7tMA.png)
+<!-- TOC --><a name="project-management"></a>
+## Project Management
+<img src="README_images/jira.png" alt="decidophobia banner"/>
 <p style="text-align:center;color:grey;"><em> Jira workspace </em>  </p>
 
 Throughout every sprint, Jira was used to manage our prouduct backlog. Our development was mainly split into 3 sprints, along with initial sprint pre-planning sessions. 
@@ -202,6 +225,7 @@ gantt
     Bug Fixes & Polish      :2024-03-10  , 14d
 ```
 
+<!-- TOC --><a name="authors"></a>
 ## Authors
 
 :::info
@@ -218,4 +242,5 @@ The members of this team are (listed alphabetically):
 
 
 
+<!-- TOC --><a name="tags-decidophobia-ecommerce-documentation"></a>
 ###### tags: `Decidophobia` `eCommerce` `Documentation`
