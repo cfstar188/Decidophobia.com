@@ -2,10 +2,13 @@ from .search_imp.searcher_comp import Searcher
 from .search_imp.concrete_decorators import *
 from .models import AuthInfo, SearchInfo
 import asyncio
+import json
 
 """
 (Use function 'shop_search' to perform any searches)
 Makes an external request to multiple shopping sites to execute a search query.
+Do not use this code to persist user information. Review the API docs for eBay, 
+Kroger and BestBuy for all permitted use cases. 
 
 Input:
 The function 'search_engine' takes in a **dictionary** with the following keys:
@@ -132,12 +135,17 @@ async def task_results(tasks):
 def setup_database():
     if len(AuthInfo.objects.all()) == len(eligible_shops):
         return
+    with open("shop_search/api_keys.json") as json_config:
+        api_keys = json.load(json_config)
+        ebay_client_secret = api_keys["ebay"]
+        bestbuy_client_secret = api_keys["bestbuy"]
+        kroger_client_secret = api_keys["kroger"]
 
     ebay_auth = AuthInfo(shop_name="ebay",
                          mint_url="https://api.ebay.com/identity/v1/oauth2/token",
                          request_headers={
                              "Content-Type": "application/x-www-form-urlencoded",
-                             "Authorization": "Basic QWhtZWRNb2gtZGVjaWRvcGgtUFJELWMxZTJiYjU2My1mNDFlNDRkMzpQUkQtMWUyYmI1NjNlZmRmLTBmMTktNDU1Yy1iMDZlLTNlNmUgDQo="},
+                             "Authorization": ebay_client_secret},
                          request_body={"grant_type": "client_credentials",
                                        "scope": "https://api.ebay.com/oauth/api_scope"})
     ebay_auth.save()
@@ -152,7 +160,7 @@ def setup_database():
                          mint_url="https://api.kroger.com/v1/connect/oauth2/token",
                          request_headers={
                              "Content-Type": "application/x-www-form-urlencoded",
-                             "Authorization": "Basic ZGVjaWRvcGhvYmlhLThlMmI4NWY0YzIyYmI2YThjOGVkOGI3YTVhYjY5ZTgxNzkwOTAxMDg2Mjg3OTM0MTc0OTppU3hQS09QTERNaXFCbnRiS3ZwUExqVUt5LUN6QVcwVXBuRC1xTkpF"},
+                             "Authorization": kroger_client_secret},
                          request_body={"grant_type": "client_credentials",
                                        "scope": "product.compact"})
     kroger_auth.save()
@@ -165,7 +173,7 @@ def setup_database():
 
 
     bestbuy_auth = AuthInfo(shop_name="bestbuy",
-                            token="a6xmm2a2athgchfhkwuv8vpq")
+                            token=bestbuy_client_secret)
     bestbuy_auth.save()
 
     bestbuy_search = SearchInfo(shop_name="bestbuy",
