@@ -62,7 +62,7 @@ const StyledMenu = styled((props: MenuProps) => (
 
 
 export default function UserDropdown({ anchorEl, open, handleClose }: UserDropdownProps) {
-    const { auth, setIsAuthenticated, setUsername, setAvatar} = useContext(AuthContext);
+    const { auth, setIsAuthenticated, setUsername, setEmail, setAvatar} = useContext(AuthContext);
     const router = useRouter();
 
     const logout = () => {

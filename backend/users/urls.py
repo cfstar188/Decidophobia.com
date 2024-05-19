@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from users.views import CustomTokenObtainPairView, RegisterUserAPIView, LogoutView, PurchaseHistoryView, ChangePasswordView, UserView
+from users.views import CustomTokenObtainPairView, RegisterUserAPIView, LogoutView, PurchaseHistoryView, ChangePasswordView, ChangeEmailView, ChangeProfilePictureView, UserView
 
 urlpatterns = [
     path('login/', CustomTokenObtainPairView.as_view()),
@@ -26,5 +26,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view()),
     path('purchase-history/', PurchaseHistoryView.as_view()),
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
+    path('change-email/', ChangeEmailView.as_view(), name='change-email'),
+    path('change-profile-picture/', ChangeProfilePictureView.as_view(), name='change-profile-picture'),
     path('user/', UserView.as_view())
 ]

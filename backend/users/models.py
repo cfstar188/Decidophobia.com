@@ -16,6 +16,14 @@ class CustomUser(AbstractBaseUser):
     objects = UserManager()
     
     USERNAME_FIELD = 'username'
+    EMAIL_FIELD = 'email'
+    NAME_FIELD = 'name'
+
+    def set_email(self, new_email):
+        self.email = new_email
+
+    def set_profile_picture(self, profile_picture):
+        self.profile_picture = profile_picture
 
     def __str__(self):
         return self.username

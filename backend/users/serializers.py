@@ -94,11 +94,18 @@ class ChangeEmailSerializer(serializers.ModelSerializer):
         return value
 
     def update(self, instance, validated_data):
-        new_email = validated_data.get('new_email')
-        instance.email = new_email
+        instance.set_email(validated_data['new_email'])
         instance.save()
         return instance
 
-# Change Name Serializer
+class ChangeProfilePictureSerializer(serializers.ModelSerializer):
+    profile_picture = serializers.ImageField(required=True)
 
-# Change Profile Picture Serializer
+    class Meta:
+        model = CustomUser
+        fields = ('profile_picture',)
+
+    def update(self, instance, validated_data):
+        instance.set_profile_picture(validated_data.get('profile_picture', instance.profile_picture))
+        instance.save()
+        return instance

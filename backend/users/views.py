@@ -18,7 +18,7 @@ from users.serializers import RegisterSerializer
 from users.serializers import RegisterSerializer
 from products.models import Purchase
 
-from users.serializers import ChangePasswordSerializer
+from users.serializers import ChangePasswordSerializer, ChangeEmailSerializer, ChangeProfilePictureSerializer
 from django.shortcuts import get_object_or_404
 
 from users.models import CustomUser
@@ -85,13 +85,29 @@ class UserView(APIView):
         user = request.user
         return Response({
             'username': user.username,
-            'avatar': 'http://localhost:8000' + user.profile_picture.url if user.profile_picture else None
+            'avatar': 'http://localhost:8000' + user.profile_picture.url if user.profile_picture else None,
+            'email': user.email,
+            'full_name': user.full_name
         })
 
 
 class ChangePasswordView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ChangePasswordSerializer
+
+    def get_object(self):
+        return get_object_or_404(CustomUser, id=self.request.user.id)
+
+class ChangeEmailView(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangeEmailSerializer
+
+    def get_object(self):
+        return get_object_or_404(CustomUser, id=self.request.user.id)
+
+class ChangeProfilePictureView(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangeProfilePictureSerializer
 
     def get_object(self):
         return get_object_or_404(CustomUser, id=self.request.user.id)

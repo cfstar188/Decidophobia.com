@@ -1,0 +1,154 @@
+/* SettingsPage.module.css */
+
+.container {
+  width: 600px;
+  margin: 100px auto;
+  padding: 40px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+.button {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  background-color: #2e8bc0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 20px;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 60%;
+  max-width: 800px;
+}
+
+.modalTitle {
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.modalMessage {
+  color: green;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.modalErrorMessage {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: black;
+  font-size: 18px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: black;
+  font-size: 18px;
+}
+
+.closeButton {
+  float: right;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #ccc;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.changeButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #2e8bc0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 18px;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* Start with opacity 0 */
+  visibility: hidden; /* Start with visibility hidden */
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s; /* Transition for opacity */
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px 40px; /* Adjusted padding */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 800px; /* Adjusted width */
+  width: 100%;
+  opacity: 0; /* Start with opacity 0 */
+  transition: opacity 0.3s ease; /* Transition for opacity */
+}
+
+.modalOverlay.open {
+  opacity: 1; /* When open, change opacity to 1 */
+  visibility: visible; /* When open, change visibility to visible */
+  transition: opacity 0.3s ease; /* Transition for opacity */
+}
+
+.modalContent.open {
+  opacity: 1; /* When open, change opacity to 1 */
+  transition: opacity 0.3s ease; /* Transition for opacity */
+}
