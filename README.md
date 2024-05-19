@@ -2,9 +2,10 @@
 
 **Decidophobia**: An eCommerce Site for Indecisive Shoppers 
 ===
-![downloads](https://img.shields.io/github/downloads/atom/atom/total.svg)
-![build](https://img.shields.io/appveyor/ci/:user/:repo.svg)
-![chat](https://img.shields.io/discord/:serverId.svg)
+![commits](https://img.shields.io/github/commit-activity/t/cfstar188/Decidophobia.com/main)
+![dependencies](https://img.shields.io/github/pipenv/locked/dependency-version/cfstar188/Decidophobia.com/django)
+![Languages](https://img.shields.io/github/languages/count/cfstar188/Decidophobia.com)
+![size](https://img.shields.io/github/repo-size/cfstar188/Decidophobia.com)
 
 ## Table of Contents
 
@@ -63,13 +64,13 @@ Decidophobia is mainly an eCommerce aggregator and a product rating system. We u
 
 <p>The architecture diagram represents the software architecture for <strong>Decidophobia.com</strong>, a web application developed using Django and React with SQLite as the database. The architecture is designed to handle requests efficiently, process data, and deliver responses to the client. Below is an overview of the various components and their interactions within the system:</p>
 
-<h4>1. SQLite Database</h4>
+<h3>SQLite Database</h3>
 <ul>
   <li><strong>Core Models (core_models.py)</strong>: This file defines the database models, which represent the data structures and their relationships.</li>
   <li>The SQLite database is the primary storage for our application data. It is queried directly by the Django application to fetch or store data.</li>
 </ul>
 
-<h4>2. Django Backend</h4>
+<h3>Django Backend</h3>
 <ul>
   <li><strong>URLs (urls.py)</strong>: This module maps URLs to the corresponding views in the application.</li>
   <li><strong>Views (views.py)</strong>: Views handle the business logic of the application. They receive web requests, interact with models to retrieve data, and send responses back to the client.</li>
@@ -78,18 +79,18 @@ Decidophobia is mainly an eCommerce aggregator and a product rating system. We u
   <li><strong>Template (HTML)</strong>: Django templates are used to generate HTML content that is returned to the client as part of web responses.</li>
 </ul>
 
-<h4>3. React Frontend</h4>
+<h3>React Frontend</h3>
 <ul>
   <li>The React application serves as the frontend of Decidophobia.com. It handles user interactions, makes API calls to the Django backend, and updates the user interface accordingly.</li>
   <li><strong>RESTful API Calls</strong>: The React frontend communicates with the Django backend through RESTful API calls, requesting data and receiving responses in JSON format.</li>
 </ul>
 
-<h4>4. Client</h4>
+<h3>Client</h3>
 <ul>
   <li>This is the user's device (e.g., computer, smartphone), which runs the web browser. It sends requests to and receives responses from the React frontend.</li>
 </ul>
 
-<h4>Flow of a Request:</h4>
+<h3>Flow of a Request:</h3>
 <ol>
   <li><strong>Client Interaction</strong>: The user interacts with the React application, triggering an HTTP request to the Django backend.</li>
   <li><strong>URL Routing</strong>: Django processes the incoming request, routing it to the appropriate view based on the URL.</li>
@@ -234,8 +235,6 @@ Feature: Discussion Board
     Then I find discussions about different, linked products.
 ```
 </details>
-> Read more about Gherkin here: https://docs.cucumber.io/gherkin/reference/
-
 
 <!-- TOC --><a name="project-management"></a>
 ## Project Management
