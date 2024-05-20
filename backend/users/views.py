@@ -50,10 +50,10 @@ class PurchaseHistoryView(APIView):
     permission_classes = [IsAuthenticated]
 
     def format_date(self, date):
-        month_names = ["January", "February", "March", "April", "May", "June", 
-                   "July", "August", "September", "October", "November", "December"]
+        month_names = ["January", "February", "March", "April", "May", "June",
+                       "July", "August", "September", "October", "November", "December"]
 
-        return f'{month_names[date.month-1]} {date.day}, {date.year}'
+        return f'{month_names[date.month - 1]} {date.day}, {date.year}'
 
     def get(self, request):
         user = request.user
@@ -91,23 +91,20 @@ class UserView(APIView):
         })
 
 
-class ChangePasswordView(UpdateAPIView):
+class ChangeInformationView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return get_object_or_404(CustomUser, id=self.request.user.id)
+
+
+class ChangePasswordView(ChangeInformationView):
     serializer_class = ChangePasswordSerializer
 
-    def get_object(self):
-        return get_object_or_404(CustomUser, id=self.request.user.id)
 
-class ChangeEmailView(UpdateAPIView):
-    permission_classes = [IsAuthenticated]
+class ChangeEmailView(ChangeInformationView):
     serializer_class = ChangeEmailSerializer
 
-    def get_object(self):
-        return get_object_or_404(CustomUser, id=self.request.user.id)
 
-class ChangeProfilePictureView(UpdateAPIView):
-    permission_classes = [IsAuthenticated]
+class ChangeProfilePictureView(ChangeInformationView):
     serializer_class = ChangeProfilePictureSerializer
-
-    def get_object(self):
-        return get_object_or_404(CustomUser, id=self.request.user.id)

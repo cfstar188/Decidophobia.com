@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import api from "../core/baseAPI";
 import AuthContext from "../contexts/AuthContext";
 import styles from './SettingsPage.module.css';
@@ -141,6 +141,32 @@ const SettingsPage: React.FC<SettingsPageProps> = () => {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        if (isChangePasswordModalOpen) {
+          handleChangePassword();
+        } else if (isChangeEmailModalOpen) {
+          handleChangeEmail();
+        } else if (isChangeProfilePictureModalOpen) {
+          handleProfilePictureChange();
+        }
+      } else if (event.key === 'Escape') {
+        if (isChangePasswordModalOpen) {
+          handleCloseChangePasswordModal();
+        } else if (isChangeEmailModalOpen) {
+          handleCloseChangeEmailModal();
+        } else if (isChangeProfilePictureModalOpen) {
+          handleCloseChangeProfilePictureModal();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isChangePasswordModalOpen, isChangeEmailModalOpen, isChangeProfilePictureModalOpen, oldPassword, newPassword, confirmPassword, password, newEmail, profilePicture]);
 
   return (
     <div className={styles.container}>
