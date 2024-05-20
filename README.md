@@ -54,7 +54,7 @@ With this context in mind, we present a solution to the flurry of open tabs and 
 ## In a Nutshell
 <img src="README_images/home_screen.png" alt="decidophobia banner"/>
 
-Decidophobia is mainly an eCommerce aggregator and a product rating system. We use availabe eCommerce API's to request, aggregate and display produts from different websites. Put in other words, we talk to online shopping sites and ask them for a list of their products. Then, we rank those products based on a variety of common-sense metrics like your individual preferences, price and product reviews. 
+Decidophobia is mainly an eCommerce aggregator and a product rating system. We use available eCommerce APIs to request, aggregate and display products from different websites. Put in other words, we talk to online shopping sites and ask them for a list of their products. Then, we rank those products based on a variety of common-sense metrics like your individual preferences, price and product reviews. 
 
 
 <!-- TOC --><a name="general-architecture"></a>
@@ -109,7 +109,7 @@ Decidophobia currently sits as a web-app with a Django backend and a React (Next
 
 <!-- TOC --><a name="-questionnaire"></a>
 ### ~ Questionnaire
-React was used to construct a questionnaire that collected user preferences. This included selections about how imporant product ratings, brand reputation and quick delivery time were to the user. 
+React was used to construct a questionnaire that collected user preferences. This included selections about how important product ratings, brand reputation and quick delivery time were to the user. 
 
 <!-- TOC --><a name="-http-client"></a>
 ### ~ HTTP Client
@@ -145,8 +145,8 @@ React was used to create the discussion board, while user messages were stored i
     <summary><strong>Questionnaire</strong></summary>
     
 ```gherkin=
-Feature: Questionairre
-  As an frequent shopper, I want to quickly select
+Feature: Questionnaire
+  As a frequent shopper, I want to quickly select
   all my individual preferences like budget, favorite
   sites, and delivery time.
   
@@ -240,7 +240,7 @@ Feature: Discussion Board
 ## Project Management
 <img src="README_images/jira.png" alt="decidophobia banner"/>
 
-Throughout every sprint, Jira was used to manage our prouduct backlog. Our development was mainly split into 3 sprints, along with initial sprint pre-planning sessions. 
+Throughout every sprint, Jira was used to manage our product backlog. Our development was mainly split into 3 sprints, along with initial sprint pre-planning sessions. 
 
 Each sprint culminated with a product demo, where either the main features or the newest additions were presented. After our last sprint, we decided to complete a video presentation discussing what our product is, and what its market would look like. 
 This video can be watched <a href="https://youtu.be/VAtVXeAbKok">here.</a>
