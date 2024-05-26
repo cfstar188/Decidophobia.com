@@ -2,9 +2,10 @@
 
 **Decidophobia**: An eCommerce Site for Indecisive Shoppers 
 ===
-![downloads](https://img.shields.io/github/downloads/atom/atom/total.svg)
-![build](https://img.shields.io/appveyor/ci/:user/:repo.svg)
-![chat](https://img.shields.io/discord/:serverId.svg)
+![commits](https://img.shields.io/github/commit-activity/t/cfstar188/Decidophobia.com/main)
+![dependencies](https://img.shields.io/github/pipenv/locked/dependency-version/cfstar188/Decidophobia.com/django)
+![Languages](https://img.shields.io/github/languages/count/cfstar188/Decidophobia.com)
+![size](https://img.shields.io/github/repo-size/cfstar188/Decidophobia.com)
 
 ## Table of Contents
 
@@ -53,7 +54,7 @@ With this context in mind, we present a solution to the flurry of open tabs and 
 ## In a Nutshell
 <img src="README_images/home_screen.png" alt="decidophobia banner"/>
 
-Decidophobia is mainly an eCommerce aggregator and a product rating system. We use availabe eCommerce API's to request, aggregate and display produts from different websites. Put in other words, we talk to online shopping sites and ask them for a list of their products. Then, we rank those products based on a variety of common-sense metrics like your individual preferences, price and product reviews. 
+Decidophobia is mainly an eCommerce aggregator and a product rating system. We use available eCommerce APIs to request, aggregate and display products from different websites. Put in other words, we talk to online shopping sites and ask them for a list of their products. Then, we rank those products based on a variety of common-sense metrics like your individual preferences, price and product reviews. 
 
 
 <!-- TOC --><a name="general-architecture"></a>
@@ -61,8 +62,44 @@ Decidophobia is mainly an eCommerce aggregator and a product rating system. We u
 
 <img src="README_images/general_architecture.png" alt="decidophobia banner"/>
 
-Add text here...
-> Read more about sequence-diagrams here: http://bramp.github.io/js-sequence-diagrams/
+<p>The architecture diagram represents the software architecture for <strong>Decidophobia.com</strong>, a web application developed using Django and React with SQLite as the database. The architecture is designed to handle requests efficiently, process data, and deliver responses to the client. Below is an overview of the various components and their interactions within the system:</p>
+
+<h3>SQLite Database</h3>
+<ul>
+  <li><strong>Core Models (core_models.py)</strong>: This file defines the database models, which represent the data structures and their relationships.</li>
+  <li>The SQLite database is the primary storage for our application data. It is queried directly by the Django application to fetch or store data.</li>
+</ul>
+
+<h3>Django Backend</h3>
+<ul>
+  <li><strong>URLs (urls.py)</strong>: This module maps URLs to the corresponding views in the application.</li>
+  <li><strong>Views (views.py)</strong>: Views handle the business logic of the application. They receive web requests, interact with models to retrieve data, and send responses back to the client.</li>
+  <li><strong>Django HTTP Framework</strong>: This is the core framework that handles HTTP requests and responses. It integrates the URLs and Views, processing incoming requests based on the defined URL patterns and generating outgoing responses.</li>
+  <li><strong>API Services (ShopSearch.py)</strong>: External API services are integrated here, providing additional data or functionalities that complement the core application features.</li>
+  <li><strong>Template (HTML)</strong>: Django templates are used to generate HTML content that is returned to the client as part of web responses.</li>
+</ul>
+
+<h3>React Frontend</h3>
+<ul>
+  <li>The React application serves as the frontend of Decidophobia.com. It handles user interactions, makes API calls to the Django backend, and updates the user interface accordingly.</li>
+  <li><strong>RESTful API Calls</strong>: The React frontend communicates with the Django backend through RESTful API calls, requesting data and receiving responses in JSON format.</li>
+</ul>
+
+<h3>Client</h3>
+<ul>
+  <li>This is the user's device (e.g., computer, smartphone), which runs the web browser. It sends requests to and receives responses from the React frontend.</li>
+</ul>
+
+<h3>Flow of a Request:</h3>
+<ol>
+  <li><strong>Client Interaction</strong>: The user interacts with the React application, triggering an HTTP request to the Django backend.</li>
+  <li><strong>URL Routing</strong>: Django processes the incoming request, routing it to the appropriate view based on the URL.</li>
+  <li><strong>Data Processing</strong>: The view may perform database queries through the model, interact with external API services, and process the necessary data.</li>
+  <li><strong>Response Generation</strong>: The view generates a response, which could be a JSON data packet for API calls or an HTML page rendered using templates.</li>
+  <li><strong>Client Update</strong>: The React frontend processes the response, updating the UI dynamically based on the received data.</li>
+</ol>
+
+<p>This architecture ensures that the application is modular, with clear separation of concerns among the database, backend, and frontend. It leverages the strengths of Django and React to provide a responsive and dynamic user experience.</p>
 
 <!-- TOC --><a name="technical"></a>
 ## Technical
@@ -72,7 +109,7 @@ Decidophobia currently sits as a web-app with a Django backend and a React (Next
 
 <!-- TOC --><a name="-questionnaire"></a>
 ### ~ Questionnaire
-React was used to construct a questionnaire that collected user preferences. This included selections about how imporant product ratings, brand reputation and quick delivery time were to the user. 
+React was used to construct a questionnaire that collected user preferences. This included selections about how important product ratings, brand reputation and quick delivery time were to the user. 
 
 <!-- TOC --><a name="-http-client"></a>
 ### ~ HTTP Client
@@ -108,8 +145,8 @@ React was used to create the discussion board, while user messages were stored i
     <summary><strong>Questionnaire</strong></summary>
     
 ```gherkin=
-Feature: Questionairre
-  As an frequent shopper, I want to quickly select
+Feature: Questionnaire
+  As a frequent shopper, I want to quickly select
   all my individual preferences like budget, favorite
   sites, and delivery time.
   
@@ -198,14 +235,12 @@ Feature: Discussion Board
     Then I find discussions about different, linked products.
 ```
 </details>
-> Read more about Gherkin here: https://docs.cucumber.io/gherkin/reference/
-
 
 <!-- TOC --><a name="project-management"></a>
 ## Project Management
 <img src="README_images/jira.png" alt="decidophobia banner"/>
 
-Throughout every sprint, Jira was used to manage our prouduct backlog. Our development was mainly split into 3 sprints, along with initial sprint pre-planning sessions. 
+Throughout every sprint, Jira was used to manage our product backlog. Our development was mainly split into 3 sprints, along with initial sprint pre-planning sessions. 
 
 Each sprint culminated with a product demo, where either the main features or the newest additions were presented. After our last sprint, we decided to complete a video presentation discussing what our product is, and what its market would look like. 
 This video can be watched <a href="https://youtu.be/VAtVXeAbKok">here.</a>
