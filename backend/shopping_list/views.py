@@ -8,8 +8,9 @@ from rest_framework.permissions import IsAuthenticated
 
 from shopping_list.serializers import ShoppingListSerializer, ChangeQuantitySerializer
 from shopping_list.models import ShoppingListItem
-from products.models import Product, Purchase
+from products.models import Product, Purchase, PurchaseCounter
 from core.utils import get_item, unique_order_id_generator
+from recommendations.core import update_recommender_model
 
 # Create your views here.
 class ShoppingListView(ListAPIView):
@@ -74,6 +75,7 @@ class UpdatePurchases(CreateAPIView):
         bought_items = request.data.get('products', [])
         print(bought_items)
         successfully_removed = []
+        counter = 0
         for item_id in bought_items:
             product = get_object_or_404(Product, id=item_id)
             list_item = get_object_or_404(ShoppingListItem, user=user, product_id=product)
@@ -83,6 +85,16 @@ class UpdatePurchases(CreateAPIView):
                                     product=product,
                                     quantity=list_item.quantity,
                                     order_id=order_id)
+            counter += 1
+
+        purchase_counter = PurchaseCounter.objects.get_or_create(id=1)[0]
+        purchase_counter.count += counter
+
+        if purchase_counter.count >= 100:
+            update_recommender_model()
+            purchase_counter.count = 0
+
+        purchase_counter.save()
 
         for item in successfully_removed:
             item.delete()

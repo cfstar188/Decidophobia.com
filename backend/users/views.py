@@ -22,6 +22,7 @@ from users.serializers import ChangePasswordSerializer, ChangeEmailSerializer, C
 from django.shortcuts import get_object_or_404
 
 from users.models import CustomUser
+from backend.recommendations.core import get_user_recommendations
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -108,3 +109,28 @@ class ChangeEmailView(ChangeInformationView):
 
 class ChangeProfilePictureView(ChangeInformationView):
     serializer_class = ChangeProfilePictureSerializer
+
+
+class GetRecommendationsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        recommendations = get_user_recommendations(user)
+
+        response = []
+        for recommendation in recommendations:
+            recommendation_info = {
+                'name': recommendation.name,
+                'price': recommendation.price,
+                'company': recommendation.company,
+                'url': recommendation.url,
+                'preview_picture': recommendation.preview_picture if recommendation.preview_picture else None
+            }
+
+            response.append(recommendation_info)
+
+        return Response({
+            'recommendations': response
+        })
+        

@@ -51,6 +51,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
 class ChangePasswordSerializer(serializers.ModelSerializer):
     old_password = serializers.CharField(write_only=True, required=True)
     password = serializers.CharField(write_only=True, required=True)
@@ -79,6 +80,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
         return instance
 
+
 class ChangeEmailSerializer(serializers.ModelSerializer):
     new_email = serializers.EmailField(write_only=True, required=True)
     password = serializers.CharField(write_only=True, required=True)
@@ -97,6 +99,7 @@ class ChangeEmailSerializer(serializers.ModelSerializer):
         instance.set_email(validated_data['new_email'])
         instance.save()
         return instance
+
 
 class ChangeProfilePictureSerializer(serializers.ModelSerializer):
     profile_picture = serializers.ImageField(required=True)
