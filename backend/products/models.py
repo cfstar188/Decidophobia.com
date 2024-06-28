@@ -33,4 +33,8 @@ class Purchase(models.Model):
         date = self.purchase_date
 
         return f'Product: {product}, Quantity: {quantity}, Date: {date}'
-    
+
+
+class PurchaseCounter(models.Model):
+    count = models.IntegerField(default=0)
+    last_update = models.DateTimeField(auto_now=True)
